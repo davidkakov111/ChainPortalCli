@@ -1,0 +1,149 @@
+@import '../../../../../styles/_breakpoints.scss';
+
+// Wrapper for hero and actions sections
+.top-section {
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+}
+
+// Hero section styles
+.hero {
+  margin-top: 40px;
+  text-align: center;
+}
+.hero p {
+  font-size: larger;
+}
+
+// Actions section styles 
+#actions {
+  margin: 15px;
+  display: flex; 
+  flex-direction: row; 
+  justify-content: center;
+  align-items: center;
+}
+.digital-asset-card {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center; 
+  width: 20%; 
+  margin: 5%;
+}
+.digital-asset-card img {
+  box-shadow: 10px 10px 10px rgb(61, 61, 61); 
+  border-radius: 50%; 
+  margin-bottom: 20px;
+}
+.digital-asset-card h2 {
+  margin-bottom: 0;
+}
+.digital-asset-card p {
+  font-size: small;
+}
+.digital-asset-card button {
+  margin-top: 10px; 
+  width: 100%; 
+  font-size: large;
+}
+
+// How it works section styles
+.how-it-works {
+  text-align: center;
+}
+.how-it-works .steps {
+  display: flex;
+  justify-content: space-around;
+  flex-wrap: wrap;
+}
+.step {
+  flex: 1 1 30%;
+  margin: 20px;
+}
+
+// Features section styles
+.features {
+  padding: 60px 20px;
+  text-align: center;
+}
+.features ul {
+  list-style: none;
+  padding: 0;
+}
+.features li {
+  margin: 10px 0;
+  font-size: 1.2rem;
+}
+
+// Call to action styles
+.cta {
+  background-color: #699acc;
+  color: white;
+  padding: 40px 20px;
+  text-align: center;
+}
+.cta button {
+  font-size: 1.5rem;
+  padding: 12px 24px;
+}
+
+// Responsive design
+@media (max-width: $breakpoint-xl) {
+  .hero p {
+    font-size: large;
+  }
+  .digital-asset-card {
+    width: 30%;
+  }
+}
+@media (max-width: $breakpoint-md) {
+  .hero h2 {
+    font-size: xx-large;
+    font-weight: 400;
+  }
+  .digital-asset-card {
+    margin: 10%;
+    width: 60%;
+  }
+  .digital-asset-card h2 {
+    font-size: xx-large;
+  }
+  .digital-asset-card p {
+    font-size: smaller;
+  }
+}
+@media (max-width: $breakpoint-sm) {
+  #actions {
+    flex-direction: column; 
+  }
+  .hero h2 {
+    margin-top: 20px;
+    font-size: x-large;
+  }
+  .hero p {
+    font-size: smaller;
+  }
+  .digital-asset-card {
+    width: 75%;
+  }
+  .how-it-works .steps {
+    flex-direction: column;
+  }
+  .how-it-works h2 {
+    font-size: xx-large;
+  }
+  .step h3 {
+    font-size: x-large;
+  }
+  .step p {
+    font-size: smaller;
+  }
+  .features h2 {
+    font-size: xx-large;
+  }
+  .cta h2 {
+    font-size: xx-large;
+  }
+}

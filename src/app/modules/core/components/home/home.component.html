@@ -1,1 +1,72 @@
-<p>home works!</p>
+<!-- Top of the homepage (first vh) -->
+<section class="top-section" #topSection>
+  <!-- Place holder section -->
+  <section></section>
+  
+  <!-- Hero section -->
+  <section class="hero">
+    <h2>Manage Crypto Assets Effortlessly</h2>
+    <p>Your all-in-one platform for minting and bridging tokens and NFTs across multiple blockchains.</p>
+  </section>
+
+  <!-- Actions section -->
+  <section id="actions">
+    <!-- Tokens -->
+    <div class="digital-asset-card">
+      <img src="/images/token.png" alt="Token">
+      <h2>Tokens</h2>
+      <p>Mint or bridge tokens across multiple blockchains.</p>
+      <button mat-raised-button color="primary" routerLink="/token">Get Started</button>
+    </div>
+
+    <div></div>
+    
+    <!-- NFTs -->
+    <div class="digital-asset-card">
+      <img src="/images/token.png" alt="Token">
+      <h2>NFTs</h2>
+      <p>Mint or bridge NFTs across multiple blockchains.</p>
+      <button mat-raised-button color="primary" routerLink="/nft">Get Started</button>
+    </div>
+  </section>
+
+  <!-- Place holder section -->
+  <section></section>
+</section>
+
+<!-- How it works section -->
+<section class="how-it-works">
+  <h2>How It Works?</h2> 
+  <div class="steps">
+    <div class="step">
+      <h3>1. Select Action</h3>
+      <p>Begin by choosing the action you wish to perform: minting new assets or bridging existing assets to a different network.</p>
+    </div>
+    <div class="step">
+      <h3>2. Provide Details</h3>
+      <p>Next, enter the necessary details for your operation, such as the amount and the specific asset you wish to mint or bridge.</p>
+    </div>
+    <div class="step">
+      <h3>3. Confirm Transaction</h3>
+      <p>Finally, review the transaction details carefully, ensuring everything is correct before confirming the transaction to proceed.</p>
+    </div>
+  </div>
+</section>
+
+<!-- Features section -->
+<section class="features">
+  <h2>Why Choose ChainPortal?</h2>
+  <ul>
+    <li>🌐 Multi-Chain Support</li>
+    <li>⚡ Fast Transactions</li>
+    <li>💸 Low Fees</li>
+    <li>🔒 Secure and Reliable</li>
+    <li>🖥️ User-Friendly Interface</li>
+  </ul>
+</section>
+
+<!-- Call to action section -->
+<section class="cta">
+  <h2>Ready to Get Started?</h2>
+  <button mat-raised-button color="primary" (click)="scrollTo('actions')">Start Now</button>
+</section>
