@@ -1,12 +1,42 @@
-<div class="app-container">
-    <!-- Navbar -->
-    <app-navbar></app-navbar>
+<mat-sidenav-container color="primary">
+    <!-- Sidebar for small screens -->
+    <mat-sidenav #sidenav mode="over" hasBackdrop="true" class="sidenav">
+        <div class="sidenav-content">
+            <button mat-button (click)="sidenav.close()" routerLink="/about">About</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/faq">FAQ</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/safety">Safety</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/contact">Contact</button>
+        </div>
+    </mat-sidenav>
 
-    <div class="content">
-        <!-- Router outlet (content) -->
-        <router-outlet />
+    <div class="app-container">
+        <!-- Navbar -->
+        <mat-toolbar color="primary" class="navbar-container navbar">
+            <!-- Hamburger icon, visible only on small screens -->
+            <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()">
+                <mat-icon>menu</mat-icon>
+            </button>
+        
+            <!-- Navbar buttons, hidden on small screens -->
+            <span class="navbar">
+                <button mat-button class="nav-buttons" routerLink="/about">About</button>
+                <button mat-button class="nav-buttons" routerLink="/faq">FAQ</button>
+                <button mat-button color="primary" class="logo" routerLink="/">ChainPortal</button>
+                <button mat-button class="nav-buttons" routerLink="/safety">Safety</button>
+                <button mat-button class="nav-buttons" routerLink="/contact">Contact</button>
+            </span>
+        </mat-toolbar>
+
+        <!-- Router outlet for the entire site -->
+        <div class="content">
+            <router-outlet />
+        </div>
+
+        <!-- Footer -->
+        <footer>
+            <mat-toolbar color="primary" class="footer-toolbar">
+            <span>&copy;{{currentYear}} ChainPortal.</span>
+            </mat-toolbar>
+        </footer>
     </div>
-
-    <!-- Footer -->
-    <app-footer></app-footer>
-</div>
+</mat-sidenav-container>

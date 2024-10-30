@@ -1,11 +1,72 @@
+@import '../styles/_breakpoints.scss';
+
 /* Use flexbox for the entire app layout */
 .app-container {
     display: flex;
     flex-direction: column;
     min-height: 100vh;
 }
-
 /* Style for the content area to grow and fill space between header and footer */
 .content {
     flex: 1;
+}
+
+// Navbar styles
+.navbar-container {
+    box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
+}
+.navbar {
+    display: flex;
+    justify-content: center;
+}
+
+// Mobile sidenav styles
+.sidenav {
+    position: fixed;
+    width: 40%;
+    height: 100vh;
+}
+.sidenav-content {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+// Hamburger menu logo styles
+.menu-icon {
+    position: absolute;
+    left: 10px;
+    display: none;
+}
+
+// Logo styles
+.logo {
+    font-size: x-large;
+    font-weight: bold;
+    transform: translateY(-10%);
+}
+
+// Footer styles
+.footer-toolbar {
+    box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
+    position: relative;
+    bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    font-size: medium;
+}
+
+/* Show the hamburger menu on small screens */
+@media (max-width: $breakpoint-sm) {
+    .nav-buttons {
+        display: none; /* Hide the extra buttons */
+    }
+    .menu-icon {
+        display: inline-flex; /* Show the hamburger icon */
+    }
+    .logo {
+        transform: translateY(0%); /* Remove the translate */
+    }
 }
