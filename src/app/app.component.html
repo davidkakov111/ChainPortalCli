@@ -15,8 +15,12 @@
     </mat-sidenav>
 
     <div class="app-container">
+        <!-- Placeholder for the fixed position header -->
+        <div [ngStyle]="{ height: navbarHeight }"></div>
+        
         <!-- Navbar -->
-        <mat-toolbar color="primary" class="navbar-container navbar">
+        <mat-toolbar color="primary" class="navbar-container navbar"
+            [@slideInOut]="navbarAnimationIn ? 'in' : 'out'" *ngIf="isNavbar">
             <!-- Hamburger icon, visible only on small screens -->
             <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
@@ -30,6 +34,9 @@
                 <button mat-button class="nav-buttons" routerLink="/safety">Safety</button>
                 <button mat-button class="nav-buttons" routerLink="/contact">Contact</button>
             </span>
+
+            <!-- To observe the height of the material toolbar header -->
+            <div #navbarHeightEl style="height: 100%;"></div>
         </mat-toolbar>
 
         <!-- Router outlet for the entire site -->
