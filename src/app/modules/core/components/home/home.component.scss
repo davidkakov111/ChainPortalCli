@@ -52,6 +52,8 @@
 // How it works section styles
 .how-it-works {
   text-align: center;
+  margin-top: 50px;
+  margin-bottom: 100px;
 }
 .how-it-works .steps {
   display: flex;
@@ -65,7 +67,7 @@
 
 // Features section styles
 .features {
-  padding: 60px 20px;
+  margin-bottom: 100px;
   text-align: center;
 }
 .features ul {
