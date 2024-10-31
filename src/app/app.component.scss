@@ -29,7 +29,11 @@
 .sidenav-content {
     display: flex;
     flex-direction: column;
-    gap: 10px;
+}
+.sidenav-header {
+    display: flex;
+    justify-content: flex-end;
+    padding: 16px;
 }
 
 // Hamburger menu logo styles

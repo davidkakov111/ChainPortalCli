@@ -1,6 +1,11 @@
 <mat-sidenav-container color="primary">
     <!-- Sidebar for small screens -->
     <mat-sidenav #sidenav mode="over" hasBackdrop="true" class="sidenav">
+        <div class="sidenav-header">
+            <button mat-icon-button (click)="sidenav.close()" aria-label="Close">
+                <mat-icon>close</mat-icon>
+            </button>
+        </div>
         <div class="sidenav-content">
             <button mat-button (click)="sidenav.close()" routerLink="/about">About</button>
             <button mat-button (click)="sidenav.close()" routerLink="/faq">FAQ</button>
