@@ -4,6 +4,7 @@ import { TokenRoutingModule } from './token-routing.module';
 import { TokenBridgeComponent } from './components/token-bridge/token-bridge.component';
 import { TokenMintComponent } from './components/token-mint/token-mint.component';
 import { TokenDashboardComponent } from './components/token-dashboard/token-dashboard.component';
+import { MatButtonModule } from '@angular/material/button';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { TokenDashboardComponent } from './components/token-dashboard/token-dash
   ],
   imports: [
     CommonModule,
-    TokenRoutingModule
+    TokenRoutingModule,
+    MatButtonModule
   ]
 })
 export class TokenModule { }

@@ -1,0 +1,62 @@
+@import '../../../../../styles/_breakpoints.scss';
+
+// Actions section styles 
+#actions {
+  margin: 15px;
+  display: flex; 
+  flex-direction: row; 
+  justify-content: center;
+  align-items: center;
+}
+.action-card {
+  display: flex; 
+  flex-direction: column; 
+  align-items: center; 
+  text-align: center; 
+  width: 20%; 
+  margin: 5%;
+}
+.action-card img {
+  box-shadow: 10px 10px 10px rgb(61, 61, 61); 
+  border-radius: 50%; 
+  margin-bottom: 20px;
+  width: 60%;
+}
+.action-card h2 {
+  margin-bottom: 0;
+}
+.action-card p {
+  font-size: small;
+}
+.action-card button {
+  margin-top: 10px; 
+  width: 100%; 
+  font-size: large;
+}
+
+// Responsive design
+@media (max-width: $breakpoint-xl) {
+  .action-card {
+    width: 30%;
+  }
+}
+@media (max-width: $breakpoint-md) {
+  .action-card {
+    margin: 10%;
+    width: 60%;
+  }
+  .action-card h2 {
+    font-size: xx-large;
+  }
+  .action-card p {
+    font-size: smaller;
+  }
+}
+@media (max-width: $breakpoint-sm) {
+  #actions {
+    flex-direction: column; 
+  }
+  .action-card {
+    width: 75%;
+  }
+}
