@@ -1,1 +1,139 @@
-<p>nft-mint works!</p>
+<div class="flx-col-center m-y20">
+  <h3>Provide NFT Metadata</h3>
+
+  <form [formGroup]="nftForm" (ngSubmit)="onSubmit()" class="flx-col-center">
+    <!-- Title -->
+    <mat-form-field appearance="fill" class="w100">
+      <mat-label>Title</mat-label>
+      <input matInput formControlName="title" required>
+      <mat-error *ngIf="nftForm.get('title')?.hasError('required')">Title is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Description -->
+    <mat-form-field appearance="fill" class="w100">
+      <mat-label>Description</mat-label>
+      <textarea matInput formControlName="description" required></textarea>
+      <mat-error *ngIf="nftForm.get('description')?.hasError('required')">Description is required.</mat-error>
+    </mat-form-field>
+
+    <!-- Media File Upload -->
+    <div class="w100 mb-20">
+      <mat-expansion-panel [expanded]="true" class="w100 pt-15 mt-10"
+        [ngStyle]="{ 'border-bottom': nftForm.get('media')?.hasError('required') ? '1px solid red' : 'none' }">
+        <mat-label>Media File*</mat-label>
+        <br>
+        <button mat-button color="primary" (click)="fileInput.click()">
+          <mat-icon>{{ this.nftForm.get('media')?.value ? 'refresh' : 'upload' }}</mat-icon>
+          {{this.nftForm.get('media')?.value ? 'Change File' : 'Choose File'}}
+        </button>
+        <input #fileInput type="file" (change)="onFileChange($event)" hidden>
+        <mat-card *ngIf="selectedFileName" class="selected-file-card">
+          <mat-card-content class="flx-row-center">
+            {{ selectedFileName }}
+            <button mat-icon-button color="warn" (click)="clearSelectedFile()" aria-label="Remove file">
+              <mat-icon>cancel</mat-icon>
+            </button>
+          </mat-card-content>
+        </mat-card>
+      </mat-expansion-panel>
+      <mat-error class="media-error" *ngIf="nftForm.get('media')?.hasError('required')">Media file is required.</mat-error>
+    </div>
+
+    <!-- Expansion Panel for Advanced Settings -->
+    <mat-accordion class="w100">
+      <mat-expansion-panel>
+        <mat-expansion-panel-header>
+          <mat-panel-title>Advanced</mat-panel-title>
+        </mat-expansion-panel-header>
+
+        <!-- Creator Information -->
+        <mat-form-field appearance="fill">
+          <mat-label>Creator</mat-label>
+          <input matInput formControlName="creator">
+        </mat-form-field>
+
+        <!-- Royalty Percentage -->
+        <mat-form-field appearance="fill">
+          <mat-label>Royalty Percentage</mat-label>
+          <input matInput type="number" formControlName="royalty">
+          <mat-error *ngIf="nftForm.get('royalty')?.hasError('min')">Royalty must be at least 0%.</mat-error>
+          <mat-error *ngIf="nftForm.get('royalty')?.hasError('max')">Royalty cannot exceed 100%.</mat-error>
+        </mat-form-field>
+
+        <!-- Tags -->
+        <mat-form-field appearance="fill" class="mb-20">
+          <mat-label>Tags</mat-label>
+          <mat-chip-grid #chipGrid aria-label="Tag selection">
+            <mat-chip *ngFor="let tag of tags" [removable]="true" (removed)="removeTag(tag)">
+              {{tag}}<button matChipRemove><mat-icon>cancel</mat-icon></button>
+            </mat-chip>
+          </mat-chip-grid>
+          <input
+            placeholder="New tag..."
+            [matChipInputFor]="chipGrid"
+            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+            (matChipInputTokenEnd)="addTag($event)"
+            matInput>
+            <mat-hint *ngIf="!tags.length">Note: Press Enter or comma to add a tag.</mat-hint>
+        </mat-form-field>
+      
+        <!-- License Information -->
+        <mat-form-field appearance="fill">
+          <mat-label>License</mat-label>
+          <input matInput formControlName="license">
+        </mat-form-field>
+
+        <!-- External Link -->
+        <mat-form-field appearance="fill">
+          <mat-label>External Link</mat-label>
+          <input matInput formControlName="externalLink">
+        </mat-form-field>
+
+        <!-- Attributes -->
+        <div formArrayName="attributes" class="mb-20">
+          <mat-label>Attributes</mat-label>
+          <br>
+          <div *ngFor="let attribute of attributes.controls; let i = index" [formGroupName]="i" class="flx-row-center">
+            <mat-form-field appearance="fill" class="w100">
+              <mat-label>Type</mat-label>
+              <input matInput formControlName="type" placeholder="e.g., Color">
+            </mat-form-field>
+            <mat-form-field appearance="fill" class="w100">
+              <mat-label>Value</mat-label>
+              <input matInput formControlName="value" placeholder="e.g., Red">
+            </mat-form-field>
+            <button mat-icon-button color="warn" (click)="removeAttribute(i)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+          <button mat-stroked-button color="primary" (click)="addAttribute()">Add Attribute</button>
+        </div>
+
+        <!-- Edition Information -->
+        <mat-slide-toggle formControlName="isLimitedEdition" class="mb-20">Is Limited Edition</mat-slide-toggle>
+        <br>
+        <div *ngIf="nftForm.get('isLimitedEdition')?.value" class="flx-row-center ">
+          <mat-form-field appearance="fill" class="w100">
+            <mat-label>Current Edition</mat-label>
+            <input matInput type="number" formControlName="editionNumber" placeholder="Current edition number (e.g., 1)">
+          </mat-form-field>
+          <mat-form-field appearance="fill" class="w100">
+            <mat-label>Total Editions</mat-label>
+            <input matInput type="number" formControlName="totalEditions" placeholder="Total editions (e.g., 10)">
+          </mat-form-field>
+        </div>
+
+        <!-- Creation Timestamp (Hidden/Read-Only) -->
+        <mat-slide-toggle formControlName="creationTimestampToggle">Include Creation Time</mat-slide-toggle>
+        <mat-form-field appearance="fill" style="display: none;">
+          <input matInput formControlName="creationTimestamp" placeholder="Creation Timestamp" readonly>
+        </mat-form-field>
+      </mat-expansion-panel>
+    </mat-accordion>
+
+    <!-- Submit Button -->
+    <button mat-raised-button type="submit" color="primary" class="mt-10 pr-10 flx-row-center" [disabled]="nftForm.invalid">
+      Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
+    </button>
+  </form>
+</div>

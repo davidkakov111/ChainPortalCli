@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
@@ -40,12 +40,14 @@ export class AppComponent {
   @ViewChild('navbarHeightEl', { static: false }) navbarHeightEl!: ElementRef;
 
   // Get the current year for the footer
-  constructor() {this.currentYear = new Date().getFullYear()};
+  constructor(private cdr: ChangeDetectorRef) {this.currentYear = new Date().getFullYear()};
 
   // Access the height of the element after the view initializes 
   ngAfterViewInit() {
     if (!this.navbarHeightEl.nativeElement.offsetHeight) return;
     this.navbarHeight = `${this.navbarHeightEl.nativeElement.offsetHeight}px`;
+    // Manually trigger change detection to avoid 'ExpressionChangedAfterItHasBeenCheckedError' error
+    this.cdr.detectChanges();
   }
 
   // HostListener listens for scroll events on the window
