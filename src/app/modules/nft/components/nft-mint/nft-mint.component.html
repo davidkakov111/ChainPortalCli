@@ -20,7 +20,7 @@
     <div class="w100 mb-20">
       <mat-expansion-panel [expanded]="true" class="w100 pt-15 mt-10"
         [ngStyle]="{ 'border-bottom': nftForm.get('media')?.hasError('required') ? '1px solid red' : 'none' }">
-        <mat-label>Media File*</mat-label>
+        <mat-label>NFT Media File*</mat-label>
         <br>
         <button mat-button color="primary" (click)="fileInput.click()">
           <mat-icon>{{ this.nftForm.get('media')?.value ? 'refresh' : 'upload' }}</mat-icon>
