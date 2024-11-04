@@ -1,0 +1,7 @@
+<h3 mat-dialog-title>Notice:</h3>
+<mat-dialog-content>
+  <div [innerHTML]="sanitizedMessage"></div> <!-- Use sanitized innerHTML binding -->
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button color="primary" (click)="onConfirm()">OK</button>
+</mat-dialog-actions>

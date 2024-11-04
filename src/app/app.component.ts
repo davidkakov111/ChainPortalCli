@@ -6,6 +6,7 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
+import { SharedModule } from './modules/shared/shared.module';
 
 @Component({
   selector: 'app-root',
@@ -17,7 +18,8 @@ import { trigger, state, style, animate, transition } from '@angular/animations'
     MatSidenavModule,
     MatIconModule,
     RouterOutlet,
-    RouterModule
+    RouterModule,
+    SharedModule
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',
