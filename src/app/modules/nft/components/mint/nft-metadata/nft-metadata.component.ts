@@ -3,14 +3,14 @@ import { FormArray, FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
-import { ConfirmDialogComponent } from '../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 @Component({
-  selector: 'app-nft-mint',
-  templateUrl: './nft-mint.component.html',
-  styleUrl: './nft-mint.component.scss'
+  selector: 'app-nft-metadata',
+  templateUrl: './nft-metadata.component.html',
+  styleUrl: './nft-metadata.component.scss'
 })
-export class NftMintComponent {
+export class NftMetadataComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   nftForm: FormGroup;
   selectedFileName: string | null = null;
@@ -75,7 +75,7 @@ export class NftMintComponent {
       'audio/mpeg', 'audio/wav', 'audio/flac', 'audio/aac',
       'model/gltf-binary', 'model/gltf+json', 'application/obj'
     ];
-  
+
     if (file) {
       // Check if the file type is allowed
       if (allowedTypes.includes(file.type)) {
@@ -126,7 +126,7 @@ export class NftMintComponent {
     if (this.nftForm.valid) {
       // Get the NFT form values
       const nftForm = this.nftForm.value;
-      if (!nftForm.creationTimestampToggle) {nftForm.creationTimestamp = ''};
+      if (!nftForm.creationTimestampToggle) { nftForm.creationTimestamp = '' };
 
       console.log(nftForm);
     } else {

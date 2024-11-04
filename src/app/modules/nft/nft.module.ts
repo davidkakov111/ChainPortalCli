@@ -1,7 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { NftBridgeComponent } from './components/nft-bridge/nft-bridge.component';
-import { NftMintComponent } from './components/nft-mint/nft-mint.component';
+import { NftBridgeComponent } from './components/bridge/nft-bridge/nft-bridge.component';
 import { NftDashboardComponent } from './components/nft-dashboard/nft-dashboard.component';
 import { NftRoutingModule } from './nft-routing.module';
 import { MatButtonModule } from '@angular/material/button';
@@ -16,11 +15,12 @@ import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
+import { NftMetadataComponent } from './components/mint/nft-metadata/nft-metadata.component';
 
 @NgModule({
   declarations: [
     NftBridgeComponent,
-    NftMintComponent,
+    NftMetadataComponent,
     NftDashboardComponent
   ],
   imports: [
