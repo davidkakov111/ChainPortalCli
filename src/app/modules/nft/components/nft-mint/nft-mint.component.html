@@ -55,7 +55,12 @@
         <!-- Royalty Percentage -->
         <mat-form-field appearance="fill">
           <mat-label>Royalty Percentage</mat-label>
-          <input matInput type="number" formControlName="royalty">
+          <div class="flx-row-center">
+            <input matInput type="number" formControlName="royalty">
+            <button mat-icon-button matTooltip="The percentage of each resale price that you, as the creator, will receive whenever this NFT is resold." matTooltipPosition="right">
+              <mat-icon>info</mat-icon>
+            </button>
+          </div>
           <mat-error *ngIf="nftForm.get('royalty')?.hasError('min')">Royalty must be at least 0%.</mat-error>
           <mat-error *ngIf="nftForm.get('royalty')?.hasError('max')">Royalty cannot exceed 100%.</mat-error>
         </mat-form-field>
@@ -68,12 +73,17 @@
               {{tag}}<button matChipRemove><mat-icon>cancel</mat-icon></button>
             </mat-chip>
           </mat-chip-grid>
-          <input
-            placeholder="New tag..."
-            [matChipInputFor]="chipGrid"
-            [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
-            (matChipInputTokenEnd)="addTag($event)"
-            matInput>
+          <div class="flx-row-center">
+            <input
+              placeholder="New tag..."
+              [matChipInputFor]="chipGrid"
+              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+              (matChipInputTokenEnd)="addTag($event)"
+              matInput>
+            <button mat-icon-button matTooltip="Keywords that help describe and categorize your NFT, making it easier to find." matTooltipPosition="right">
+              <mat-icon>info</mat-icon>
+            </button>
+          </div>
             <mat-hint *ngIf="!tags.length">Note: Press Enter or comma to add a tag.</mat-hint>
         </mat-form-field>
       

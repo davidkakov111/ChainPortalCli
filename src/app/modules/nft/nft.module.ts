@@ -14,6 +14,7 @@ import { MatChipsModule } from '@angular/material/chips';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCardModule } from '@angular/material/card';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatTooltipModule } from '@angular/material/tooltip';
 
 @NgModule({
   declarations: [
@@ -33,7 +34,8 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
     MatChipsModule,
     MatCardModule,
     MatSlideToggleModule,
-    MatExpansionModule
+    MatExpansionModule,
+    MatTooltipModule
   ],
   exports: []
 })
