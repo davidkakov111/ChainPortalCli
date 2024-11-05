@@ -16,12 +16,15 @@ import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatDialogModule } from '@angular/material/dialog';
 import { NftMetadataComponent } from './components/mint/nft-metadata/nft-metadata.component';
+import { MatStepperModule } from '@angular/material/stepper';
+import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/nft-mint-dashboard.component';
 
 @NgModule({
   declarations: [
     NftBridgeComponent,
     NftMetadataComponent,
-    NftDashboardComponent
+    NftDashboardComponent,
+    NftMintDashboardComponent
   ],
   imports: [
     CommonModule,
@@ -37,7 +40,8 @@ import { NftMetadataComponent } from './components/mint/nft-metadata/nft-metadat
     MatSlideToggleModule,
     MatExpansionModule,
     MatTooltipModule,
-    MatDialogModule
+    MatDialogModule,
+    MatStepperModule
   ],
   exports: []
 })

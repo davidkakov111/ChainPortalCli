@@ -1,7 +1,7 @@
 <div class="flx-col-center m-y20">
   <h3>Provide NFT Metadata</h3>
 
-  <form [formGroup]="nftForm" (ngSubmit)="onSubmit()" class="flx-col-center">
+  <form [formGroup]="nftForm" class="flx-col-center">
     <!-- Title -->
     <mat-form-field appearance="fill" class="w100">
       <mat-label>Title</mat-label>
@@ -127,11 +127,11 @@
         <div *ngIf="nftForm.get('isLimitedEdition')?.value" class="flx-row-center ">
           <mat-form-field appearance="fill" class="w100">
             <mat-label>Current Edition</mat-label>
-            <input matInput type="number" formControlName="editionNumber" placeholder="Current edition number (e.g., 1)">
+            <input matInput type="number" formControlName="editionNumber" placeholder="e.g. 1">
           </mat-form-field>
           <mat-form-field appearance="fill" class="w100">
             <mat-label>Total Editions</mat-label>
-            <input matInput type="number" formControlName="totalEditions" placeholder="Total editions (e.g., 10)">
+            <input matInput type="number" formControlName="totalEditions" placeholder="e.g. 10">
           </mat-form-field>
         </div>
 
@@ -142,10 +142,5 @@
         </mat-form-field>
       </mat-expansion-panel>
     </mat-accordion>
-
-    <!-- Submit Button -->
-    <button mat-raised-button type="submit" color="primary" class="mt-10 pr-10 flx-row-center" [disabled]="nftForm.invalid">
-      Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
-    </button>
   </form>
 </div>

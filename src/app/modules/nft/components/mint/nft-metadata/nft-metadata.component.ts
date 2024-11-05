@@ -4,6 +4,31 @@ import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
+import { NftService } from '../../../services/nft.service';
+
+// NFT metadata interface
+export interface NftMetadata {
+  title: string;                         // Title of the NFT
+  description: string;                   // Description of the NFT
+  media: File | null;                    // Media file (can be an image, video, etc.)
+  attributes: Array<Attribute>;          // Array of attributes for the NFT
+  creator?: string;                      // Optional creator information
+  isLimitedEdition: boolean;             // Checkbox for limited edition
+  totalEditions?: number;                // Total editions, optional when not limited edition
+  editionNumber?: number;                // Edition number, optional when not limited edition
+  royalty: number;                       // Royalty percentage (0 to 100)
+  tags: string[];                        // Array of tags
+  license?: string;                      // Optional license information
+  externalLink?: string;                 // Optional external link
+  creationTimestampToggle: boolean;      // Toggle for including timestamp
+  creationTimestamp: string;             // Timestamp in ISO format (optional)
+}
+
+// Define the structure of each attribute
+export interface Attribute {
+  type: string;                         // Type of the attribute (e.g., Color)
+  value: string;                        // Value of the attribute (e.g., Red)
+}
 
 @Component({
   selector: 'app-nft-metadata',
@@ -19,7 +44,8 @@ export class NftMetadataComponent {
   // Build the form in the constructor
   constructor(
     private fb: FormBuilder,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private nftSrv: NftService
   ) {
     this.nftForm = this.fb.group({
       title: ['', Validators.required],
@@ -48,6 +74,17 @@ export class NftMetadataComponent {
         this.nftForm.patchValue({ editionNumber: '' });
         this.nftForm.get('totalEditions')?.disable();
         this.nftForm.get('editionNumber')?.disable();
+      }
+    });
+
+    // Subscribe to changes in the form values to save the form
+    this.nftForm.valueChanges.subscribe((value: NftMetadata) => {
+      if (this.nftForm.valid && value) {
+        // Save the nft form values, to the nft service 
+        this.nftSrv.setNftMetadata(value);
+      } else {
+        // The form invalid so clear the step1 data
+        this.nftSrv.removeStepData('step1');
       }
     });
   }
@@ -118,19 +155,6 @@ export class NftMetadataComponent {
     if (index >= 0) {
       this.tags.splice(index, 1);
       this.nftForm.get('tags')?.setValue(this.tags);
-    }
-  }
-
-  // Handle form submission
-  onSubmit() {
-    if (this.nftForm.valid) {
-      // Get the NFT form values
-      const nftForm = this.nftForm.value;
-      if (!nftForm.creationTimestampToggle) { nftForm.creationTimestamp = '' };
-
-      console.log(nftForm);
-    } else {
-      console.log('Form is invalid');
     }
   }
 

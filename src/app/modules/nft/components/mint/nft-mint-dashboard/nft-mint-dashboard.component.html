@@ -1,0 +1,19 @@
+<mat-horizontal-stepper linear>
+  <!-- Step 1 -->
+  <mat-step [completed]="this.nftSrv.stepCompleted('step1')">
+    <ng-template matStepLabel>Add Metadata</ng-template>
+    <!-- Metadata form component -->
+    <app-nft-metadata></app-nft-metadata>
+    <!-- Next step button -->
+    <div class="w100 flx-row-center">
+      <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center"
+        [disabled]="!this.nftSrv.stepCompleted('step1')">
+        Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <mat-step [completed]="this.nftSrv.stepCompleted('step1')">
+    <ng-template matStepLabel>Select Blockchain</ng-template>
+  </mat-step>
+</mat-horizontal-stepper>
