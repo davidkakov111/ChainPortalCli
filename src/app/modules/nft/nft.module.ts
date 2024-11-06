@@ -18,6 +18,7 @@ import { MatDialogModule } from '@angular/material/dialog';
 import { NftMetadataComponent } from './components/mint/nft-metadata/nft-metadata.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/nft-mint-dashboard.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -29,6 +30,7 @@ import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/
   imports: [
     CommonModule,
     NftRoutingModule,
+    SharedModule,
     MatButtonModule,
     ReactiveFormsModule,
     MatInputModule,

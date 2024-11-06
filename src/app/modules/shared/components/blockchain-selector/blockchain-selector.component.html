@@ -1,0 +1,28 @@
+<h3 *ngIf="title" class="title">{{title}}</h3>
+<!-- Center the blockchain selector -->
+<div class="blockchain-selection-container">
+  <!-- Blockchain selection container -->
+  <div class="blockchain-selection" #selectionContainer>
+    <mat-divider></mat-divider>
+    <!-- Scroll Container -->
+    <div class="scroll-container" #scrollContainer>
+      <!-- Blockchain cards -->
+      <mat-card *ngFor="let chain of blockchains" 
+                class="card" 
+                (click)="selectBlockchain(chain.name)" 
+                [ngClass]="{'selected': isSelected(chain.name)}"
+                [attr.data-name]="chain.name">
+        <mat-card-header>
+          <div mat-card-avatar>
+            <img [src]="chain.logo" alt="{{ chain.name }} logo" width="40" height="40" />
+          </div>
+          <mat-card-title>{{ chain.name }}</mat-card-title>
+        </mat-card-header>
+        <mat-card-content>
+          <p>{{ chain.description }}</p>
+        </mat-card-content>
+      </mat-card>
+    </div>
+    <mat-divider></mat-divider>
+  </div>
+</div>
