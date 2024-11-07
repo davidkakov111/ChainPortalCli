@@ -3,26 +3,28 @@
 <div class="blockchain-selection-container">
   <!-- Blockchain selection container -->
   <div class="blockchain-selection" #selectionContainer>
-    <mat-divider></mat-divider>
     <!-- Scroll Container -->
     <div class="scroll-container" #scrollContainer>
       <!-- Blockchain cards -->
       <mat-card *ngFor="let chain of blockchains" 
-                class="card" 
-                (click)="selectBlockchain(chain.name)" 
-                [ngClass]="{'selected': isSelected(chain.name)}"
-                [attr.data-name]="chain.name">
+        class="card" 
+        (click)="selectBlockchain(chain.symbol)" 
+        [ngClass]="{'selected': isSelected(chain.symbol)}"
+        [attr.data-symbol]="chain.symbol">
         <mat-card-header>
           <div mat-card-avatar>
             <img [src]="chain.logo" alt="{{ chain.name }} logo" width="40" height="40" />
           </div>
-          <mat-card-title>{{ chain.name }}</mat-card-title>
+          <mat-card-title>{{ chain.name.length > 9 ? chain.symbol : chain.name }}</mat-card-title>
         </mat-card-header>
-        <mat-card-content>
-          <p>{{ chain.description }}</p>
+        <mat-card-content class="h100">
+          <div class="h100 flx-col-space-between">
+            <p>{{ chain.description }}</p>
+            <span style="font-size: smaller;">Est. Fee:</span>
+            <p>{{ chain.estFee }} {{ chain.coin }}</p>
+          </div>
         </mat-card-content>
       </mat-card>
     </div>
-    <mat-divider></mat-divider>
   </div>
 </div>

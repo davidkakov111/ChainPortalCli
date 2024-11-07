@@ -2,11 +2,21 @@ import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '
 
 type blockchainNames = 'Ethereum' | 'Solana' | 'Binance Smart Chain' | 'Polygon' | 
   'Cardano' | 'Tezos' | 'Avalanche' | 'Flow' | 'Fantom' | 'Algorand';
+type blockchainSymbols = 'ETH' | 'SOL' | 'BSC' | 'MATIC' | 
+  'ADA' | 'XTZ' | 'AVAX' | 'FLOW' | 'FTM' | 'ALGO';
+type blockchainCoins = 'ETH' | 'SOL' | 'BNB' | 'MATIC/POL' | 
+  'ADA' | 'XTZ' | 'AVAX' | 'FLOW' | 'FTM' | 'ALGO';
 
-interface blockchain {
+interface allBlockchain {
   logo: string;
   name: blockchainNames;
+  symbol: blockchainSymbols;
+  coin: blockchainCoins;
   description: string;
+};
+
+interface blockchain extends allBlockchain {
+  estFee: number;
 };
 
 @Component({
@@ -16,7 +26,7 @@ interface blockchain {
 })
 export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   // Inputs
-  @Input() suportedBlockchains: blockchainNames[] = [];
+  @Input() suportedBlockchains: blockchainSymbols[] = [];
   @Input() title: string = '';
 
   // Viewchilds
@@ -24,35 +34,36 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   @ViewChild('scrollContainer') scrollContainer: ElementRef | undefined;
 
   // Variables
-  allBlockchains: blockchain[] = [
-    { logo: "/images/ethereum-logo.png", name: "Ethereum", description: "Most popular and widely used for NFTs and tokens" },
-    { logo: "/images/solana-logo.png", name: "Solana", description: "High-performance blockchain known for speed and low fees" },
-    { logo: "/images/bsc-logo.png", name: "Binance Smart Chain", description: "Fast transactions with low fees, ideal for DeFi and tokens" },
-    { logo: "/images/polygon-logo.png", name: "Polygon", description: "Layer-2 scaling solution for Ethereum, low fees" },
-    { logo: "/images/cardano-logo.png", name: "Cardano", description: "Research-driven platform with a focus on sustainability" },
-    { logo: "/images/tezos-logo.png", name: "Tezos", description: "Upgradable, energy-efficient blockchain for NFTs and smart contracts" },
-    { logo: "/images/avalanche-logo.png", name: "Avalanche", description: "Decentralized platform for applications and enterprise solutions" },
-    { logo: "/images/flow-logo.png", name: "Flow", description: "Built specifically for NFTs, powering NBA Top Shot and others" },
-    { logo: "/images/fantom-logo.png", name: "Fantom", description: "Scalable, EVM-compatible blockchain for DeFi and NFTs" },
-    { logo: "/images/algorand-logo.png", name: "Algorand", description: "Fast, carbon-negative blockchain with strong DeFi support" }
+  allBlockchains: allBlockchain[] = [
+    { logo: "/images/ethereum-logo.png", name: "Ethereum", symbol:"ETH", coin:"ETH", description: "Decentralized, secure, and highly popular smart contract platform." },
+    { logo: "/images/solana-logo.png", name: "Solana", symbol:"SOL", coin:"SOL", description: "High-performance blockchain with fast transaction speeds." },
+    { logo: "/images/bsc-logo.png", name: "Binance Smart Chain", symbol:"BSC", coin:"BNB", description: "Low-cost, fast transactions with strong DeFi support." },
+    { logo: "/images/polygon-logo.png", name: "Polygon", symbol:"MATIC", coin:"MATIC/POL", description: "Scalable Ethereum-compatible network for faster transactions." },
+    { logo: "/images/cardano-logo.png", name: "Cardano", symbol:"ADA", coin:"ADA", description: "Research-driven, proof-of-stake blockchain with sustainable growth." },
+    { logo: "/images/tezos-logo.png", name: "Tezos", symbol:"XTZ", coin:"XTZ", description: "Self-amending blockchain for secure, decentralized applications." },
+    { logo: "/images/avalanche-logo.png", name: "Avalanche", symbol:"AVAX", coin:"AVAX", description: "High-throughput blockchain with low-latency consensus." },
+    { logo: "/images/flow-logo.png", name: "Flow", symbol:"FLOW", coin:"FLOW", description: "Blockchain designed for scalable and user-friendly applications." },
+    { logo: "/images/fantom-logo.png", name: "Fantom", symbol:"FTM", coin:"FTM", description: "Fast and scalable blockchain with instant finality." },
+    { logo: "/images/algorand-logo.png", name: "Algorand", symbol:"ALGO", coin:"ALGO", description: "High-speed, secure blockchain for decentralized applications." }
   ];
   blockchains: blockchain[] = []
-  selectedBlockchain: blockchainNames | null = null;
+  selectedBlockchain: blockchainSymbols | null = null;
 
   ngOnInit(): void {
     // Use the suported blockchains, according the input
     for (let bc of this.allBlockchains) {
-      if (this.suportedBlockchains.includes(bc.name)) {
-        this.blockchains.push(bc);
+      if (this.suportedBlockchains.includes(bc.symbol)) {
+        this.blockchains.push({...bc, estFee: 0}); // TODO Fee need to be dinamic
       } 
     }
   }
 
   ngAfterViewInit() {
+    const cardWidth = 180;
+    const gap = 16; 
+    
     // Add max width for the blockchain selection based on number of blockchain cards
     if (this.selectionContainer) {
-      const cardWidth = 180;
-      const gap = 16; 
       this.selectionContainer.nativeElement.style.maxWidth = `${this.blockchains.length * (cardWidth + gap)}px`;
     }
     
@@ -69,7 +80,7 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
       scrollElement.style.height = `${selectedCardHeight}px`;
 
       // Scroll to the first card (no initial gap)
-      scrollElement.scrollLeft = scrollElement.clientWidth / 2;
+      scrollElement.scrollLeft = (scrollElement.clientWidth / 2)-gap;
   
       // Use a timeout to enable the scroll listener logic after the initial scroll setup
       setTimeout(() => {
@@ -79,14 +90,14 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   }
 
   // Select and scroll to a blockchain card
-  selectBlockchain(name: blockchainNames) {
-    this.selectedBlockchain = name;
+  selectBlockchain(symbol: blockchainSymbols) {
+    this.selectedBlockchain = symbol;
     this.scrollToSelected();
   }
 
   // Check if a blockchain is selected
-  isSelected(chainName: blockchainNames): boolean {
-    return this.selectedBlockchain === chainName;
+  isSelected(chainSymbol: blockchainSymbols): boolean {
+    return this.selectedBlockchain === chainSymbol;
   }
 
   // Auto scrolling effect
@@ -102,16 +113,16 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
         const cardElements = Array.from(scrollElement.getElementsByClassName('card') as HTMLCollectionOf<HTMLElement>);
 
         // Get the closest blockchain card, to the center of the scroll container
-        const closestCardName = this.findClosestCard(scrollPosition, cardElements);
-        if (closestCardName) {
-          this.selectedBlockchain = closestCardName;
+        const closestCardSymbol = this.findClosestCard(scrollPosition, cardElements);
+        if (closestCardSymbol) {
+          this.selectedBlockchain = closestCardSymbol;
         }
       });
     }
   }
 
   // Find the closest blockchain card element to the scrollPosition of the container (center)
-  findClosestCard(scrollPosition: number, cardElements: HTMLElement[]): any {
+  findClosestCard(scrollPosition: number, cardElements: HTMLElement[]): blockchainSymbols | null {
     let closestCard: any = null;
     let minDistance = Infinity;
 
@@ -125,14 +136,14 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
       }
     });
 
-    return closestCard ? closestCard?.getAttribute('data-name') : null;
+    return closestCard ? closestCard?.getAttribute('data-symbol') : null;
   }
 
   // Scroll to the blockchain card selected by the user when they click on it.
   scrollToSelected() {
     if (this.selectedBlockchain && this.scrollContainer) {
       const selectedCard = Array.from(this.scrollContainer.nativeElement.getElementsByClassName('card') as HTMLCollectionOf<HTMLElement>)
-        .find((card: HTMLElement) => card.getAttribute('data-name') === this.selectedBlockchain);
+        .find((card: HTMLElement) => card.getAttribute('data-symbol') === this.selectedBlockchain);
 
       if (selectedCard) {
         selectedCard.scrollIntoView({ behavior: 'smooth', inline: 'center' });

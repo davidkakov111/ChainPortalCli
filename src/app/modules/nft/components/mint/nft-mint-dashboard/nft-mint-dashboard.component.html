@@ -18,7 +18,10 @@
     <ng-template matStepLabel>Select Blockchain</ng-template>
     <!-- Blockchain selector component -->
     <app-blockchain-selector [title]="'Select Blockchain to Mint NFT'"
-      [suportedBlockchains]="['Ethereum', 'Solana', 'Polygon', 'Cardano', 'Avalanche', 'Algorand']">
+      [suportedBlockchains]="[
+        'ETH', 'SOL', 'BSC', 'MATIC', 'ADA', 'XTZ', 'AVAX', 'FLOW', 'FTM', 'ALGO'
+      ]">
+      <!-- [suportedBlockchains]="['ETH', 'SOL', 'MATIC', 'ADA', 'AVAX', 'ALGO']"> -->
     </app-blockchain-selector>
   </mat-step>
 </mat-horizontal-stepper>

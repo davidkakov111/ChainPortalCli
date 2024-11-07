@@ -6,7 +6,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { BlockchainSelectorComponent } from './components/blockchain-selector/blockchain-selector.component';
 import { MatCardModule } from '@angular/material/card';
-import { MatDividerModule } from '@angular/material/divider';
 
 @NgModule({
   declarations: [
@@ -18,8 +17,7 @@ import { MatDividerModule } from '@angular/material/divider';
     MatDialogModule,
     MatButtonModule,
     MatIconModule,
-    MatCardModule,
-    MatDividerModule
+    MatCardModule
   ],
   exports: [
     ConfirmDialogComponent,

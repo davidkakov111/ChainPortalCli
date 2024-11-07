@@ -36,6 +36,14 @@ mat-card.card.selected {
 mat-card.card:hover {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
+.h100 {
+  height: 100%;
+}
+.flx-col-space-between {
+  display: flex; 
+  flex-direction: column; 
+  justify-content: space-between;
+}
 
 /* Responsive design */
 @media (max-width: $breakpoint-sm) {
