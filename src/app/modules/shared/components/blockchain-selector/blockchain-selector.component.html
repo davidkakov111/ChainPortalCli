@@ -20,8 +20,10 @@
         <mat-card-content class="h100">
           <div class="h100 flx-col-space-between">
             <p>{{ chain.description }}</p>
-            <span style="font-size: smaller;">Est. Fee:</span>
-            <p>{{ chain.estFee }} {{ chain.coin }}</p>
+            <div>
+              <span style="font-size: smaller;">Est. Fee:</span>
+              <p>{{ chain.estFee }} {{ chain.coin }}</p>
+            </div>
           </div>
         </mat-card-content>
       </mat-card>
