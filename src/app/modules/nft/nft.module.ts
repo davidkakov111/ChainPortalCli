@@ -19,13 +19,15 @@ import { NftMetadataComponent } from './components/mint/nft-metadata/nft-metadat
 import { MatStepperModule } from '@angular/material/stepper';
 import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/nft-mint-dashboard.component';
 import { SharedModule } from '../shared/shared.module';
+import { NftPreviewComponent } from './components/nft-preview/nft-preview.component';
 
 @NgModule({
   declarations: [
     NftBridgeComponent,
     NftMetadataComponent,
     NftDashboardComponent,
-    NftMintDashboardComponent
+    NftMintDashboardComponent,
+    NftPreviewComponent
   ],
   imports: [
     CommonModule,
