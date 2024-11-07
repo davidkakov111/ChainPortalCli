@@ -14,14 +14,19 @@
   </mat-step>
 
   <!-- Step 2 -->
-  <mat-step [completed]="this.nftSrv.stepCompleted('step1')">
+  <mat-step [completed]="this.nftSrv.stepCompleted('step2')">
     <ng-template matStepLabel>Select Blockchain</ng-template>
     <!-- Blockchain selector component -->
     <app-blockchain-selector [title]="'Select Blockchain to Mint NFT'"
-      [suportedBlockchains]="[
-        'ETH', 'SOL', 'BSC', 'MATIC', 'ADA', 'XTZ', 'AVAX', 'FLOW', 'FTM', 'ALGO'
-      ]">
-      <!-- [suportedBlockchains]="['ETH', 'SOL', 'MATIC', 'ADA', 'AVAX', 'ALGO']"> -->
+      [suportedBlockchains]="['ETH', 'SOL', 'MATIC', 'ADA', 'AVAX', 'ALGO']"
+      (blockchainSelected)="onBlockchainSelected($event)">
     </app-blockchain-selector>
+    <!-- Next step button -->
+    <div class="w100 flx-row-center">
+      <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center next-btn"
+        [disabled]="!this.nftSrv.stepCompleted('step2')">
+        Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
+      </button>
+    </div>
   </mat-step>
 </mat-horizontal-stepper>

@@ -1,8 +1,8 @@
-import { AfterViewInit, Component, ElementRef, Input, OnInit, ViewChild } from '@angular/core';
+import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 
 type blockchainNames = 'Ethereum' | 'Solana' | 'Binance Smart Chain' | 'Polygon' | 
   'Cardano' | 'Tezos' | 'Avalanche' | 'Flow' | 'Fantom' | 'Algorand';
-type blockchainSymbols = 'ETH' | 'SOL' | 'BSC' | 'MATIC' | 
+export type blockchainSymbols = 'ETH' | 'SOL' | 'BSC' | 'MATIC' | 
   'ADA' | 'XTZ' | 'AVAX' | 'FLOW' | 'FTM' | 'ALGO';
 type blockchainCoins = 'ETH' | 'SOL' | 'BNB' | 'MATIC/POL' | 
   'ADA' | 'XTZ' | 'AVAX' | 'FLOW' | 'FTM' | 'ALGO';
@@ -28,6 +28,9 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   // Inputs
   @Input() suportedBlockchains: blockchainSymbols[] = [];
   @Input() title: string = '';
+
+  // Output EventEmitter to emit the selected blockchain symbol
+  @Output() blockchainSelected: EventEmitter<blockchainSymbols> = new EventEmitter<blockchainSymbols>();
 
   // Viewchilds
   @ViewChild('selectionContainer') selectionContainer: ElementRef | undefined;
@@ -93,6 +96,7 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   selectBlockchain(symbol: blockchainSymbols) {
     this.selectedBlockchain = symbol;
     this.scrollToSelected();
+    this.blockchainSelected.emit(symbol);
   }
 
   // Check if a blockchain is selected
@@ -116,6 +120,7 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
         const closestCardSymbol = this.findClosestCard(scrollPosition, cardElements);
         if (closestCardSymbol) {
           this.selectedBlockchain = closestCardSymbol;
+          this.blockchainSelected.emit(closestCardSymbol);
         }
       });
     }
