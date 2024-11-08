@@ -1,4 +1,4 @@
-<mat-horizontal-stepper linear>
+<mat-horizontal-stepper (selectionChange)="onStepChange($event)" linear>
   <!-- Step 1 -->
   <mat-step [completed]="this.nftSrv.stepCompleted('step1')">
     <ng-template matStepLabel>Add Metadata</ng-template>

@@ -112,10 +112,22 @@ export class NftMetadataComponent {
       'audio/mpeg', 'audio/wav', 'audio/flac', 'audio/aac',
       'model/gltf-binary', 'model/gltf+json', 'application/obj'
     ];
+    // Allowed extensions for types that may not have MIME types
+    const extensionToMimeType: { [key: string]: string } = {
+      'glb': 'model/gltf-binary',
+      'gltf': 'model/gltf+json',
+      'obj': 'application/obj'
+    };
 
     if (file) {
-      // Check if the file type is allowed
-      if (allowedTypes.includes(file.type)) {
+      // Check file extension if MIME type is missing or empty
+      const fileExtension = file.name.split('.').pop()?.toLowerCase();
+      if (!file.type && fileExtension && extensionToMimeType[fileExtension]) {
+        // Set the type property based on the extension
+        file['inferredType'] = extensionToMimeType[fileExtension];
+      }
+
+      if (allowedTypes.includes(file.type || file['inferredType'])) {
         this.nftForm.patchValue({ media: file });
         this.selectedFileName = file.name;
       } else {

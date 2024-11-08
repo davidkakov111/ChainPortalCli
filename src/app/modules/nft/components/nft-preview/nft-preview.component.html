@@ -1,1 +1,20 @@
-<p>{{nftMetadata.title}}</p>
+<div *ngIf="selectedFileUrl">
+  <!-- Image display -->
+  <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" width="300"/>
+
+  <!-- Video display -->
+  <video *ngIf="fileCategory === 'video'" [src]="selectedFileUrl" controls width="300">
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- Audio display -->
+  <audio *ngIf="fileCategory === 'audio'" [src]="selectedFileUrl" controls>
+    Your browser does not support the audio element.
+  </audio>
+
+   
+  <!-- Unsupported file type messages -->
+  <p *ngIf="fileCategory === 'model'">Currently the model/gltf file type is not supported for display.</p>
+  <p *ngIf="fileCategory === 'application'">Currently the application/obj file type is not supported for display.</p>
+  <p *ngIf="fileCategory === 'unsupported'">This file type is not supported for display.</p>
+</div>
