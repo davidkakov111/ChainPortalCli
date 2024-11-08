@@ -20,6 +20,7 @@ import { MatStepperModule } from '@angular/material/stepper';
 import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/nft-mint-dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { NftPreviewComponent } from './components/nft-preview/nft-preview.component';
+import { ThreeDViewerComponent } from './components/nft-preview/three-dviewer/three-dviewer.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { NftPreviewComponent } from './components/nft-preview/nft-preview.compon
     NftMetadataComponent,
     NftDashboardComponent,
     NftMintDashboardComponent,
-    NftPreviewComponent
+    NftPreviewComponent,
+    ThreeDViewerComponent
   ],
   imports: [
     CommonModule,

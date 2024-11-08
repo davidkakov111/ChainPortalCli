@@ -109,13 +109,12 @@ export class NftMetadataComponent {
     const allowedTypes = [
       'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp',
       'video/mp4', 'video/quicktime', 'video/webm',
-      'audio/mpeg', 'audio/wav', 'audio/flac', 'audio/aac',
-      'model/gltf-binary', 'model/gltf+json', 'application/obj'
+      'audio/mpeg', 'audio/wav', 'audio/flac', 'audio/aac', 'audio/vnd.dlna.adts',
+      'model/gltf-binary', 'application/obj'
     ];
     // Allowed extensions for types that may not have MIME types
     const extensionToMimeType: { [key: string]: string } = {
       'glb': 'model/gltf-binary',
-      'gltf': 'model/gltf+json',
       'obj': 'application/obj'
     };
 
@@ -139,7 +138,7 @@ export class NftMetadataComponent {
             <li>Images: JPEG, PNG, GIF, SVG, WEBP</li>
             <li>Videos: MP4, QuickTime, WEBM</li>
             <li>Audio: MP3, WAV, FLAC, AAC</li>
-            <li>3D Models: GLTF, OBJ</li>
+            <li>3D Models: GLB, OBJ</li>
           </ul>
           <p>Make sure the file matches one of the above formats.</p>
         `);

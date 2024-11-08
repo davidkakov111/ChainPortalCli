@@ -27,11 +27,10 @@ export class NftPreviewComponent {
     const file: CustomFile | null = this.nftMetadata.media;
     const fType = file?.type || file?.['inferredType'];
     if (!file || !fType) {
-      // TODO - navigat to step1
+      window.location.reload();
       return;
     }
 
-    // TODO - test the 3d models
     // Determine the file category
     if (fType.startsWith('image/')) {
       this.fileCategory = 'image';
@@ -47,7 +46,9 @@ export class NftPreviewComponent {
       this.fileCategory = 'unsupported';
     }
 
-    // Create a URL for the file to be displayed
-    this.selectedFileUrl = URL.createObjectURL(file);
+    if (['image', 'video', 'audio'].includes(this.fileCategory)) {
+      // Create a URL for the file to be displayed
+      this.selectedFileUrl = URL.createObjectURL(file);
+    }
   }
 }

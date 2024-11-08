@@ -1,0 +1,13 @@
+.viewer-container {
+  width: 100%;
+  height: 100%;
+  border-radius: 15px;
+  overflow: hidden;
+  position: relative;
+}
+.viewer-container canvas {
+  width: 100%;
+  height: 100%;
+  border-radius: inherit;
+  display: block;
+}

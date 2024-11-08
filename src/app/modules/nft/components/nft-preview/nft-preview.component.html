@@ -1,4 +1,4 @@
-<div *ngIf="selectedFileUrl">
+<div>
   <!-- Image display -->
   <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" width="300"/>
 
@@ -12,9 +12,11 @@
     Your browser does not support the audio element.
   </audio>
 
-   
-  <!-- Unsupported file type messages -->
-  <p *ngIf="fileCategory === 'model'">Currently the model/gltf file type is not supported for display.</p>
-  <p *ngIf="fileCategory === 'application'">Currently the application/obj file type is not supported for display.</p>
+  <!-- 3D model display (.glb / .obj) -->
+  <div *ngIf="fileCategory === 'model' || fileCategory === 'application'" class="model-3d">
+    <app-three-dviewer [file]="nftMetadata.media"></app-three-dviewer>
+  </div>
+
+  <!-- Unsupported file type -->
   <p *ngIf="fileCategory === 'unsupported'">This file type is not supported for display.</p>
 </div>

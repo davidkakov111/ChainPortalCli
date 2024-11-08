@@ -10,7 +10,7 @@ import { StepperSelectionEvent } from '@angular/cdk/stepper';
   styleUrl: './nft-mint-dashboard.component.scss'
 })
 export class NftMintDashboardComponent {
-  // Viewchilds
+  // ViewChilds 
   @ViewChild(NftPreviewComponent) nftPreviewComponent!: NftPreviewComponent;
 
   constructor (public nftSrv: NftService) {}
