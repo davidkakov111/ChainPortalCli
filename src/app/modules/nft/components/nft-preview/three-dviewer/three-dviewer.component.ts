@@ -1,9 +1,9 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, SimpleChanges } from '@angular/core';
 import * as THREE from 'three';
 // @ts-ignore: This line will ignore the TypeScript error for the import
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // @ts-ignore: This line will ignore the TypeScript error for the import
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+// import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 // @ts-ignore: This line will ignore the TypeScript error for the import
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';  // Import the GLTF type
 // @ts-ignore: This line will ignore the TypeScript error for the import
@@ -97,18 +97,22 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
   }
 
   // This will load the 3d model in the scene
-  loadModel(): void {
+  async loadModel(): Promise<void> {//TODO
     if (!this.file) return;
 
     const reader = new FileReader();
 
-    reader.onload = () => {
+    reader.onload = async () => {//TODO
       if (!this.file) return;
 
       const content = reader.result as ArrayBuffer;
       const extension = this.file.name.split('.').pop()?.toLowerCase();
 
       if (extension === 'glb') {
+
+        // @ts-ignore: This line will ignore the TypeScript error for the import
+        const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader');//TODO
+
         const loader = new GLTFLoader();
         loader.parse(content, '', (gltf: GLTF) => {
           if (this.model) {
@@ -120,6 +124,10 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
           console.error('Error loading GLB model:', error);
         });
       } else if (extension === 'obj') {
+
+        // @ts-ignore: This line will ignore the TypeScript error for the import
+        const { OBJLoader } = await import('three/examples/jsm/loaders/OBJLoader'); //TODO
+
         const loader = new OBJLoader();
         const textContent = new TextDecoder().decode(content);  // Convert ArrayBuffer to string
         const object = loader.parse(textContent);
