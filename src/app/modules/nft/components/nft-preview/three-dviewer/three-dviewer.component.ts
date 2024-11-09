@@ -1,13 +1,5 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, SimpleChanges } from '@angular/core';
 import * as THREE from 'three';
-// @ts-ignore: This line will ignore the TypeScript error for the import
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
-// @ts-ignore: This line will ignore the TypeScript error for the import
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
-// @ts-ignore: This line will ignore the TypeScript error for the import
-import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';  // Import the GLTF type
-// @ts-ignore: This line will ignore the TypeScript error for the import
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
 
 @Component({
   selector: 'app-three-dviewer',
@@ -18,7 +10,7 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
   private scene!: THREE.Scene;
   private camera!: THREE.PerspectiveCamera;
   private renderer!: THREE.WebGLRenderer;
-  private controls!: OrbitControls;
+  private controls: any;
   private animationFrameId!: number;
   private model: THREE.Object3D | null = null;
   private needAnimation: boolean = true;
@@ -27,8 +19,8 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
 
   @Input() file: File | null = null;
 
-  ngOnInit(): void {
-    this.initScene();  // Initialize the scene when the component is created
+  async ngOnInit(): Promise<void> {
+    await this.initScene(); // Initialize the scene when the component is created
     window.addEventListener('resize', () => this.onResize()); // Resize the scene
 
     // Toggle animation based on mouse enter / leave
@@ -50,30 +42,31 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['file'] && changes['file'].currentValue) {
-      this.loadModel();  // Call loadModel method whenever 'file' changes
+      this.loadModel(); // Call loadModel method whenever 'file' changes
     }
   }
 
-  // This will create the box to displaying 3d objects later
-  private initScene(): void {
+  private async initScene(): Promise<void> {
     const container = this.el.nativeElement.querySelector('.viewer-container');
-    const width = container.clientWidth; // Get container's width
-    const height = container.clientHeight; // Get container's height
+    const width = container.clientWidth;
+    const height = container.clientHeight;
 
     this.scene = new THREE.Scene();
     this.camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
     this.renderer = new THREE.WebGLRenderer();
     this.renderer.setSize(width, height);
-    this.el.nativeElement.querySelector('.viewer-container').appendChild(this.renderer.domElement);
+    container.appendChild(this.renderer.domElement);
 
     this.camera.position.z = 5;
 
-    // Initialize OrbitControls
+    // Dynamically import OrbitControls
+    // @ts-ignore: This line will ignore the TypeScript error for the import
+    const { OrbitControls } = await import('three/examples/jsm/controls/OrbitControls');
     this.controls = new OrbitControls(this.camera, this.renderer.domElement);
-    this.controls.enableDamping = true; // Smooth controls
+    this.controls.enableDamping = true;
     this.controls.dampingFactor = 0.05;
     this.controls.screenSpacePanning = false;
- 
+
     // Add basic lighting
     const light = new THREE.AmbientLight(0x404040, 10);
     this.scene.add(light);
@@ -86,7 +79,6 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
     this.animate();
   }
 
-  // Rotate the 3d model when needed
   private animate(): void {
     this.animationFrameId = requestAnimationFrame(() => this.animate());
     if (this.model && this.needAnimation) {
@@ -96,50 +88,53 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
     this.renderer.render(this.scene, this.camera);
   }
 
-  // This will load the 3d model in the scene
-  loadModel(): void {
+  private async loadModel(): Promise<void> {
     if (!this.file) return;
 
     const reader = new FileReader();
-
-    reader.onload = () => {
+    reader.onload = async () => {
       if (!this.file) return;
 
       const content = reader.result as ArrayBuffer;
       const extension = this.file.name.split('.').pop()?.toLowerCase();
 
       if (extension === 'glb') {
+        // Dynamically import GLTFLoader only when needed
+        // @ts-ignore: This line will ignore the TypeScript error for the import
+        const { GLTFLoader } = await import('three/examples/jsm/loaders/GLTFLoader');
         const loader = new GLTFLoader();
-        loader.parse(content, '', (gltf: GLTF) => {
-          if (this.model) {
-            this.scene.remove(this.model); // Remove previous model
-          }
-          this.model = gltf.scene;
-          if (this.model) this.scene.add(this.model);
-        }, (error: any) => {  // Type the error as 'any'
+        loader.parse(content, '', (gltf: any) => {
+          this.updateModel(gltf.scene);
+        }, (error: any) => {
           console.error('Error loading GLB model:', error);
         });
       } else if (extension === 'obj') {
+        // Dynamically import OBJLoader only when needed
+        // @ts-ignore: This line will ignore the TypeScript error for the import
+        const { OBJLoader } = await import('three/examples/jsm/loaders/OBJLoader');
         const loader = new OBJLoader();
-        const textContent = new TextDecoder().decode(content);  // Convert ArrayBuffer to string
+        const textContent = new TextDecoder().decode(content); // Convert ArrayBuffer to string
         const object = loader.parse(textContent);
-        if (this.model) {
-          this.scene.remove(this.model); // Remove previous model
-        }
-        this.model = object;
-        if (this.model) this.scene.add(this.model);
+        this.updateModel(object);
       }
     };
 
-    reader.readAsArrayBuffer(this.file);  // Read the selected file as an ArrayBuffer
+    reader.readAsArrayBuffer(this.file);
   }
 
-  // On window resize 
+  private updateModel(newModel: THREE.Object3D): void {
+    if (this.model) {
+      this.scene.remove(this.model); // Remove previous model
+    }
+    this.model = newModel;
+    this.scene.add(this.model);
+  }
+
   private onResize(): void {
     const container = this.el.nativeElement.querySelector('.viewer-container');
     const width = container.clientWidth;
     const height = container.clientHeight;
-  
+
     this.camera.aspect = width / height;
     this.camera.updateProjectionMatrix();
     this.renderer.setSize(width, height);
