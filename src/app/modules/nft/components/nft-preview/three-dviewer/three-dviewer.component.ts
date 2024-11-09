@@ -1,13 +1,17 @@
 import { Component, ElementRef, Input, OnDestroy, OnInit, Renderer2, SimpleChanges } from '@angular/core';
 import * as THREE from 'three';
 // @ts-ignore: This line will ignore the TypeScript error for the import
-import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
+// import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader';
 // @ts-ignore: This line will ignore the TypeScript error for the import
-import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
+// import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader';
 // @ts-ignore: This line will ignore the TypeScript error for the import
 import { GLTF } from 'three/examples/jsm/loaders/GLTFLoader';  // Import the GLTF type
 // @ts-ignore: This line will ignore the TypeScript error for the import
-import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+// import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls';
+
+import { GLTFLoader } from 'three/examples/jsm/loaders/GLTFLoader.js';
+import { OBJLoader } from 'three/examples/jsm/loaders/OBJLoader.js';
+import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 
 @Component({
   selector: 'app-three-dviewer',
