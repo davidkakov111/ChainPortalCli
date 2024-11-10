@@ -1,22 +1,103 @@
-<div>
-  <!-- Image display -->
-  <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" width="300"/>
+<mat-card>
+  <mat-card-header>
+    <!-- Media file -->
+    <div class="mr-10">
+      <!-- Image display -->
+      <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" class="media-width"/>
 
-  <!-- Video display -->
-  <video *ngIf="fileCategory === 'video'" [src]="selectedFileUrl" controls width="300">
-    Your browser does not support the video tag.
-  </video>
+      <!-- Video display -->
+      <video *ngIf="fileCategory === 'video'" [src]="selectedFileUrl" controls class="media-width">
+        Your browser does not support the video tag.
+      </video>
 
-  <!-- Audio display -->
-  <audio *ngIf="fileCategory === 'audio'" [src]="selectedFileUrl" controls>
-    Your browser does not support the audio element.
-  </audio>
+      <!-- Audio display -->
+      <audio *ngIf="fileCategory === 'audio'" [src]="selectedFileUrl" controls class="media-width">
+        Your browser does not support the audio element.
+      </audio>
 
-  <!-- 3D model display (.glb / .obj) -->
-  <div *ngIf="fileCategory === 'model' || fileCategory === 'application'" class="model-3d">
-    <app-three-dviewer [file]="nftMetadata.media"></app-three-dviewer>
-  </div>
+      <!-- 3D model display (.glb / .obj) -->
+      <div *ngIf="fileCategory === 'model' || fileCategory === 'application'" class="media-width media-height">
+        <app-three-dviewer [file]="nftMetadata.media"></app-three-dviewer>
+      </div>
 
-  <!-- Unsupported file type -->
-  <p *ngIf="fileCategory === 'unsupported'">This file type is not supported for display.</p>
-</div>
+      <!-- Unsupported file type -->
+      <p *ngIf="fileCategory === 'unsupported'" class="media-width" style="word-wrap: break-word;">This file type is not supported for display.</p>
+    </div>
+    
+    <!-- Title, edition, creator and description -->
+    <div>
+      <!-- Title -->
+      <mat-card-title>
+        <h5>
+          {{ nftMetadata.title }}
+          <!-- Limited Edition -->
+          <span *ngIf="nftMetadata.isLimitedEdition" class="fs-m">
+            #{{ nftMetadata.editionNumber }}
+            <span *ngIf="nftMetadata.totalEditions" class="fs-s">/ {{ nftMetadata.totalEditions }}</span>
+          </span>
+        </h5>
+      </mat-card-title>
+    
+      <!-- Creator with Icon -->
+      <mat-card-subtitle *ngIf="nftMetadata.creator">
+        <mat-icon aria-hidden="true" fontIcon="person"></mat-icon>
+        {{ nftMetadata.creator }}
+      </mat-card-subtitle>
+    
+      <!-- Description with Icon -->
+      <h6 class="mt-15"><mat-icon aria-hidden="true" fontIcon="description"></mat-icon>Description:</h6>
+      <p>{{ nftMetadata.description }}</p>
+    </div>
+  </mat-card-header>
+
+  <mat-card-content>
+    <!-- Attributes with Icon -->
+    <div *ngIf="nftMetadata.attributes?.length" class="mt-15">
+      <h6><mat-icon aria-hidden="true" fontIcon="tune"></mat-icon>
+        Attribute{{nftMetadata.attributes.length > 1 ? 's' : ''}}:
+      </h6>
+      <mat-chip *ngFor="let attribute of nftMetadata.attributes">
+        {{ attribute.type }}: {{ attribute.value }}
+      </mat-chip>
+    </div>
+  
+    <!-- Tags with Icon -->
+    <div *ngIf="nftMetadata.tags?.length" class="mt-15">
+      <h6>
+        <mat-icon aria-hidden="true" fontIcon="label"></mat-icon>
+        Tag{{nftMetadata.tags.length > 1 ? 's' : ''}}:
+      </h6>
+      <mat-chip *ngFor="let tag of nftMetadata.tags">{{ tag }}</mat-chip>
+    </div>
+  
+    <!-- Royalty with Icon -->
+    <div *ngIf="nftMetadata.royalty" class="mt-15">
+      <p>
+        <mat-icon aria-hidden="true" fontIcon="payments"></mat-icon>
+        Royalty: {{ nftMetadata.royalty }}%
+      </p>
+    </div>
+  
+    <!-- License with Icon -->
+    <div *ngIf="nftMetadata.license">
+      <p>
+        <mat-icon aria-hidden="true" fontIcon="verified"></mat-icon>
+        License: {{ nftMetadata.license }}
+      </p>
+    </div>
+  
+    <!-- External Link with Icon -->
+    <div *ngIf="nftMetadata.externalLink">
+      <mat-icon aria-hidden="true" fontIcon="open_in_new"></mat-icon>
+      <a [href]="nftMetadata.externalLink" target="_blank">{{ nftMetadata.externalLink }}</a>
+    </div>
+  
+    <!-- Creation Timestamp with Icon -->
+    <div *ngIf="nftMetadata.creationTimestampToggle" class="mt-15">
+      <p>
+        <mat-icon aria-hidden="true" fontIcon="event"></mat-icon>
+        Created on: {{ nftMetadata.creationTimestamp | date: 'short' }}
+      </p>
+    </div>
+  </mat-card-content>
+</mat-card>
