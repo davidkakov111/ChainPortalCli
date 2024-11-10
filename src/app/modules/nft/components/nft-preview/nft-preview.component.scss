@@ -1,3 +1,5 @@
+@import '../../../../../styles/_breakpoints.scss';
+
 .media-width {
     width: 300px;
 }
@@ -7,8 +9,8 @@
 .mt-15 {
     margin-top: 15px;
 }
-.mr-10 {
-    margin-right: 10px;
+.right-text-block {
+    margin-left: 10px;
 }
 .fs-m {
     font-size: medium;
@@ -16,8 +18,68 @@
 .fs-s {
     font-size: small;
 }
+.w100 {
+    width: 100%;
+}
+.flx-col-center {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+.sm-title {
+    display: none;
+}
+.sm-creator-description {
+    display: none;
+}
 mat-icon {
     vertical-align: middle; 
     color: gray; 
     margin-right: 8px;
+}
+mat-chip {
+    margin-right: 5px;
+}
+mat-card {
+    width: 70%;
+}
+
+/* Responsive design */
+@media (max-width: $breakpoint-md) {
+    mat-card-header {
+        display: flex; 
+        flex-direction: column; 
+        align-items: center;
+    }
+    .right-text-block {
+        display: none;
+    }
+    .sm-title {
+        display: block;
+    }
+    .sm-creator-description {
+        display: block;
+    }
+}
+@media (max-width: $breakpoint-sm) {
+    mat-card {
+        width: 90%;
+    }
+    .media-width {
+        width: 230px;
+    }
+    .media-height {
+        height: 230px;
+    }
+}
+@media (max-width: $breakpoint-xs) {
+    mat-card {
+        width: 95%;
+    }
+    .media-width {
+        width: 200px;
+    }
+    .media-height {
+        height: 200px;
+    }
 }

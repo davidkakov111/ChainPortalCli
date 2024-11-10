@@ -22,3 +22,8 @@
     height: 50px; 
     font-size: larger;
 }
+.flx-col-center {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}

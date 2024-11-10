@@ -32,9 +32,14 @@
 
   <!-- Step 3 -->
   <mat-step [completed]="this.nftSrv.stepCompleted('step2')"> <!-- TODO Change step2 to step3 -->
-    <ng-template matStepLabel>Mint</ng-template>
-    <!-- NFT Preview -->
-    <app-nft-preview [nftMetadata]="this.nftSrv.getStepData('step1')"></app-nft-preview>
+    <ng-template matStepLabel>Overview & Mint</ng-template>
+    <div class="w100 flx-col-center">
+      <h3>Overview</h3>
+      <app-nft-preview class="w100" [nftMetadata]="this.nftSrv.getStepData('step1')"></app-nft-preview>
+      
+      <h3>Mint</h3>
+
+    </div>
     <!-- Next step button -->
     <div class="w100 flx-row-center">
       <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center next-btn"
