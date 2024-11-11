@@ -5,7 +5,7 @@
       <div class="sm-title"><ng-container *ngTemplateOutlet="titleTemplate"></ng-container></div>
 
       <!-- Media file -->
-      <div>
+      <div><div appResizeObserver (boxResize)="onMediaFileResize($event)">
         <!-- Image display -->
         <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" class="media-width"/>
 
@@ -26,7 +26,7 @@
 
         <!-- Unsupported file type -->
         <p *ngIf="fileCategory === 'unsupported'" class="media-width" style="word-wrap: break-word;">This file type is not supported for display.</p>
-      </div>
+      </div></div>
 
       <!-- On large screens -->
       <div class="right-text-block">
@@ -37,11 +37,18 @@
         <ng-container *ngTemplateOutlet="creatorTemplate"></ng-container>
 
         <!-- Description with Icon -->
-        <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
+        <div *ngIf="mediaHeight > largeDescriptionHeight" appResizeObserver (boxResize)="onDescriptionResize($event)">
+          <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
+        </div>
       </div>
     </mat-card-header>
 
     <mat-card-content>
+      <!-- Long description on large screens -->
+      <div *ngIf="mediaHeight <= largeDescriptionHeight" class="right-text-block">
+        <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
+      </div>
+
       <!-- On small screens -->
       <div class="sm-creator-description mt-15">
         <!-- Creator with Icon -->

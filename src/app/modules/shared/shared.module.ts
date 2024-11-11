@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { BlockchainSelectorComponent } from './components/blockchain-selector/blockchain-selector.component';
 import { MatCardModule } from '@angular/material/card';
+import { ResizeObserverDirective } from './directives/resize-observer.directive';
 
 @NgModule({
   declarations: [
     ConfirmDialogComponent,
-    BlockchainSelectorComponent
+    BlockchainSelectorComponent,
+    ResizeObserverDirective
   ],
   imports: [
     CommonModule,
@@ -21,7 +23,8 @@ import { MatCardModule } from '@angular/material/card';
   ],
   exports: [
     ConfirmDialogComponent,
-    BlockchainSelectorComponent
+    BlockchainSelectorComponent,
+    ResizeObserverDirective
   ]
 })
 export class SharedModule { }

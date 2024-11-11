@@ -21,6 +21,8 @@ export class NftPreviewComponent {
   // Variables
   fileCategory: FileCategory = 'unsupported';
   selectedFileUrl: string | null = null;
+  largeDescriptionHeight: number = 0;
+  mediaHeight: number = 0;
 
   // When this component is opened in the mat stepper
   onStepVisible(): void {
@@ -50,5 +52,13 @@ export class NftPreviewComponent {
       // Create a URL for the file to be displayed
       this.selectedFileUrl = URL.createObjectURL(file);
     }
+  }
+
+  onDescriptionResize(newSize: DOMRectReadOnly): void {
+    if (newSize.height) this.largeDescriptionHeight = newSize.height;
+  }
+
+  onMediaFileResize(newSize: DOMRectReadOnly): void {
+    if (newSize.height) this.mediaHeight = newSize.height;
   }
 }
