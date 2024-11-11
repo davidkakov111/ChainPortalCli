@@ -60,7 +60,7 @@
       
       <!-- Attributes with Icon -->
       <div *ngIf="nftMetadata.attributes?.length" class="mt-15">
-        <h6><mat-icon aria-hidden="true" fontIcon="tune"></mat-icon>
+        <h6><mat-icon color="primary" aria-hidden="true" fontIcon="tune"></mat-icon>
           Attribute{{nftMetadata.attributes.length > 1 ? 's' : ''}}:
         </h6>
         <mat-chip *ngFor="let attribute of nftMetadata.attributes">
@@ -71,7 +71,7 @@
       <!-- Tags with Icon -->
       <div *ngIf="nftMetadata.tags?.length" class="mt-15">
         <h6>
-          <mat-icon aria-hidden="true" fontIcon="label"></mat-icon>
+          <mat-icon color="primary" aria-hidden="true" fontIcon="label"></mat-icon>
           Tag{{nftMetadata.tags.length > 1 ? 's' : ''}}:
         </h6>
         <mat-chip *ngFor="let tag of nftMetadata.tags">{{ tag }}</mat-chip>
@@ -80,7 +80,7 @@
       <!-- Royalty with Icon -->
       <div *ngIf="nftMetadata.royalty" class="mt-15">
         <p>
-          <mat-icon aria-hidden="true" fontIcon="payments"></mat-icon>
+          <mat-icon color="primary" aria-hidden="true" fontIcon="payments"></mat-icon>
           Royalty: {{ nftMetadata.royalty }}%
         </p>
       </div>
@@ -88,21 +88,21 @@
       <!-- License with Icon -->
       <div *ngIf="nftMetadata.license">
         <p>
-          <mat-icon aria-hidden="true" fontIcon="verified"></mat-icon>
+          <mat-icon color="primary" aria-hidden="true" fontIcon="verified"></mat-icon>
           License: {{ nftMetadata.license }}
         </p>
       </div>
     
       <!-- External Link with Icon -->
       <div *ngIf="nftMetadata.externalLink">
-        <mat-icon aria-hidden="true" fontIcon="open_in_new"></mat-icon>
+        <mat-icon color="primary" aria-hidden="true" fontIcon="open_in_new"></mat-icon>
         <a [href]="nftMetadata.externalLink" target="_blank">{{ nftMetadata.externalLink }}</a>
       </div>
     
       <!-- Creation Timestamp with Icon -->
       <div *ngIf="nftMetadata.creationTimestampToggle" class="mt-15">
         <p>
-          <mat-icon aria-hidden="true" fontIcon="event"></mat-icon>
+          <mat-icon color="primary" aria-hidden="true" fontIcon="event"></mat-icon>
           Created on: {{ nftMetadata.creationTimestamp | date: 'short' }}
         </p>
       </div>
@@ -128,13 +128,13 @@
 <!-- Creator with Icon -->
 <ng-template #creatorTemplate>
   <mat-card-subtitle *ngIf="nftMetadata.creator">
-    <mat-icon aria-hidden="true" fontIcon="person"></mat-icon>
+    <mat-icon color="primary" aria-hidden="true" fontIcon="person"></mat-icon>
     {{ nftMetadata.creator }}
   </mat-card-subtitle>
 </ng-template>
 
 <!-- Description with Icon -->
 <ng-template #descriptionTemplate>
-  <h6 class="mt-15"><mat-icon aria-hidden="true" fontIcon="description"></mat-icon>Description:</h6>
+  <h6 class="mt-15"><mat-icon color="primary" color="primary" aria-hidden="true" fontIcon="description"></mat-icon>Description:</h6>
   <p>{{ nftMetadata.description }}</p>
 </ng-template>

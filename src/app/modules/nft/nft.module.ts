@@ -21,6 +21,7 @@ import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/
 import { SharedModule } from '../shared/shared.module';
 import { NftPreviewComponent } from './components/nft-preview/nft-preview.component';
 import { ThreeDViewerComponent } from './components/nft-preview/three-dviewer/three-dviewer.component';
+import { NftMintComponent } from './components/mint/nft-mint/nft-mint.component';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ThreeDViewerComponent } from './components/nft-preview/three-dviewer/th
     NftDashboardComponent,
     NftMintDashboardComponent,
     NftPreviewComponent,
-    ThreeDViewerComponent
+    ThreeDViewerComponent,
+    NftMintComponent
   ],
   imports: [
     CommonModule,
