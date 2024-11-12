@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { CUSTOM_ELEMENTS_SCHEMA, NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { NftBridgeComponent } from './components/bridge/nft-bridge/nft-bridge.component';
 import { NftDashboardComponent } from './components/nft-dashboard/nft-dashboard.component';
@@ -51,6 +51,7 @@ import { NftMintComponent } from './components/mint/nft-mint/nft-mint.component'
     MatDialogModule,
     MatStepperModule
   ],
-  exports: []
+  exports: [],
+  schemas: [CUSTOM_ELEMENTS_SCHEMA] // Because of the appkit-button
 })
 export class NFTModule { }
