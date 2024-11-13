@@ -46,3 +46,4 @@ export class ReownWalletConnectService {
 // @reown/appkit 
 // @reown/appkit-adapter-solana 
 // @solana/wallet-adapter-wallets
+// You can try modifying the code where __filename is referenced using fileURLToPath(import.meta.url) instead.
