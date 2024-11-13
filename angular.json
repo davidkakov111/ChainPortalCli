@@ -17,6 +17,28 @@
         "build": {
           "builder": "@angular-devkit/build-angular:application",
           "options": {
+            "allowedCommonJsDependencies": [
+              "borsh",
+              "@solana/web3.js",
+              "@walletconnect/utils",
+              "node-fetch",
+              "qrcode",
+              "eventemitter3",
+              "bs58",
+              "bn.js",
+              "dayjs",
+              "lodash.isequal",
+              "elliptic",
+              "ws",
+              "react",
+              "use-sync-external-store/shim/index.js",
+              "pino",
+              "@walletconnect/time",
+              "cross-fetch",
+              "@walletconnect/environment",
+              "@stablelib/ed25519",
+              "@stablelib/random"
+            ],
             "outputPath": "dist/chain-portal",
             "index": "src/index.html",
             "browser": "src/main.ts",
@@ -47,8 +69,8 @@
               "budgets": [
                 {
                   "type": "initial",
-                  "maximumWarning": "500kB",
-                  "maximumError": "1MB"
+                  "maximumWarning": "3MB",
+                  "maximumError": "3MB"
                 },
                 {
                   "type": "anyComponentStyle",
