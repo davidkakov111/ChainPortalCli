@@ -2,10 +2,11 @@ import { Injectable } from '@angular/core';
 import { AppKit, createAppKit } from '@reown/appkit/react';
 import { SolanaAdapter } from '@reown/appkit-adapter-solana/react';
 import { solana, solanaTestnet, solanaDevnet } from '@reown/appkit/networks';
-import { PhantomWalletAdapter, SolflareWalletAdapter } from '@solana/wallet-adapter-wallets';
+import { PhantomWalletAdapter } from '@solana/wallet-adapter-phantom';
+import { SolflareWalletAdapter } from '@solana/wallet-adapter-solflare';
 import { environment } from '../../../../environments/environment';
 
-@Injectable({
+@Injectable({ 
   providedIn: 'root'
 })
 export class ReownWalletConnectService {
@@ -45,5 +46,6 @@ export class ReownWalletConnectService {
 // Installed dependencies for this service:
 // @reown/appkit 
 // @reown/appkit-adapter-solana 
-// @solana/wallet-adapter-wallets
+// @solana/wallet-adapter-phantom 
+// @solana/wallet-adapter-solflare
 // You can try modifying the code where __filename is referenced using fileURLToPath(import.meta.url) instead.
