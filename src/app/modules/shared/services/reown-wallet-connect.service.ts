@@ -8,7 +8,7 @@ import { environment } from '../../../../environments/environment';
 })
 export class ReownWalletConnectService {
   // AppKit Modal
-  appKit!: AppKit;
+  appKitModal!: AppKit;
 
   constructor() {this.createModal()}
 
@@ -36,14 +36,25 @@ export class ReownWalletConnectService {
     }
 
     // 3. Create modal
-    this.appKit = createAppKit({
+    this.appKitModal = createAppKit({
       adapters: [solanaWeb3JsAdapter],
       networks: [solana, solanaTestnet, solanaDevnet],
+      defaultNetwork: solanaDevnet, // TODO - Need to change in production
+      featuredWalletIds: [
+        'a797aa35c0fadbfc1a53e7f675162ed5226968b44a19ee3d24385c64d1d3c393',
+        '1ca0bdd4747578705b1939af023d120677c64fe6ca76add81fda36e350605e79'
+      ],
       metadata: metadata,
       projectId,
       features: {
-        analytics: true // Optional - defaults to your Cloud configuration
-      }
+        email: false,
+        socials: [],
+        analytics: false,
+        swaps: false,
+        onramp: false
+      },
+      themeMode: 'light', // TODO - need to connect with the material theme mode
+      debug: false // TODO - Remove or disable this in production
     })
   }
 }
@@ -53,5 +64,3 @@ export class ReownWalletConnectService {
 // @reown/appkit-adapter-solana 
 // @solana/wallet-adapter-phantom 
 // @solana/wallet-adapter-solflare
-
-// You can try modifying the code where __filename is referenced using fileURLToPath(import.meta.url) instead.
