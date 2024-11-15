@@ -37,7 +37,11 @@
               "cross-fetch",
               "@walletconnect/environment",
               "@stablelib/ed25519",
-              "@stablelib/random"
+              "@stablelib/random",
+              "buffer",
+              "@solana/buffer-layout",
+              "bigint-buffer",
+              "jayson/lib/client/browser"
             ],
             "outputPath": "dist/chain-portal",
             "index": "src/index.html",

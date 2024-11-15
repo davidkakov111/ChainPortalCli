@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { AppKit, createAppKit } from '@reown/appkit/react';
 import { solana, solanaDevnet } from '@reown/appkit/networks';
 import { environment } from '../../../../environments/environment';
-import { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } from '@solana/web3.js';
 import { Provider } from '@reown/appkit-adapter-solana';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
@@ -49,12 +48,16 @@ export class ReownWalletConnectService {
         onramp: false
       },
       themeMode: 'light', // TODO - need to connect with the material theme mode
-      debug: false // TODO - Remove or disable this in production
+      debug: true // TODO - Remove or disable this in production
     })
   }
 
   // Function to request payment (SOL transfer)
   async requestSolPayment(amountInSol: number, recipientAddress: string): Promise<string|null> {
+    // Lazy Loading the solana package to avoid the build process from attempting to parse the Solana-related code when building.
+    const { Connection, PublicKey, Transaction, SystemProgram, LAMPORTS_PER_SOL } = await import('@solana/web3.js');
+
+    // Get wallet provider and setup the connection
     const walletProvider = this.appKitModal.getWalletProvider() as Provider;
     const connection = new Connection(
       environment.blockchainNetworks.solana.endpoints[environment.blockchainNetworks.solana.selected], 
@@ -94,7 +97,7 @@ export class ReownWalletConnectService {
       const transactionSignature = await walletProvider.signAndSendTransaction(transaction);
       return transactionSignature;
     } catch (error: any) {
-      if (error.message && error.message.includes('User rejected the request')) {
+      if (error.code === 4001 || error.message?.includes('User rejected the request')) {
         console.log('The user rejected the transaction request.');
       } else {
         console.error('An unexpected error occurred:', error);
