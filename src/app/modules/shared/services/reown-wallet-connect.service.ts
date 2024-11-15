@@ -48,7 +48,7 @@ export class ReownWalletConnectService {
         onramp: false
       },
       themeMode: 'light', // TODO - need to connect with the material theme mode
-      debug: true // TODO - Remove or disable this in production
+      debug: false // TODO - Remove or disable this in production
     })
   }
 
