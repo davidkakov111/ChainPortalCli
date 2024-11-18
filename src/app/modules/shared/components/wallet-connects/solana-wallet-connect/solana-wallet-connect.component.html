@@ -1,0 +1,20 @@
+<button *ngIf="!walletService.selectedWallet" mat-raised-button color="primary" (click)="connectWallet()">
+    Connect Wallet
+</button>
+<div *ngIf="walletService.selectedWallet" class="flx-col-center">
+    <button mat-raised-button color="primary" 
+        [disabled]="disableMint" (click)="requestPayment()">
+        <ng-container *ngIf="disableMint; else mintText">
+            <mat-progress-spinner 
+                diameter="20" 
+                mode="indeterminate" 
+                color="primary">
+            </mat-progress-spinner>
+        </ng-container>
+        <ng-template #mintText>Mint</ng-template>
+    </button>
+    <div class="wallet-status">
+        <mat-icon color="success" class="check-icon">check_circle</mat-icon>
+        <span>Wallet Connected</span>
+    </div>
+</div>

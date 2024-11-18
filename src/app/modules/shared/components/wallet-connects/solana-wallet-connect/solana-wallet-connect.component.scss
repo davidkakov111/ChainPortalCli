@@ -1,0 +1,23 @@
+.wallet-status {
+    display: flex;
+    align-items: center;
+    color: green; 
+    font-size: 1rem; 
+    font-weight: bold; 
+    margin: 20px 0;
+}
+.check-icon {
+    margin-right: 8px;
+}
+.flx-col-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+button {
+    font-size: larger;
+}
+mat-progress-spinner {
+    margin-right: 8px;
+    vertical-align: middle;
+}
