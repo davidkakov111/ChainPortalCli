@@ -40,7 +40,24 @@
             "prerender": true,
             "ssr": {
               "entry": "server.ts"
-            }
+            },
+            "allowedCommonJsDependencies": [
+              "@solana/web3.js",
+              "bs58",
+              "buffer",
+              "eventemitter3",
+              "@ledgerhq/devices/lib/hid-framing",
+              "bn.js",
+              "borsh",
+              "@solana/buffer-layout",
+              "bigint-buffer",
+              "jayson/lib/client/browser",
+              "semver",
+              "whatwg-url",
+              "encoding",
+              "bufferutil",
+              "utf-8-validate"
+            ]
           },
           "configurations": {
             "production": {
