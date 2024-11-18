@@ -47,7 +47,7 @@ export class ReownWalletConnectService {
         swaps: false,
         onramp: false
       },
-      themeMode: 'light', // TODO - need to connect with the material theme mode
+      themeMode: 'light', // TODO - need to connect with the material theme mode     modal.setThemeMode('dark')
       debug: false // TODO - Remove or disable this in production
     })
   }
@@ -65,7 +65,7 @@ export class ReownWalletConnectService {
     );
 
     // Ensure the user is connected and have wallet provider
-    if (!walletProvider || !walletProvider.publicKey) {
+    if (!this.appKitModal.getIsConnectedState() || !walletProvider.publicKey) {
       console.error('No wallet connected');
       return null;
     }

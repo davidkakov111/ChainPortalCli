@@ -7,7 +7,6 @@ import { CommonModule } from '@angular/common';
 import { BlockchainSelectorComponent } from './components/blockchain-selector/blockchain-selector.component';
 import { MatCardModule } from '@angular/material/card';
 import { ResizeObserverDirective } from './directives/resize-observer.directive';
-import { ReownWalletConnectService } from './services/reown-wallet-connect.service';
 
 @NgModule({
   declarations: [
@@ -26,9 +25,6 @@ import { ReownWalletConnectService } from './services/reown-wallet-connect.servi
     ConfirmDialogComponent,
     BlockchainSelectorComponent,
     ResizeObserverDirective
-  ],
-  providers: [
-    ReownWalletConnectService
   ]
 })
 export class SharedModule { }
