@@ -35,10 +35,10 @@ export class SolanaWalletService {
 
   // Connect the user's selected wallet
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
-    // if (wallet.readyState !== WalletReadyState.Installed) {
-    //   this.openConfirmDialog(`${wallet.name} isn't installed, so connection isn't possible. Install ${wallet.name} first.`);
-    //   return;
-    // }
+    if (wallet.readyState !== WalletReadyState.Installed) {
+      this.openConfirmDialog(`${wallet.name} isn't installed, so connection isn't possible. Install ${wallet.name} first.`);
+      return;
+    }
     try {
       await wallet.connect();
       this.selectedWallet = wallet;
