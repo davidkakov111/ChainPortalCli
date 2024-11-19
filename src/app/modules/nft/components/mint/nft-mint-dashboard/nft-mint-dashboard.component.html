@@ -1,20 +1,20 @@
 <mat-horizontal-stepper (selectionChange)="onStepChange($event)" linear>
   <!-- Step 1 -->
-  <mat-step [completed]="this.nftSrv.stepCompleted('step1')">
+  <mat-step [completed]="nftSrv.stepCompleted('step1')">
     <ng-template matStepLabel>Metadata</ng-template>
     <!-- Metadata form component -->
     <app-nft-metadata></app-nft-metadata>
     <!-- Next step button -->
     <div class="w100 flx-row-center">
       <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center next-btn"
-        [disabled]="!this.nftSrv.stepCompleted('step1')">
+        [disabled]="!nftSrv.stepCompleted('step1')">
         Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
       </button>
     </div>
   </mat-step>
 
   <!-- Step 2 -->
-  <mat-step [completed]="this.nftSrv.stepCompleted('step2')">
+  <mat-step [completed]="nftSrv.stepCompleted('step2')">
     <ng-template matStepLabel>Blockchain</ng-template>
     <!-- Blockchain selector component -->
     <app-blockchain-selector [title]="'Select Blockchain to Mint NFT'"
@@ -24,18 +24,26 @@
     <!-- Next step button -->
     <div class="w100 flx-row-center">
       <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center next-btn"
-        [disabled]="!this.nftSrv.stepCompleted('step2')">
+        [disabled]="!nftSrv.stepCompleted('step2')">
         Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
       </button>
     </div>
   </mat-step>
 
   <!-- Step 3 -->
-  <mat-step [completed]="this.nftSrv.stepCompleted('step2')"> <!-- TODO Change step2 to step3 -->
+  <mat-step [completed]="nftSrv.stepCompleted('step2')"> <!-- TODO Change step2 to step3 -->
     <ng-template matStepLabel>Mint</ng-template>
     <div class="w100 flx-col-center">
-      <app-solana-wallet-connect class="my-20"></app-solana-wallet-connect>
-      <app-nft-preview class="w100 my-20" [nftMetadata]="this.nftSrv.getStepData('step1')"></app-nft-preview>
+      <!-- Display the appropriate wallet connection component based on the selected blockchain. 
+        Load the component and its service only when required to avoid unnecessary overhead. -->
+      <div *ngIf="selectedStepIndex === 2">
+        <!-- Solana W.C. -->
+        <div *ngIf="nftSrv.getStepData('step2').symbol === 'SOL'">
+          <app-solana-wallet-connect class="my-20"></app-solana-wallet-connect>
+        </div>
+      </div>
+      <!-- Display the NFT -->
+      <app-nft-preview class="w100 my-20" [nftMetadata]="nftSrv.getStepData('step1')"></app-nft-preview>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

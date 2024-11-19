@@ -15,6 +15,8 @@ export class NftMintDashboardComponent {
 
   constructor (public nftSrv: NftService) {}
 
+  selectedStepIndex: number = 0;
+
   // If a blockchain is selected in app-blockchain-selector
   onBlockchainSelected(symbol: blockchainSymbols) {
     this.nftSrv.setSelectedBlockchain(symbol);
@@ -22,6 +24,7 @@ export class NftMintDashboardComponent {
 
   // Detect step change
   onStepChange(event: StepperSelectionEvent): void {
+    this.selectedStepIndex = event.selectedIndex;
     if (event.selectedIndex === 2) {
       this.nftPreviewComponent.onStepVisible();
     }
