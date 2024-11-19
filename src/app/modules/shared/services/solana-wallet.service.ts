@@ -30,13 +30,27 @@ export class SolanaWalletService {
       import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })),
       import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })),
     ]);
-    this.availableWallets = wallets;
+
+    // Sort wallets by readyState: Installed wallets come first
+    this.availableWallets = wallets.sort((a, b) => {
+      if (a.readyState === WalletReadyState.Installed && b.readyState !== WalletReadyState.Installed) {
+        return -1; // a should come before b
+      } else if (a.readyState !== WalletReadyState.Installed && b.readyState === WalletReadyState.Installed) {
+        return 1; // b should come before a
+      } else {
+        return 0; // No change in order if both have the same readyState
+      }
+    });
   }
 
   // Connect the user's selected wallet
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
     if (wallet.readyState !== WalletReadyState.Installed) {
-      this.openConfirmDialog(`${wallet.name} isn't installed, so connection isn't possible. Install ${wallet.name} first.`);
+      this.openConfirmDialog(`
+        <p>Couldn't detect ${wallet.name} on your device.</p> 
+        <p>Please install it and try again.</p> 
+        <p><a href="${wallet.url}" target="_blank" rel="noopener noreferrer">Install ${wallet.name}</a></p>
+      `);
       return;
     }
     try {
