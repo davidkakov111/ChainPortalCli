@@ -3,6 +3,7 @@ import { NftService } from '../../../services/nft.service';
 import { blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
 import { NftPreviewComponent } from '../../nft-preview/nft-preview.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-nft-mint-dashboard',
@@ -24,6 +25,7 @@ export class NftMintDashboardComponent {
 
   // Detect step change
   onStepChange(event: StepperSelectionEvent): void {
+    window.Buffer = Buffer;
     this.selectedStepIndex = event.selectedIndex;
     if (event.selectedIndex === 2) {
       this.nftPreviewComponent.onStepVisible();
