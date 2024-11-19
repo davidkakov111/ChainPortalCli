@@ -25,9 +25,9 @@ export class NftMintDashboardComponent {
 
   // Detect step change
   onStepChange(event: StepperSelectionEvent): void {
-    window.Buffer = Buffer;
     this.selectedStepIndex = event.selectedIndex;
     if (event.selectedIndex === 2) {
+      window.Buffer = Buffer;
       this.nftPreviewComponent.onStepVisible();
     }
   }
