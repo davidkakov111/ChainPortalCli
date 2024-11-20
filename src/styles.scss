@@ -1,4 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@import './styles/_breakpoints.scss';
+
+.walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
+    width: 300px;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+
+/* Responsive Design */
+@media (max-width: $breakpoint-sm) {
+    .walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
+        width: 200px;
+    }
+}

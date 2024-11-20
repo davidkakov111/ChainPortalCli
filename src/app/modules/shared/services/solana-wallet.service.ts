@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { environment } from '../../../../environments/environment';
+import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 
 @Injectable({
   providedIn: 'root'
@@ -29,10 +30,16 @@ export class SolanaWalletService {
       import('@solana/wallet-adapter-ledger').then(mod => new mod.LedgerWalletAdapter()),//?
       import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })),
       import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })),
+      Promise.resolve(new WalletConnectWalletAdapter({network, options: {projectId: environment.reownProjectId}}))
     ]);
 
     // Sort wallets by readyState: Installed wallets come first
     this.availableWallets = wallets.sort((a, b) => {
+      // Always prioritize WalletConnect
+      if (a.name === 'WalletConnect') return -1;
+      if (b.name === 'WalletConnect') return 1;
+    
+      // Sort by readyState: Installed wallets come first
       if (a.readyState === WalletReadyState.Installed && b.readyState !== WalletReadyState.Installed) {
         return -1; // a should come before b
       } else if (a.readyState !== WalletReadyState.Installed && b.readyState === WalletReadyState.Installed) {
@@ -45,20 +52,20 @@ export class SolanaWalletService {
 
   // Connect the user's selected wallet
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
-    if (wallet.readyState !== WalletReadyState.Installed) {
+    if (wallet.readyState === WalletReadyState.Installed || wallet.name === 'WalletConnect') {
+      try {
+        await wallet.connect();
+        this.selectedWallet = wallet;
+      } catch (error) {
+        console.error('Failed to connect wallet:', error);
+        this.selectedWallet = null;
+      }
+    } else {
       this.openConfirmDialog(`
         <p>Couldn't detect ${wallet.name} on your device.</p> 
         <p>Please install it and try again.</p> 
         <p><a href="${wallet.url}" target="_blank" rel="noopener noreferrer">Install ${wallet.name}</a></p>
       `);
-      return;
-    }
-    try {
-      await wallet.connect();
-      this.selectedWallet = wallet;
-    } catch (error) {
-      console.error('Failed to connect wallet:', error);
-      this.selectedWallet = null;
     }
   }
 
@@ -140,5 +147,6 @@ export class SolanaWalletService {
 // @solana/wallet-adapter-ledger
 // @solana/wallet-adapter-coin98
 // @solana/wallet-adapter-clover
+// @solana/wallet-adapter-walletconnect
 
 // You can try modifying the code where __filename is referenced using fileURLToPath(import.meta.url) instead.
