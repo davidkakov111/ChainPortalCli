@@ -56,6 +56,7 @@ export class SolanaWalletService {
       try {
         await wallet.connect();
         this.selectedWallet = wallet;
+        // TODO - Maybe here i need to create an account for this user/wallet on the server
       } catch (error) {
         console.error('Failed to connect wallet:', error);
         this.selectedWallet = null;

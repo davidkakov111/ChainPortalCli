@@ -21,4 +21,9 @@ export class SolanaWalletConnectUIComponent {
     await this.walletService.connectWallet(wallet)
     this.dialogRef.close();
   }
+
+  isMobileDevice(): boolean {
+    const userAgent = navigator.userAgent || navigator.vendor || (window as any)['opera'];
+    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|huawei/i.test(userAgent.toLowerCase());
+  }
 }

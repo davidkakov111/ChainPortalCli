@@ -2,6 +2,8 @@
 
 mat-dialog-content {
     width: 320px;
+    max-height: 100vh;
+    overflow-y: auto;
 }
 .dialog-header {
     display: flex;
@@ -41,6 +43,13 @@ mat-dialog-content {
 .wallet-status {
     color: rgb(103, 180, 107);
     background-color: rgb(200, 233, 150);
+    font-size: x-small;
+    padding: 0 3px;
+    border-radius: 5px;
+}
+.wallet-status-purple {
+    color: rgb(128, 98, 182);
+    background-color: rgb(212, 198, 235);
     font-size: x-small;
     padding: 0 3px;
     border-radius: 5px;
