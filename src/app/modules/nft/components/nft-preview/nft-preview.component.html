@@ -4,6 +4,12 @@
       <!-- Title - on small screens -->
       <div class="sm-title"><ng-container *ngTemplateOutlet="titleTemplate"></ng-container></div>
 
+      <!-- Selected Blockchain Logo -->
+      <button mat-icon-button class="b-chain-logo" *ngIf="blockchain"
+        [matTooltip]="blockchain.estFee ? 'Estimated Minting Fee: ' + blockchain.estFee + ' ' + blockchain.symbol : ''">
+        <img [src]="blockchain.logo"/>
+      </button>
+      
       <!-- Media file -->
       <div><div appResizeObserver (boxResize)="onMediaFileResize($event)">
         <!-- Image display -->
@@ -135,6 +141,6 @@
 
 <!-- Description with Icon -->
 <ng-template #descriptionTemplate>
-  <h6 class="mt-15"><mat-icon color="primary" color="primary" aria-hidden="true" fontIcon="description"></mat-icon>Description:</h6>
+  <h6 class="mt-15"><mat-icon color="primary" aria-hidden="true" fontIcon="description"></mat-icon>Description:</h6>
   <p>{{ nftMetadata.description }}</p>
 </ng-template>

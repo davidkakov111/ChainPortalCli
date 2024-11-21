@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 import { SolanaWalletService } from '../../../services/solana-wallet.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SolanaWalletConnectUIComponent } from '../../../dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
@@ -9,6 +9,7 @@ import { SolanaWalletConnectUIComponent } from '../../../dialogs/solana-wallet-c
   styleUrl: './solana-wallet-connect.component.scss'
 })
 export class SolanaWalletConnectComponent {
+  @Input() estFee!: number;
   constructor(public walletService: SolanaWalletService, private dialog: MatDialog) {}
 
   disableMint: boolean = false;
@@ -21,7 +22,7 @@ export class SolanaWalletConnectComponent {
     this.disableMint = true;
     try {
       const signature = await this.walletService.requestPayment(
-        'FwkLbdeU9NR2axv2QNKTpWJ1ZSH7bgXAJJRpxFcFuRWz', 0.01 // TODO - Need to fetch from environment/dinamicaly get somewhere
+        'FwkLbdeU9NR2axv2QNKTpWJ1ZSH7bgXAJJRpxFcFuRWz', this.estFee // TODO - Need to fetch from environment/dinamicaly get somewhere
       );
       if (!signature) {
         this.disableMint = false;

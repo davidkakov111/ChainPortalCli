@@ -1,5 +1,6 @@
 import { Component, Input } from '@angular/core';
 import { NftMetadata } from '../mint/nft-metadata/nft-metadata.component';
+import { blockchain } from '../../../shared/components/blockchain-selector/blockchain-selector.component';
 
 // Define a type for the file category
 type FileCategory = 'image' | 'video' | 'audio' | 'model' | 'application' | 'unsupported';
@@ -17,6 +18,7 @@ interface CustomFile extends File {
 export class NftPreviewComponent {
   // Inputs
   @Input() nftMetadata!: NftMetadata;
+  @Input() blockchain!: blockchain;
 
   // Variables
   fileCategory: FileCategory = 'unsupported';

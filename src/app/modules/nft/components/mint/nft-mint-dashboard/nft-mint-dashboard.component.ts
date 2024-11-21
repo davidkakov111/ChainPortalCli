@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NftService } from '../../../services/nft.service';
-import { blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
+import { blockchain } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
 import { NftPreviewComponent } from '../../nft-preview/nft-preview.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Buffer } from 'buffer';
@@ -19,8 +19,8 @@ export class NftMintDashboardComponent {
   selectedStepIndex: number = 0;
 
   // If a blockchain is selected in app-blockchain-selector
-  onBlockchainSelected(symbol: blockchainSymbols) {
-    this.nftSrv.setSelectedBlockchain(symbol);
+  onBlockchainSelected(blockchain: blockchain) {
+    this.nftSrv.setSelectedBlockchain(blockchain);
   }
 
   // Detect step change

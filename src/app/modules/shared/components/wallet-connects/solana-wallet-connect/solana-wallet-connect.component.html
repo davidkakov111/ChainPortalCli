@@ -13,6 +13,7 @@
         </ng-container>
         <ng-template #mintText>Mint</ng-template>
     </button>
+    <span *ngIf="estFee" class="txt-center font-small">*Est. Fee: {{estFee}} SOL</span>
     <div class="wallet-status">
         <mat-icon color="success" class="check-icon">check_circle</mat-icon>
         <span>Wallet Connected</span>

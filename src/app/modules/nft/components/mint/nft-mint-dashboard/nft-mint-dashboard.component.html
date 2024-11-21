@@ -36,14 +36,14 @@
     <div class="w100 flx-col-center">
       <!-- Display the appropriate wallet connection component based on the selected blockchain. 
         Load the component and its service only when required to avoid unnecessary overhead. -->
-      <div *ngIf="selectedStepIndex === 2">
+      <div *ngIf="selectedStepIndex === 2" class="my-20">
         <!-- Solana W.C. -->
         <div *ngIf="nftSrv.getStepData('step2').symbol === 'SOL'">
-          <app-solana-wallet-connect class="my-20"></app-solana-wallet-connect>
+          <app-solana-wallet-connect [estFee]="nftSrv.getStepData('step2').estFee" class="my-20"></app-solana-wallet-connect>
         </div>
       </div>
       <!-- Display the NFT -->
-      <app-nft-preview class="w100 my-20" [nftMetadata]="nftSrv.getStepData('step1')"></app-nft-preview>
+      <app-nft-preview class="w100 my-20" [nftMetadata]="nftSrv.getStepData('step1')" [blockchain]="nftSrv.getStepData('step2')"></app-nft-preview>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

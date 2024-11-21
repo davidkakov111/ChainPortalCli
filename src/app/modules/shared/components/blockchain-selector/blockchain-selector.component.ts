@@ -15,7 +15,7 @@ interface allBlockchain {
   description: string;
 };
 
-interface blockchain extends allBlockchain {
+export interface blockchain extends allBlockchain {
   estFee: number;
 };
 
@@ -30,7 +30,7 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   @Input() title: string = '';
 
   // Output EventEmitter to emit the selected blockchain symbol
-  @Output() blockchainSelected: EventEmitter<blockchainSymbols> = new EventEmitter<blockchainSymbols>();
+  @Output() blockchainSelected: EventEmitter<blockchain> = new EventEmitter<blockchain>();
 
   // Viewchilds
   @ViewChild('selectionContainer') selectionContainer: ElementRef | undefined;
@@ -96,7 +96,8 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   selectBlockchain(symbol: blockchainSymbols) {
     this.selectedBlockchain = symbol;
     this.scrollToSelected();
-    this.blockchainSelected.emit(symbol);
+    const blockchain = this.blockchains.filter(bc => bc.symbol === symbol)[0];
+    this.blockchainSelected.emit(blockchain);
   }
 
   // Check if a blockchain is selected
@@ -120,7 +121,8 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
         const closestCardSymbol = this.findClosestCard(scrollPosition, cardElements);
         if (closestCardSymbol) {
           this.selectedBlockchain = closestCardSymbol;
-          this.blockchainSelected.emit(closestCardSymbol);
+          const blockchain = this.blockchains.filter(bc => bc.symbol === closestCardSymbol)[0];
+          this.blockchainSelected.emit(blockchain);
         }
       });
     }
