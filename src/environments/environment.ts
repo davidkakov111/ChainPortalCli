@@ -3,6 +3,7 @@ export const environment: {
     blockchainNetworks: {
         solana: {
             selected: 'devnet' | 'mainnet',
+            pubKey: string,
         }, 
     },
 } = {
@@ -10,6 +11,7 @@ export const environment: {
     blockchainNetworks: {
         solana: {
             selected: "devnet",
+            pubKey: "FwkLbdeU9NR2axv2QNKTpWJ1ZSH7bgXAJJRpxFcFuRWz",
         }, 
     },
 };
