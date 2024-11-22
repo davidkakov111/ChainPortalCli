@@ -2,8 +2,8 @@ import { WalletAdapterNetwork, WalletReadyState, BaseWalletAdapter } from '@sola
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
-import { environment } from '../../../../environments/environment';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
+import { ServerService } from './server.service';
 
 @Injectable({
   providedIn: 'root'
@@ -14,12 +14,16 @@ export class SolanaWalletService {
   // Available suported wallets
   availableWallets: BaseWalletAdapter[] = [];
 
-  constructor(private dialog: MatDialog) {
+  constructor(
+    private dialog: MatDialog,
+    private serverSrv: ServerService,
+  ) {
     this.loadAvailableWallets();
   }
 
   // Load suported wallets
   async loadAvailableWallets(): Promise<void> {
+    const environment = await this.serverSrv.getEnvironment();
     const network = WalletAdapterNetwork[environment.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet'];
 
     // TODO - Test all the integrated wallets later
@@ -97,6 +101,7 @@ export class SolanaWalletService {
       return null;
     }
   
+    const environment = await this.serverSrv.getEnvironment();
     const connection = new Connection(clusterApiUrl(
       WalletAdapterNetwork[environment.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet']
     ), 'confirmed');
