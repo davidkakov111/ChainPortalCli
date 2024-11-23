@@ -17,8 +17,11 @@
   <mat-step [completed]="nftSrv.stepCompleted('step2')">
     <ng-template matStepLabel>Blockchain</ng-template>
     <!-- Blockchain selector component -->
-    <app-blockchain-selector [title]="'Select Blockchain to Mint NFT'"
+    <app-blockchain-selector 
+      [title]="'Select Blockchain to Mint NFT'"
       [suportedBlockchains]="['SOL']"
+      [assetType]="'NFT'"
+      [operationType]="'mint'"
       (blockchainSelected)="onBlockchainSelected($event)">
     </app-blockchain-selector>
     <!-- Next step button -->

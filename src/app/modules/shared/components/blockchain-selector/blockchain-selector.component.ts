@@ -1,4 +1,5 @@
-import { AfterViewInit, Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ServerService } from '../../services/server.service';
 
 type blockchainNames = 'Ethereum' | 'Solana' | 'Binance Smart Chain' | 'Polygon' | 
   'Cardano' | 'Tezos' | 'Avalanche' | 'Flow' | 'Fantom' | 'Algorand';
@@ -6,6 +7,8 @@ export type blockchainSymbols = 'ETH' | 'SOL' | 'BSC' | 'MATIC' |
   'ADA' | 'XTZ' | 'AVAX' | 'FLOW' | 'FTM' | 'ALGO';
 type blockchainCoins = 'ETH' | 'SOL' | 'BNB' | 'MATIC/POL' | 
   'ADA' | 'XTZ' | 'AVAX' | 'FLOW' | 'FTM' | 'ALGO';
+export type assetType = 'NFT' | 'Token';
+export type operationType = 'mint' | 'bridge';
 
 interface allBlockchain {
   logo: string;
@@ -24,9 +27,11 @@ export interface blockchain extends allBlockchain {
   templateUrl: './blockchain-selector.component.html',
   styleUrl: './blockchain-selector.component.scss'
 })
-export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
+export class BlockchainSelectorComponent implements AfterViewInit {
   // Inputs
   @Input() suportedBlockchains: blockchainSymbols[] = [];
+  @Input() operationType!: operationType;
+  @Input() assetType!: assetType;
   @Input() title: string = '';
 
   // Output EventEmitter to emit the selected blockchain symbol
@@ -52,16 +57,38 @@ export class BlockchainSelectorComponent implements OnInit, AfterViewInit {
   blockchains: blockchain[] = []
   selectedBlockchain: blockchainSymbols | null = null;
 
-  ngOnInit(): void {
+  constructor(
+    private serverSrv: ServerService,
+    private cdr: ChangeDetectorRef
+  ) {}
+
+  async ngAfterViewInit() {
+    await this.buildBlockchains();
+    // Trigger change detection manually
+    this.cdr.detectChanges();
+    this.setupBChainScrollContainer();
+  }
+
+  // Build the needed blockchains with fees
+  async buildBlockchains(): Promise<void> {
+    if (!this.operationType || !this.assetType) {
+      throw new Error('Operation and/or asset type, is not provided for BlockchainSelectorComponent!');
+    }
+
+    // Get the fees from server
+    const fees = await this.serverSrv.getFees(this.assetType, this.operationType, this.suportedBlockchains);
+
     // Use the suported blockchains, according the input
     for (let bc of this.allBlockchains) {
       if (this.suportedBlockchains.includes(bc.symbol)) {
-        this.blockchains.push({...bc, estFee: 0}); // TODO Fee need to be dinamic
+        const fee = fees.filter(i => i.blockchainSymbol === bc.symbol)[0].fee;
+        this.blockchains.push({...bc, estFee: fee ? fee : NaN});
       } 
     }
   }
 
-  ngAfterViewInit() {
+  // Setup the scroll container for blockchain selection 
+  setupBChainScrollContainer() {
     const cardWidth = 180;
     const gap = 16; 
     

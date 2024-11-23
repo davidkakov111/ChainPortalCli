@@ -6,7 +6,7 @@
 
       <!-- Selected Blockchain Logo -->
       <button mat-icon-button class="b-chain-logo" *ngIf="blockchain"
-        [matTooltip]="blockchain.estFee ? 'Estimated Minting Fee: ' + blockchain.estFee + ' ' + blockchain.symbol : ''">
+        [matTooltip]="blockchain.estFee ? 'Estimated Minting Fee: ' + blockchain.estFee + ' ' + blockchain.coin : ''">
         <img [src]="blockchain.logo"/>
       </button>
       
