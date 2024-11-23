@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { assetType, blockchainSymbols, operationType } from '../components/blockchain-selector/blockchain-selector.component';
+import { NftMetadata } from '../../nft/components/mint/nft-metadata/nft-metadata.component';
 
 export interface Environment {
   reownProjectId: string,
@@ -44,12 +45,12 @@ export class ServerService {
     // TODO - Need to fetch this from server
     const feeDb = {
       NFT: {
-        mint: {SOL: 0},
-        bridge: {SOL: 0}
+        mint: {SOL: 0.01},
+        bridge: {SOL: 0.01}
       },
       Token: {
-        mint: {SOL: 0},
-        bridge: {SOL: 0}
+        mint: {SOL: 0.01},
+        bridge: {SOL: 0.01}
       }
     }
 
@@ -60,5 +61,17 @@ export class ServerService {
       }      
     }
     return response;
+  }
+
+  // Post the payment details to the server for further processing.
+  async payment(
+    assetType: assetType, 
+    operationType: operationType, 
+    blockchain: blockchainSymbols, 
+    paymentTxSignature: string, 
+    data:  NftMetadata | any
+  ) {
+    console.log('Send the payment to server: ', assetType, operationType, blockchain, paymentTxSignature, data);
+    // TODO - Need to post to the server for payment validation, etc. The media file is also need to be sent to the server somehov.
   }
 }

@@ -1,8 +1,9 @@
-import { Component, Input } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { SolanaWalletService } from '../../../services/solana-wallet.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SolanaWalletConnectUIComponent } from '../../../dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
 import { ServerService } from '../../../services/server.service';
+import { operationType } from '../../blockchain-selector/blockchain-selector.component';
 
 @Component({
   selector: 'app-solana-wallet-connect',
@@ -10,36 +11,44 @@ import { ServerService } from '../../../services/server.service';
   styleUrl: './solana-wallet-connect.component.scss'
 })
 export class SolanaWalletConnectComponent {
+  @Output() paymentTxSignature: EventEmitter<string> = new EventEmitter<string>();
   @Input() estFee!: number;
+  @Input() operationType!: operationType;
+  
   constructor(
     private dialog: MatDialog,
     public walletSrv: SolanaWalletService, 
     private serverSrv: ServerService,
   ) {}
 
-  disableMint: boolean = false;
+  disablePay: boolean = false;
 
   connectWallet() {
     this.dialog.open(SolanaWalletConnectUIComponent);
   }
 
+  // Request payment (amount = estFee, recipent = env.sol.pubkey) through wallet connection
   async requestPayment(): Promise<void> {
-    this.disableMint = true;
+    this.disablePay = true;
     try {
       const environment = await this.serverSrv.getEnvironment();
       const signature = await this.walletSrv.requestPayment(
         environment.blockchainNetworks.solana.pubKey, this.estFee
       );
       if (!signature) {
-        this.disableMint = false;
+        this.disablePay = false;
         return;
       }
-      // TODO - Need to post to server etc.
-      console.log(`Transaction signature: ${signature}`);
-      // TODO - Need to redirect to the account history page (When will have)
+
+      // Emit the transaction signature, because the user payed
+      this.paymentTxSignature.emit(signature);
     } catch (error) {
       console.error('Payment request failed: ', error);
-      this.disableMint = false;
+      this.disablePay = false;
     }
+  }
+
+  capitalizeFirstLetter(string: string): string {
+    return string.charAt(0).toUpperCase() + string.slice(1);
   }
 }

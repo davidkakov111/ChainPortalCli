@@ -18,7 +18,7 @@ export class SolanaWalletConnectUIComponent {
 
   async connectWallet(wallet: BaseWalletAdapter) {
     this.selectedWIcon = wallet.icon;
-    await this.walletService.connectWallet(wallet)
+    await this.walletService.connectWallet(wallet);
     this.dialogRef.close();
   }
 

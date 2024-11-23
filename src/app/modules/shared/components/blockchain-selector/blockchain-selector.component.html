@@ -20,7 +20,7 @@
         <mat-card-content class="h100">
           <div class="h100 flx-col-space-between">
             <p>{{ chain.description }}</p>
-            <div>
+            <div *ngIf="chain.estFee">
               <span style="font-size: smaller;">Est. Fee:</span>
               <p>{{ chain.estFee }} {{ chain.coin }}</p>
             </div>

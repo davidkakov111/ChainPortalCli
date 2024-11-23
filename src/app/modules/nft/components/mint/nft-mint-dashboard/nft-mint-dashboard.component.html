@@ -42,7 +42,8 @@
       <div *ngIf="selectedStepIndex === 2" class="my-20">
         <!-- Solana W.C. -->
         <div *ngIf="nftSrv.getStepData('step2').symbol === 'SOL'">
-          <app-solana-wallet-connect [estFee]="nftSrv.getStepData('step2').estFee" class="my-20"></app-solana-wallet-connect>
+          <app-solana-wallet-connect [estFee]="nftSrv.getStepData('step2').estFee" [operationType]="'mint'"
+            (paymentTxSignature)="handlePayment($event)" class="my-20"></app-solana-wallet-connect>
         </div>
       </div>
       <!-- Display the NFT -->

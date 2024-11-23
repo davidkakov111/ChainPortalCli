@@ -3,15 +3,15 @@
 </button>
 <div *ngIf="walletSrv.selectedWallet" class="flx-col-center">
     <button mat-raised-button color="primary" 
-        [disabled]="disableMint" (click)="requestPayment()">
-        <ng-container *ngIf="disableMint; else mintText">
+        [disabled]="disablePay" (click)="requestPayment()">
+        <ng-container *ngIf="disablePay; else payText">
             <mat-progress-spinner 
                 diameter="20" 
                 mode="indeterminate" 
                 color="primary">
             </mat-progress-spinner>
         </ng-container>
-        <ng-template #mintText>Mint</ng-template>
+        <ng-template #payText>{{capitalizeFirstLetter(operationType)}}</ng-template>
     </button>
     <span *ngIf="estFee" class="txt-center font-small">*Est. Fee: {{estFee}} SOL</span>
     <div class="wallet-status">
