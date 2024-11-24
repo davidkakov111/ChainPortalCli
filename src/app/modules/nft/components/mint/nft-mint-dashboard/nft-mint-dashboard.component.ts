@@ -45,9 +45,8 @@ export class NftMintDashboardComponent {
     const NftMetadata: NftMetadata = this.nftSrv.getStepData('step1');
     const bChainSymbol: blockchainSymbols = this.nftSrv.getStepData('step2').symbol;
 
+    // Send the payment signature with additional data to proceed further on the server.
     await this.serverSrv.payment('NFT', 'mint', bChainSymbol, paymentTxSignature, NftMetadata);
-
-    // TODO - Need to redirect to the account history page (When will have) etc.
   }
 
   // Open confirmation dialog with a message

@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { ServerService } from './server.service';
+import { AccountService } from './account.service';
 
 @Injectable({
   providedIn: 'root'
@@ -17,6 +18,7 @@ export class SolanaWalletService {
   constructor(
     private dialog: MatDialog,
     private serverSrv: ServerService,
+    private accountSrv: AccountService,
   ) {
     this.loadAvailableWallets();
   }
@@ -60,9 +62,11 @@ export class SolanaWalletService {
       try {
         await wallet.connect();
         this.selectedWallet = wallet;
+        this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: this.selectedWallet.publicKey?.toString() || ''});
       } catch (error) {
         console.error('Failed to connect wallet:', error);
         this.selectedWallet = null;
+        this.accountSrv.removeAccount();
       }
     } else {
       this.openConfirmDialog(`
@@ -77,6 +81,7 @@ export class SolanaWalletService {
   disconnectWallet(): void {
     this.selectedWallet?.disconnect();
     this.selectedWallet = null;
+    this.accountSrv.removeAccount();
   }
 
   // Request payment from the connected wallet

@@ -7,6 +7,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { CommonModule } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { SharedModule } from './modules/shared/shared.module';
+import { CoreModule } from './modules/core/core.module';
 
 @Component({
   selector: 'app-root',
@@ -19,7 +20,8 @@ import { SharedModule } from './modules/shared/shared.module';
     MatIconModule,
     RouterOutlet,
     RouterModule,
-    SharedModule
+    SharedModule,
+    CoreModule,
   ],
   templateUrl: './app.component.html',
   styleUrl: './app.component.scss',

@@ -7,8 +7,8 @@
             </button>
         </div>
         <div class="sidenav-content">
-            <button mat-button (click)="sidenav.close()" routerLink="/token">Tokens</button>
             <button mat-button (click)="sidenav.close()" routerLink="/nft">NFTs</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/token">Tokens</button>
         </div>
     </mat-sidenav>
 
@@ -26,13 +26,16 @@
         
             <!-- Navbar buttons, hidden on small screens -->
             <span class="navbar">
-                <button mat-button class="nav-buttons" routerLink="/token">Tokens</button>
-                <button mat-button color="primary" class="logo" routerLink="/">ChainPortal</button>
                 <button mat-button class="nav-buttons" routerLink="/nft">NFTs</button>
+                <button mat-button color="primary" class="logo" routerLink="/">ChainPortal</button>
+                <button mat-button class="nav-buttons" routerLink="/token">Tokens</button>
             </span>
 
             <!-- To observe the height of the material toolbar header -->
             <div #navbarHeightEl style="height: 100%;"></div>
+            
+            <!-- Account Dropdown -->
+            <app-account-dropdown class="account-dropdown"></app-account-dropdown>
         </mat-toolbar>
 
         <!-- Router outlet for the entire site -->

@@ -1,0 +1,21 @@
+@import '../../../../../../styles/_breakpoints.scss';
+
+button[mat-menu-item]:hover {
+    background-color: rgba(207, 207, 207, 0.4);
+}
+.mobile-account-btn {
+    display: none;
+}
+.m-5 {
+    margin: 5px;
+}
+
+/* Responsive Design */
+@media (max-width: $breakpoint-sm) {
+    .pc-account-btn {
+        display: none;
+    }
+    .mobile-account-btn {
+        display: block;
+    }
+}

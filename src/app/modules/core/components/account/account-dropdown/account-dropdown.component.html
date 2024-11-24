@@ -1,0 +1,17 @@
+<!-- Account Icon Button - mobile -->
+<button mat-icon-button aria-label="Account menu" color="primary" class="mobile-account-btn"
+    [matMenuTriggerFor]="accountMenu" *ngIf="accountSrv.getAccount()">
+    <mat-icon>account_circle</mat-icon>
+</button>
+<!-- Account Button - pc -->
+<button mat-button aria-label="Account menu" color="primary" class="pc-account-btn"
+    [matMenuTriggerFor]="accountMenu" *ngIf="accountSrv.getAccount()">
+    <mat-icon>account_circle</mat-icon>
+    <span>{{shortenPubKey(accountSrv.getAccount()?.pubKey || '')}}</span>
+</button>
+
+<!-- Dropdown Menu -->
+<mat-menu #accountMenu="matMenu">
+    <button mat-menu-item [routerLink]="['/profile/transaction-history']">Transaction History</button>
+    <button class="m-5" mat-raised-button color="warn" (click)="disconnectWallet()">Disconnect Wallet</button>
+</mat-menu>

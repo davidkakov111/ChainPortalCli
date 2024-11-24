@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { assetType, blockchainSymbols, operationType } from '../components/blockchain-selector/blockchain-selector.component';
 import { NftMetadata } from '../../nft/components/mint/nft-metadata/nft-metadata.component';
+import { transactionHistory } from '../../core/components/account/transaction-history/transaction-history.component';
+import { Router } from '@angular/router';
 
 export interface Environment {
   reownProjectId: string,
@@ -16,7 +18,7 @@ export interface Environment {
   providedIn: 'root'
 })
 export class ServerService {
-  constructor() { }
+  constructor(private router: Router) { }
 
   private environment!: Environment;
 
@@ -63,6 +65,67 @@ export class ServerService {
     return response;
   }
 
+  // Get all transaction history by publick key
+  async getAllTxHistory(pubKey: string): Promise<transactionHistory[]> {
+
+    // TODO - Need to fetch this from server
+    const transactionHistoryTable: {
+      id: number,
+      assetType: assetType,
+      operationType: operationType,
+      blockchain: blockchainSymbols,
+      publickKey?: string,
+      paymentTxSignature: string,
+      revardTxSignature: string,
+      date: Date
+    }[] = [
+      {
+        id: 1,
+        assetType: 'NFT',
+        operationType: 'mint',
+        blockchain: 'SOL',
+        publickKey: '3fiR9sB9ND5MvQYjzCZAqoMcTzZkFL3kXFxAb857s4TB',
+        paymentTxSignature: 'sdgsdgsdgsdgsdg',
+        revardTxSignature: 'sgssgsdgsdssd',
+        date: new Date('Sun Nov 24 2024 20:14:14 GMT+0200 (Eastern European Standard Time)')
+      },
+      {
+        id: 2,
+        assetType: 'Token',
+        operationType: 'bridge',
+        blockchain: 'ETH',
+        publickKey: '3fiR9sB9ND5MvQYjzCZAqoMcTzZkFL3kXFxAb857s4TB',
+        paymentTxSignature: 'dgsdgsdgsdgsdgsdg',
+        revardTxSignature: 'sggsdgsdgssgsdgsdssd',
+        date: new Date('Sun Nov 24 2024 20:14:13 GMT+0200 (Eastern European Standard Time)')
+      },
+      {
+        id: 3,
+        assetType: 'NFT',
+        operationType: 'mint',
+        blockchain: 'SOL',
+        publickKey: 'sgsdgsdggsgsgsdgsrgrgsrgg',
+        paymentTxSignature: 'FwkLbdeU9NR2axv2QNKTpWJ1ZSH7bgXAJJRpxFcFuRWz',
+        revardTxSignature: 'sgssgsdgsoihubjndssd',
+        date: new Date('Sun Nov 24 2024 20:16:14 GMT+0200 (Eastern European Standard Time)')
+      },
+      {
+        id: 4,
+        assetType: 'Token',
+        operationType: 'mint',
+        blockchain: 'ETH',
+        publickKey: '3fiR9sB9ND5MvQYjzCZAqoMcTzZkFL3kXFxAb857s4TB',
+        paymentTxSignature: 'ssgdgsdgsdgsdgsdg',
+        revardTxSignature: 'sgsssdggsdgsdssd',
+        date: new Date('Sun Nov 24 2024 20:14:17 GMT+0200 (Eastern European Standard Time)')
+      },
+    ]
+    const pubKeyHistory = transactionHistoryTable.filter(tx => tx.publickKey === pubKey);
+    pubKeyHistory.forEach(obj => {delete obj.publickKey});
+
+    return (pubKeyHistory as unknown) as transactionHistory[];
+  }
+
   // Post the payment details to the server for further processing.
   async payment(
     assetType: assetType, 
@@ -73,5 +136,12 @@ export class ServerService {
   ) {
     console.log('Send the payment to server: ', assetType, operationType, blockchain, paymentTxSignature, data);
     // TODO - Need to post to the server for payment validation, etc. The media file is also need to be sent to the server somehov.
+
+    const txId = 1; // This transaction record id should come from the server db.
+
+    // If the payment is valid and the transaction ID is received, navigate to the transaction details page.
+    if (txId) {
+      this.router.navigateByUrl(`/profile/transaction-history/${txId}`);
+    }
   }
 }

@@ -64,6 +64,11 @@
     font-size: medium;
 }
 
+.account-dropdown {
+    position: absolute;
+    right: 10px;
+}
+
 /* Show the hamburger menu on small screens */
 @media (max-width: $breakpoint-sm) {
     .nav-buttons {
