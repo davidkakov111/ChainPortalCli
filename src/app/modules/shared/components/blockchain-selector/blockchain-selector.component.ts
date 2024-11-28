@@ -30,6 +30,7 @@ export interface blockchain extends allBlockchain {
 export class BlockchainSelectorComponent implements AfterViewInit {
   // Inputs
   @Input() suportedBlockchains: blockchainSymbols[] = [];
+  @Input() selectedByDefault!: blockchainSymbols;
   @Input() operationType!: operationType;
   @Input() assetType!: assetType;
   @Input() title: string = '';
@@ -115,6 +116,11 @@ export class BlockchainSelectorComponent implements AfterViewInit {
       // Use a timeout to enable the scroll listener logic after the initial scroll setup
       setTimeout(() => {
         this.setupAutoScroll();
+
+        // Select and scroll to the selected by defualt blockahin card, if provided 
+        if (this.selectedByDefault) {
+          this.selectBlockchain(this.selectedByDefault);
+        }
       }, 2000); // Delay for 2 sec to ensure the programmatic scroll has completed    
     }
   }

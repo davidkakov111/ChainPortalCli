@@ -20,6 +20,7 @@
     <app-blockchain-selector 
       [title]="'Select Blockchain to Mint NFT'"
       [suportedBlockchains]="['SOL']"
+      [selectedByDefault]="nftSrv.getStepData('step2').symbol"
       [assetType]="'NFT'"
       [operationType]="'mint'"
       (blockchainSelected)="onBlockchainSelected($event)">
