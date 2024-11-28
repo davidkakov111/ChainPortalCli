@@ -47,22 +47,36 @@ export class NftMetadataComponent {
     private dialog: MatDialog,
     private nftSrv: NftService
   ) {
+    // Get the already saved NFT metadata from the service, if any
+    const existingMetadata = this.nftSrv.getStepData('step1') as NftMetadata;
+
+    // Asign the existing values to the form, if any
+    this.tags = existingMetadata?.tags || [];
     this.nftForm = this.fb.group({
-      title: ['', Validators.required],
-      description: ['', Validators.required],
+      title: [existingMetadata?.title || '', Validators.required],
+      description: [existingMetadata?.description || '', Validators.required],
       media: ['', Validators.required],
-      attributes: this.fb.array([]),
-      creator: [''],
-      isLimitedEdition: [false], // Checkbox or toggle for limited edition
-      totalEditions: [{ value: '', disabled: true }], // Total editions input
-      editionNumber: [{ value: '', disabled: true }], // Edition number input
-      royalty: [0, [Validators.min(0), Validators.max(100)]],
+      attributes: this.fb.array(
+        existingMetadata?.attributes?.map(attr => this.fb.group(attr)) || []
+      ),
+      creator: [existingMetadata?.creator || ''],
+      isLimitedEdition: [existingMetadata?.isLimitedEdition || false], // Checkbox or toggle
+      totalEditions: [
+        { value: existingMetadata?.totalEditions || '', disabled: !existingMetadata?.isLimitedEdition }
+      ],
+      editionNumber: [
+        { value: existingMetadata?.editionNumber || '', disabled: !existingMetadata?.isLimitedEdition }
+      ],
+      royalty: [existingMetadata?.royalty || 0, [Validators.min(0), Validators.max(100)]],
       tags: [this.tags],
-      license: [''],
-      externalLink: [''],
-      creationTimestampToggle: [false], // Slide toggle for timestamp
-      creationTimestamp: [new Date().toISOString()]
+      license: [existingMetadata?.license || ''],
+      externalLink: [existingMetadata?.externalLink || ''],
+      creationTimestampToggle: [existingMetadata?.creationTimestampToggle || false],
+      creationTimestamp: [existingMetadata?.creationTimestamp || new Date().toISOString()]
     });
+    if (existingMetadata.media) {
+      this.onFileChange({target: {files: [existingMetadata.media]}});
+    }
 
     // Subscribe to the limited edition toggle
     this.nftForm.get('isLimitedEdition')?.valueChanges.subscribe((value) => {
