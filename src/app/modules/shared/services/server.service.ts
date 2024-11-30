@@ -3,6 +3,8 @@ import { assetType, blockchainSymbols, operationType } from '../components/block
 import { NftMetadata } from '../../nft/components/mint/nft-metadata/nft-metadata.component';
 import { transactionHistory } from '../../core/components/account/transaction-history/transaction-history.component';
 import { Router } from '@angular/router';
+import { HttpClient } from '@angular/common/http';
+import { firstValueFrom } from 'rxjs';
 
 export interface Environment {
   reownProjectId: string,
@@ -15,28 +17,19 @@ export interface Environment {
 }
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class ServerService {
-  constructor(private router: Router) { }
+  constructor(private router: Router, private http: HttpClient) {}
 
+  private serverEndpoint: string = "http://localhost:3000";
   private environment!: Environment;
 
   // Load & return the environment details from server
   async getEnvironment(): Promise<Environment> {
     if (!this.environment) {
-      // TODO - Need to fetch this from server
-      this.environment = {
-        reownProjectId: 'f9475d25490661ea7876f3be596b200d',
-        blockchainNetworks: {
-          solana: {
-            selected: "devnet",
-            pubKey: "FwkLbdeU9NR2axv2QNKTpWJ1ZSH7bgXAJJRpxFcFuRWz",
-          }, 
-        },
-      }
+      this.environment = await firstValueFrom(this.http.get<Environment>(this.serverEndpoint + '/cli-env'));
     }
-
     return this.environment;
   }
 
