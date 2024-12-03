@@ -16,6 +16,8 @@ export interface Environment {
   },
 }
 
+export type blockchainFees = Partial<Record<blockchainSymbols, number>>;
+
 @Injectable({
   providedIn: 'root',
 })
@@ -34,28 +36,21 @@ export class ServerService {
   }
 
   // Get fees for different operation types and assets across multiple blockchains
-  async getFees(assetType: assetType, operationType: operationType, blockchains: blockchainSymbols[]): Promise<
-    {blockchainSymbol: blockchainSymbols, fee: number}[]
-  > {
-    // TODO - Need to fetch this from server
-    const feeDb = {
-      NFT: {
-        mint: {SOL: 0.01},
-        bridge: {SOL: 0.01}
-      },
-      Token: {
-        mint: {SOL: 0.01},
-        bridge: {SOL: 0.01}
-      }
+  async getFees(
+    assetType: assetType, operationType: operationType, blockchains: blockchainSymbols[], metadataByteSize: number = 0
+  ): Promise<blockchainFees> {
+
+    let blockchainFees: blockchainFees = {};
+
+    if (operationType === "mint") {
+      let bChainSymbolsString = blockchains.join(',');
+      blockchainFees = await firstValueFrom(this.http.get<blockchainFees>(
+        `${this.serverEndpoint}/mint-fees?assetType=${assetType}&blockchainSymbol=${bChainSymbolsString}&metadataByteSize=${metadataByteSize}`));
+    } else if (operationType === "bridge") {
+      // TODO - Implement bridge fee calculations later
     }
 
-    const response: {blockchainSymbol: blockchainSymbols, fee: number}[] = [];
-    for (let bc of blockchains) {
-      if (bc in feeDb[assetType][operationType]) {
-        response.push({blockchainSymbol: bc, fee: (feeDb[assetType][operationType] as any)[bc]});
-      }      
-    }
-    return response;
+    return blockchainFees;
   }
 
   // Get all transaction history by publick key

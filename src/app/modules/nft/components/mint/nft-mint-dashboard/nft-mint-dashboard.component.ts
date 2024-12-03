@@ -1,6 +1,6 @@
 import { Component, ViewChild } from '@angular/core';
 import { NftService } from '../../../services/nft.service';
-import { blockchain, blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
+import { blockchain, BlockchainSelectorComponent, blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
 import { NftPreviewComponent } from '../../nft-preview/nft-preview.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Buffer } from 'buffer';
@@ -17,6 +17,7 @@ import { MatDialog } from '@angular/material/dialog';
 export class NftMintDashboardComponent {
   // ViewChilds 
   @ViewChild(NftPreviewComponent) nftPreviewComponent!: NftPreviewComponent;
+  @ViewChild(BlockchainSelectorComponent) BlockchainSelectorComponent!: BlockchainSelectorComponent;
 
   constructor (
     public nftSrv: NftService,
@@ -34,7 +35,11 @@ export class NftMintDashboardComponent {
   // Detect step change
   onStepChange(event: StepperSelectionEvent): void {
     this.selectedStepIndex = event.selectedIndex;
-    if (event.selectedIndex === 2) {
+    if (event.selectedIndex === 1) {
+      if (!this.nftSrv.getStepData('step2')?.estFee || !this.BlockchainSelectorComponent.initialized()) {
+        this.BlockchainSelectorComponent.initialize();
+      }
+    } else if (event.selectedIndex === 2) {
       window.Buffer = Buffer;
       this.nftPreviewComponent.onStepVisible();
     }

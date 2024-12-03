@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, EventEmitter, Input, Output, ViewChild } from '@angular/core';
 import { ServerService } from '../../services/server.service';
 
 type blockchainNames = 'Ethereum' | 'Solana' | 'Binance Smart Chain' | 'Polygon' | 
@@ -27,12 +27,13 @@ export interface blockchain extends allBlockchain {
   templateUrl: './blockchain-selector.component.html',
   styleUrl: './blockchain-selector.component.scss'
 })
-export class BlockchainSelectorComponent implements AfterViewInit {
+export class BlockchainSelectorComponent {
   // Inputs
   @Input() suportedBlockchains: blockchainSymbols[] = [];
   @Input() selectedByDefault!: blockchainSymbols;
   @Input() operationType!: operationType;
   @Input() assetType!: assetType;
+  @Input() metadataByteSize: number = 0;
   @Input() title: string = '';
 
   // Output EventEmitter to emit the selected blockchain symbol
@@ -58,16 +59,29 @@ export class BlockchainSelectorComponent implements AfterViewInit {
   blockchains: blockchain[] = []
   selectedBlockchain: blockchainSymbols | null = null;
 
+  private scrollHandler!: (event: Event) => void; // Declare a variable to store the event handler
+
   constructor(
     private serverSrv: ServerService,
     private cdr: ChangeDetectorRef
   ) {}
 
-  async ngAfterViewInit() {
+  // Initialize the blockchain selector
+  async initialize() {
+    // Clear potential previous values
+    this.selectedBlockchain = null;
+    this.blockchains = [];
+    this.removeAutoScroll();
+    
     await this.buildBlockchains();
     // Trigger change detection manually
     this.cdr.detectChanges();
     this.setupBChainScrollContainer();
+  }
+
+  // Check if the component was initialized
+  initialized(): boolean {
+    return this.blockchains.length > 0;
   }
 
   // Build the needed blockchains with fees
@@ -77,14 +91,13 @@ export class BlockchainSelectorComponent implements AfterViewInit {
     }
 
     // Get the fees from server
-    const fees = await this.serverSrv.getFees(this.assetType, this.operationType, this.suportedBlockchains);
+    const fees = await this.serverSrv.getFees(this.assetType, this.operationType, this.suportedBlockchains, this.metadataByteSize);
 
-    // Use the suported blockchains, according the input
+    // Use the supported blockchains according to the input, if their fees were calculated on the server successfully
     for (let bc of this.allBlockchains) {
-      if (this.suportedBlockchains.includes(bc.symbol)) {
-        const fee = fees.filter(i => i.blockchainSymbol === bc.symbol)[0].fee;
-        this.blockchains.push({...bc, estFee: fee ? fee : NaN});
-      } 
+      if (this.suportedBlockchains.includes(bc.symbol) && fees[bc.symbol]) {
+        this.blockchains.push({...bc, estFee: fees[bc.symbol] as number});
+      }
     }
   }
 
@@ -145,7 +158,7 @@ export class BlockchainSelectorComponent implements AfterViewInit {
       const scrollElement = this.scrollContainer.nativeElement;
 
       // Subscribe to the scroll event of this scroll container
-      scrollElement.addEventListener('scroll', () => {
+      this.scrollHandler = () => {
         // Get the horizontal center of the scroll container with the blockchain card elements
         const scrollPosition = scrollElement.scrollLeft + scrollElement.clientWidth / 2;
         const cardElements = Array.from(scrollElement.getElementsByClassName('card') as HTMLCollectionOf<HTMLElement>);
@@ -157,7 +170,10 @@ export class BlockchainSelectorComponent implements AfterViewInit {
           const blockchain = this.blockchains.filter(bc => bc.symbol === closestCardSymbol)[0];
           this.blockchainSelected.emit(blockchain);
         }
-      });
+      };
+
+      // Add the event listener
+      scrollElement.addEventListener('scroll', this.scrollHandler);
     }
   }
 
@@ -188,6 +204,15 @@ export class BlockchainSelectorComponent implements AfterViewInit {
       if (selectedCard) {
         selectedCard.scrollIntoView({ behavior: 'smooth', inline: 'center' });
       }
+    }
+  }
+
+  // Method to remove the scroll event listener
+  removeAutoScroll() {
+    if (this.scrollContainer && this.scrollHandler) {
+      const scrollElement = this.scrollContainer.nativeElement;
+      // Remove the event listener
+      scrollElement.removeEventListener('scroll', this.scrollHandler);
     }
   }
 }

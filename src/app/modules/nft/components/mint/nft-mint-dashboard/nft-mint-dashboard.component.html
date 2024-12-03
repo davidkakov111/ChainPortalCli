@@ -23,6 +23,7 @@
       [selectedByDefault]="nftSrv.getStepData('step2').symbol"
       [assetType]="'NFT'"
       [operationType]="'mint'"
+      [metadataByteSize]="nftSrv.getMetadataByteSize()"
       (blockchainSelected)="onBlockchainSelected($event)">
     </app-blockchain-selector>
     <!-- Next step button -->

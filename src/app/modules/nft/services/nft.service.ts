@@ -12,7 +12,7 @@ export class NftService {
 
   // Data to track the user's mint process
   private mintProcess = {
-    step1: {completed: false, data: {} as NftMetadata},
+    step1: {completed: false, data: {} as NftMetadata, metadataByteSize: NaN},
     step2: {completed: false, data: {} as blockchain}
   }
 
@@ -29,13 +29,35 @@ export class NftService {
   }
  
   // Individual handlers for setting step data
-  setNftMetadata(nftMetadata: NftMetadata) {
+  async setNftMetadata(nftMetadata: NftMetadata) {
     this.mintProcess.step1.data = nftMetadata;
+    this.mintProcess.step1.metadataByteSize = await this.calcNftMetadataByteSize(nftMetadata);
     this.mintProcess.step1.completed = true;
+
+    // Remove selected blockahin if metadata change, bc this can effect the minting fee
+    this.removeStepData('step2');
   }
+
   setSelectedBlockchain(blockchain: blockchain) {
     this.mintProcess.step2.data = blockchain;
     this.mintProcess.step2.completed = true;
   }
-  
+
+  // Calculate the NFT metadata size in bytes (to calculate the storage fee for Arweave on the server)
+  async calcNftMetadataByteSize(metadata: NftMetadata) {
+    const { media, ...metaObj } = metadata;
+
+    // Metadata size in bytes
+    const metadataByteSize = new Blob([JSON.stringify(metaObj)]).size; 
+
+    // Media file size in bytes
+    const arrayBuffer = await media?.arrayBuffer();
+    const mediaByteSize = arrayBuffer?.byteLength ?? 0; 
+
+    return mediaByteSize + metadataByteSize;
+  }
+
+  getMetadataByteSize(): number {
+    return this.mintProcess.step1.metadataByteSize;
+  }
 }
