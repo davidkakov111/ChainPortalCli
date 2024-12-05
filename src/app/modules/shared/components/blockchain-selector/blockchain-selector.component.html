@@ -1,6 +1,6 @@
 <h3 *ngIf="title" class="title">{{title}}</h3>
 <!-- Center the blockchain selector -->
-<div class="blockchain-selection-container">
+<div class="blockchain-selection-container" *ngIf="blockchains.length > 0; else loading">
   <!-- Blockchain selection container -->
   <div class="blockchain-selection" #selectionContainer>
     <!-- Scroll Container -->
@@ -30,3 +30,8 @@
     </div>
   </div>
 </div>
+
+<!-- Content to show if blockchains array is empty -->
+<ng-template #loading>
+  <mat-progress-spinner style="margin: 0 auto;" diameter="100" mode="indeterminate" color="primary"></mat-progress-spinner>
+</ng-template>
