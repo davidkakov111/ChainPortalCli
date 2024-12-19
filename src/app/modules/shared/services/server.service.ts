@@ -4,7 +4,7 @@ import { NftMetadata } from '../../nft/components/mint/nft-metadata/nft-metadata
 import { transactionHistory } from '../../core/components/account/transaction-history/transaction-history.component';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
-import { firstValueFrom } from 'rxjs';
+import { firstValueFrom, Observable } from 'rxjs';
 
 export interface Environment {
   reownProjectId: string,
@@ -14,6 +14,27 @@ export interface Environment {
       pubKey: string,
     }, 
   },
+}
+
+export interface transaction {
+  id: number,
+  operationType: operationType,
+  assetType: assetType,
+  blockchain: blockchainSymbols,
+  paymentPubKey: string,
+  paymentAmount: number,
+  expenseAmount: number,
+  date: Date,
+  MintTxHistories?: {
+    id: number,
+    mainTxHistoryId: number,
+    paymentTxSignature: string,
+    rewardTxs: {
+      txSignature: string,
+      type: string // ex.: mint | metadataUpload etc.
+    }[]
+  }[],
+  // TODO - Add Bridge tx history table later
 }
 
 export type blockchainFees = Partial<Record<blockchainSymbols, number>>;
@@ -55,63 +76,12 @@ export class ServerService {
 
   // Get all transaction history by publick key
   async getAllTxHistory(pubKey: string): Promise<transactionHistory[]> {
+    return await firstValueFrom(this.http.get<transactionHistory[]>(this.serverEndpoint + `/all-tx-history?pubkey=${pubKey}`));
+  }
 
-    // TODO - Need to fetch this from server
-    const transactionHistoryTable: {
-      id: number,
-      assetType: assetType,
-      operationType: operationType,
-      blockchain: blockchainSymbols,
-      publickKey?: string,
-      paymentTxSignature: string,
-      revardTxSignature: string,
-      date: Date
-    }[] = [
-      {
-        id: 1,
-        assetType: 'NFT',
-        operationType: 'mint',
-        blockchain: 'SOL',
-        publickKey: '3fiR9sB9ND5MvQYjzCZAqoMcTzZkFL3kXFxAb857s4TB',
-        paymentTxSignature: 'sdgsdgsdgsdgsdg',
-        revardTxSignature: 'sgssgsdgsdssd',
-        date: new Date('Sun Nov 24 2024 20:14:14 GMT+0200 (Eastern European Standard Time)')
-      },
-      {
-        id: 2,
-        assetType: 'Token',
-        operationType: 'bridge',
-        blockchain: 'ETH',
-        publickKey: '3fiR9sB9ND5MvQYjzCZAqoMcTzZkFL3kXFxAb857s4TB',
-        paymentTxSignature: 'dgsdgsdgsdgsdgsdg',
-        revardTxSignature: 'sggsdgsdgssgsdgsdssd',
-        date: new Date('Sun Nov 24 2024 20:14:13 GMT+0200 (Eastern European Standard Time)')
-      },
-      {
-        id: 3,
-        assetType: 'NFT',
-        operationType: 'mint',
-        blockchain: 'SOL',
-        publickKey: 'sgsdgsdggsgsgsdgsrgrgsrgg',
-        paymentTxSignature: 'FwkLbdeU9NR2axv2QNKTpWJ1ZSH7bgXAJJRpxFcFuRWz',
-        revardTxSignature: 'sgssgsdgsoihubjndssd',
-        date: new Date('Sun Nov 24 2024 20:16:14 GMT+0200 (Eastern European Standard Time)')
-      },
-      {
-        id: 4,
-        assetType: 'Token',
-        operationType: 'mint',
-        blockchain: 'ETH',
-        publickKey: '3fiR9sB9ND5MvQYjzCZAqoMcTzZkFL3kXFxAb857s4TB',
-        paymentTxSignature: 'ssgdgsdgsdgsdgsdg',
-        revardTxSignature: 'sgsssdggsdgsdssd',
-        date: new Date('Sun Nov 24 2024 20:14:17 GMT+0200 (Eastern European Standard Time)')
-      },
-    ]
-    const pubKeyHistory = transactionHistoryTable.filter(tx => tx.publickKey === pubKey);
-    pubKeyHistory.forEach(obj => {delete obj.publickKey});
-
-    return (pubKeyHistory as unknown) as transactionHistory[];
+  // Get transaction details from db by main transaction id
+  getTxDetails(txId: number): Observable<transaction> {
+    return this.http.get<transaction>(`${this.serverEndpoint}/tx-details?txId=${txId}`);
   }
 
   // Post the payment details to the server for further processing.

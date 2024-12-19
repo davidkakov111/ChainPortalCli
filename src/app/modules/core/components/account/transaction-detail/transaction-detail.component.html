@@ -1,1 +1,70 @@
-<p>transaction-detail works!</p>
+<div *ngIf="completed; else showLoading">
+    <!-- Display the transaction-->
+    <div *ngIf="transaction; else noData">
+        <ng-container *ngTemplateOutlet="singleTransaction"></ng-container>
+    </div>
+
+    <!-- No data available -->
+    <ng-template #noData>
+        <div class="no-data-container">
+            <h3>Transaction not found</h3>
+            <button mat-raised-button color="primary" routerLink="/profile/transaction-history">All Transaction History</button>
+        </div>
+    </ng-template>
+</div>
+<!-- Loading spinner -->
+<ng-template #showLoading>
+    <mat-progress-spinner style="margin: 0 auto;" diameter="100" mode="indeterminate" color="primary"></mat-progress-spinner>
+</ng-template>
+
+<!-- Display the transaction-->
+<ng-template #singleTransaction>
+    <div class="transaction-details" *ngIf="transaction">
+        <h2>Transaction Details</h2>
+      
+        <!-- Transaction ID -->
+        <p><strong>Transaction ID:</strong> {{ transaction.id }}</p>
+      
+        <!-- Operation Type -->
+        <p><strong>Operation Type:</strong> {{ transaction.operationType }}</p>
+      
+        <!-- Asset Type -->
+        <p><strong>Asset Type:</strong> {{ transaction.assetType }}</p>
+      
+        <!-- Blockchain -->
+        <p><strong>Blockchain:</strong> {{ transaction.blockchain }}</p>
+      
+        <!-- Payment Public Key -->
+        <p><strong>Payment Public Key:</strong> {{ transaction.paymentPubKey }}</p>
+      
+        <!-- Payment Amount -->
+        <p><strong>Payment Amount:</strong> {{ transaction.paymentAmount }}</p>
+      
+        <!-- Expense Amount -->
+        <p><strong>Expense Amount:</strong> {{ transaction.expenseAmount }}</p>
+      
+        <!-- Transaction Date -->
+        <p><strong>Date:</strong> {{ transaction.date | date:'short' }}</p>
+      
+        <!-- Mint Transaction Histories -->
+        <div *ngIf="transaction?.MintTxHistories?.length">
+            <h3>Mint Transaction Histories</h3>
+            <div *ngFor="let history of transaction.MintTxHistories">
+              <p><strong>Mint Tx History ID:</strong> {{ history.id }}</p>
+              <p><strong>Main Tx History ID:</strong> {{ history.mainTxHistoryId }}</p>
+              <p><strong>Payment Tx Signature:</strong> {{ history.paymentTxSignature }}</p>
+              
+              <!-- Reward Transactions -->
+              <div *ngIf="history?.rewardTxs?.length">
+                <h4>Reward Transactions</h4>
+                <ul>
+                  <li *ngFor="let reward of history.rewardTxs"> 
+                    <p><strong>Transaction Signature:</strong> {{ reward.txSignature }}</p>
+                    <p><strong>Type:</strong> {{ reward.type }}</p>
+                  </li>
+                </ul>
+              </div>
+            </div>
+        </div>
+    </div>      
+</ng-template>

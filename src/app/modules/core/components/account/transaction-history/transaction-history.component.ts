@@ -12,8 +12,6 @@ export interface transactionHistory {
   assetType: assetType,
   operationType: operationType,
   blockchain: blockchainSymbols,
-  paymentTxSignature: string,
-  revardTxSignature: string,
   date: Date
 }
 
@@ -30,7 +28,7 @@ export class TransactionHistoryComponent {
   ) {}
 
   transactions = new MatTableDataSource<transactionHistory>([]);
-  displayedColumns: string[] = ['assetType', 'operationType', 'blockchain', 'paymentTxSignature', 'revardTxSignature', 'date'];
+  displayedColumns: string[] = ['assetType', 'operationType', 'blockchain', 'date'];
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;

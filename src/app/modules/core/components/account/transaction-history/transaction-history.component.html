@@ -21,18 +21,6 @@
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Blockchain</th>
         <td mat-cell *matCellDef="let element">{{element.blockchain}}</td>
       </ng-container>
-
-      <!-- Payment Transaction Signature Column -->
-      <ng-container matColumnDef="paymentTxSignature">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Payment Transaction Signature</th>
-        <td mat-cell *matCellDef="let element">{{element.paymentTxSignature}}</td>
-      </ng-container>
-
-      <!-- Revard Transaction Signature Column -->
-      <ng-container matColumnDef="revardTxSignature">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header>Revard Transaction Signature</th>
-        <td mat-cell *matCellDef="let element">{{element.revardTxSignature}}</td>
-      </ng-container>
       
       <!-- Date Column -->
       <ng-container matColumnDef="date">
