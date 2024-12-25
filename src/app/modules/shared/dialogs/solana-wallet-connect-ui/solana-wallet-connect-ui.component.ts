@@ -6,7 +6,8 @@ import { BaseWalletAdapter } from '@solana/wallet-adapter-base';
 @Component({
   selector: 'app-solana-wallet-connect-ui',
   templateUrl: './solana-wallet-connect-ui.component.html',
-  styleUrl: './solana-wallet-connect-ui.component.scss'
+  styleUrl: './solana-wallet-connect-ui.component.scss',
+  standalone: false
 })
 export class SolanaWalletConnectUIComponent {
   constructor(

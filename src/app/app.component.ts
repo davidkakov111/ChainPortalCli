@@ -11,7 +11,6 @@ import { CoreModule } from './modules/core/core.module';
 
 @Component({
   selector: 'app-root',
-  standalone: true,
   imports: [
     CommonModule,
     MatToolbarModule,

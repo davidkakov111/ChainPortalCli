@@ -4,7 +4,8 @@ import { AccountService } from '../../../../shared/services/account.service';
 @Component({
   selector: 'app-account-dropdown',
   templateUrl: './account-dropdown.component.html',
-  styleUrl: './account-dropdown.component.scss'
+  styleUrl: './account-dropdown.component.scss',
+  standalone: false
 })
 export class AccountDropdownComponent {
   constructor(public accountSrv: AccountService) {};

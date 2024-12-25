@@ -1,4 +1,4 @@
-@import '../styles/_breakpoints.scss';
+@use '../styles/_breakpoints' as *;
 
 /* Use flexbox for the entire app layout */
 .app-container {

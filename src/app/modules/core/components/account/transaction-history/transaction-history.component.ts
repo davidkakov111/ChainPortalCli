@@ -18,7 +18,8 @@ export interface transactionHistory {
 @Component({
   selector: 'app-transaction-history',
   templateUrl: './transaction-history.component.html',
-  styleUrl: './transaction-history.component.scss'
+  styleUrl: './transaction-history.component.scss',
+  standalone: false
 })
 export class TransactionHistoryComponent {
   constructor (

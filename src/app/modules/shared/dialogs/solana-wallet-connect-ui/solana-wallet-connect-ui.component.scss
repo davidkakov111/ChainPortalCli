@@ -1,4 +1,4 @@
-@import '../../../../../styles/_breakpoints.scss';
+@use '../../../../../styles/_breakpoints' as *;
 
 mat-dialog-content {
     width: 320px;

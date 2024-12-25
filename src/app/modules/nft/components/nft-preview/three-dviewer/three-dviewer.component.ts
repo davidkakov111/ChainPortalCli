@@ -8,7 +8,8 @@ import { OrbitControls } from 'three/examples/jsm/controls/OrbitControls.js';
 @Component({
   selector: 'app-three-dviewer',
   templateUrl: './three-dviewer.component.html',
-  styleUrl: './three-dviewer.component.scss'
+  styleUrl: './three-dviewer.component.scss',
+  standalone: false
 })
 export class ThreeDViewerComponent implements OnInit, OnDestroy {
   private scene!: THREE.Scene;

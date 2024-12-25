@@ -33,7 +33,8 @@ export interface Attribute {
 @Component({
   selector: 'app-nft-metadata',
   templateUrl: './nft-metadata.component.html',
-  styleUrl: './nft-metadata.component.scss'
+  styleUrl: './nft-metadata.component.scss',
+  standalone: false
 })
 export class NftMetadataComponent {
   separatorKeysCodes: number[] = [ENTER, COMMA];

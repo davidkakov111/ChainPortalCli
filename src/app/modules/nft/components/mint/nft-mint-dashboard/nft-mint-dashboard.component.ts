@@ -12,7 +12,8 @@ import { MatDialog } from '@angular/material/dialog';
 @Component({
   selector: 'app-nft-mint-dashboard',
   templateUrl: './nft-mint-dashboard.component.html',
-  styleUrl: './nft-mint-dashboard.component.scss'
+  styleUrl: './nft-mint-dashboard.component.scss',
+  standalone: false
 })
 export class NftMintDashboardComponent {
   // ViewChilds 

@@ -3,7 +3,8 @@ import { Directive, ElementRef, EventEmitter, Output, OnDestroy, AfterViewInit, 
 
 // Directive to return the element sizes if it's dimensions changes
 @Directive({
-  selector: '[appResizeObserver]'
+  selector: '[appResizeObserver]',
+  standalone: false
 })
 export class ResizeObserverDirective implements AfterViewInit, OnDestroy {
   @Output() boxResize = new EventEmitter<DOMRectReadOnly>();

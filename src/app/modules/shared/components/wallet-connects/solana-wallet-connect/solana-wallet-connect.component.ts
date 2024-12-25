@@ -8,7 +8,8 @@ import { operationType } from '../../blockchain-selector/blockchain-selector.com
 @Component({
   selector: 'app-solana-wallet-connect',
   templateUrl: './solana-wallet-connect.component.html',
-  styleUrl: './solana-wallet-connect.component.scss'
+  styleUrl: './solana-wallet-connect.component.scss',
+  standalone: false
 })
 export class SolanaWalletConnectComponent {
   @Output() paymentTxSignature: EventEmitter<string> = new EventEmitter<string>();

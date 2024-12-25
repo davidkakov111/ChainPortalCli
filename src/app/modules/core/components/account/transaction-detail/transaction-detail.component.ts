@@ -6,7 +6,8 @@ import { finalize } from 'rxjs';
 @Component({
   selector: 'app-transaction-detail',
   templateUrl: './transaction-detail.component.html',
-  styleUrl: './transaction-detail.component.scss'
+  styleUrl: './transaction-detail.component.scss',
+  standalone: false
 })
 export class TransactionDetailComponent implements OnInit {
   constructor(private route: ActivatedRoute, private serverSrv: ServerService) {}

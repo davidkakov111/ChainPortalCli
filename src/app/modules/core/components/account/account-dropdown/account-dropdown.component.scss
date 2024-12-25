@@ -1,4 +1,4 @@
-@import '../../../../../../styles/_breakpoints.scss';
+@use '../../../../../../styles/_breakpoints' as *;
 
 button[mat-menu-item]:hover {
     background-color: rgba(207, 207, 207, 0.4);

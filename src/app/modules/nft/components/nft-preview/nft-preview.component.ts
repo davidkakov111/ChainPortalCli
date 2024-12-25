@@ -13,7 +13,8 @@ interface CustomFile extends File {
 @Component({
   selector: 'app-nft-preview',
   templateUrl: './nft-preview.component.html',
-  styleUrl: './nft-preview.component.scss'
+  styleUrl: './nft-preview.component.scss',
+  standalone: false
 })
 export class NftPreviewComponent {
   // Inputs

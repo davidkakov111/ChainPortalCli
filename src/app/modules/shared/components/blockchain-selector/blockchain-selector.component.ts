@@ -25,7 +25,8 @@ export interface blockchain extends allBlockchain {
 @Component({
   selector: 'app-blockchain-selector',
   templateUrl: './blockchain-selector.component.html',
-  styleUrl: './blockchain-selector.component.scss'
+  styleUrl: './blockchain-selector.component.scss',
+  standalone: false
 })
 export class BlockchainSelectorComponent {
   // Inputs
