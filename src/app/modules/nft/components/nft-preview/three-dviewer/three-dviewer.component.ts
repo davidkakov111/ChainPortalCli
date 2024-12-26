@@ -48,6 +48,8 @@ export class ThreeDViewerComponent implements OnInit, OnDestroy {
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['file'] && changes['file'].currentValue) {
       this.loadModel();  // Call loadModel method whenever 'file' changes
+      // Resize the scene, because this is required to display the model after angular 19 update
+      this.onResize();
     }
   }
 
