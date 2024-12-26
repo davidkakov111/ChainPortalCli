@@ -1,6 +1,5 @@
 import { Injectable } from '@angular/core';
 import { assetType, blockchainSymbols, operationType } from '../components/blockchain-selector/blockchain-selector.component';
-import { NftMetadata } from '../../nft/components/mint/nft-metadata/nft-metadata.component';
 import { transactionHistory } from '../../core/components/account/transaction-history/transaction-history.component';
 import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
@@ -82,24 +81,5 @@ export class ServerService {
   // Get transaction details from db by main transaction id
   getTxDetails(txId: number): Observable<transaction> {
     return this.http.get<transaction>(`${this.serverEndpoint}/tx-details?txId=${txId}`);
-  }
-
-  // Post the payment details to the server for further processing.
-  async payment(
-    assetType: assetType, 
-    operationType: operationType, 
-    blockchain: blockchainSymbols, 
-    paymentTxSignature: string, 
-    data:  NftMetadata | any
-  ) {
-    console.log('Send the payment to server: ', assetType, operationType, blockchain, paymentTxSignature, data);
-    // TODO - Need to post to the server for payment validation, etc. The media file is also need to be sent to the server somehov.
-
-    const txId = 1; // This transaction record id should come from the server db.
-
-    // If the payment is valid and the transaction ID is received, navigate to the transaction details page.
-    if (txId) {
-      this.router.navigateByUrl(`/profile/transaction-history/${txId}`);
-    }
   }
 }

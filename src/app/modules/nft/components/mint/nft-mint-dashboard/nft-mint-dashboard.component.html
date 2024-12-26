@@ -41,7 +41,7 @@
     <div class="w100 flx-col-center">
       <!-- Display the appropriate wallet connection component based on the selected blockchain. 
         Load the component and its service only when required to avoid unnecessary overhead. -->
-      <div *ngIf="selectedStepIndex === 2" class="my-20">
+      <div *ngIf="selectedStepIndex === 2 && !payed" class="my-20">
         <!-- Solana W.C. -->
         <div *ngIf="nftSrv.getStepData('step2').symbol === 'SOL'">
           <app-solana-wallet-connect [estFee]="nftSrv.getStepData('step2').estFee" [operationType]="'mint'"

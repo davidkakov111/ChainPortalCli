@@ -4,10 +4,10 @@ import { blockchain, BlockchainSelectorComponent, blockchainSymbols } from '../.
 import { NftPreviewComponent } from '../../nft-preview/nft-preview.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Buffer } from 'buffer';
-import { ServerService } from '../../../../shared/services/server.service';
 import { NftMetadata } from '../nft-metadata/nft-metadata.component';
 import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
+import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
 
 @Component({
   selector: 'app-nft-mint-dashboard',
@@ -22,11 +22,11 @@ export class NftMintDashboardComponent {
 
   constructor (
     public nftSrv: NftService,
-    private serverSrv: ServerService,
     private dialog: MatDialog,
   ) {}
 
   selectedStepIndex: number = 0;
+  payed: boolean = false;
 
   // If a blockchain is selected in app-blockchain-selector
   onBlockchainSelected(blockchain: blockchain) {
@@ -51,8 +51,19 @@ export class NftMintDashboardComponent {
     const NftMetadata: NftMetadata = this.nftSrv.getStepData('step1');
     const bChainSymbol: blockchainSymbols = this.nftSrv.getStepData('step2').symbol;
 
-    // Send the payment signature with additional data to proceed further on the server.
-    await this.serverSrv.payment('NFT', 'mint', bChainSymbol, paymentTxSignature, NftMetadata);
+    // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
+    this.dialog.open(WebSocketMessageBoardComponent, {
+      disableClose: true, // Prevent closing the dialog when clicking outside
+      data: {
+        event: 'mint-nft', 
+        status_event: 'mint-nft-status', 
+        error_event: 'mint-nft-error', 
+        data: {bChainSymbol, paymentTxSignature, NftMetadata},
+        success_message: 'Your NFT has been minted successfully!'
+      },
+    });
+    
+    this.payed = true;
   }
 
   // Open confirmation dialog with a message

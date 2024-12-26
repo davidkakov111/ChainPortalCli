@@ -1,0 +1,35 @@
+<div class="status-container">
+    <div class="dialog-header">
+        <div class="w100"><h3 *ngIf="!successfullyCompleted" class="txt-center mb0" mat-dialog-title>Operation Progress</h3></div>
+        <button *ngIf="successfullyCompleted" mat-icon-button class="close-button" (click)="onClose()">
+            <mat-icon>close</mat-icon>
+        </button>
+    </div>
+    <h3 class="txt-center" mat-dialog-title *ngIf="successfullyCompleted">Congratulations!</h3>
+    <p class="txt-center" *ngIf="successfullyCompleted">{{data.success_message}}</p>
+
+    <mat-dialog-content>
+        <div class="status-row" *ngFor="let data of displayData">
+            <div class="status-item">
+                <!-- Success status -->
+                <mat-icon *ngIf="data.status === 'success'" class="status-icon success">check_circle</mat-icon>
+                
+                <!-- Loading status -->
+                <mat-icon *ngIf="data.status === 'processing'" class="status-icon loading">
+                <mat-spinner diameter="24"></mat-spinner>
+                </mat-icon>
+                
+                <!-- Pending/disabled status -->
+                <mat-icon *ngIf="data.status === 'pending'" class="status-icon pending">radio_button_unchecked</mat-icon>
+                
+                <!-- Error status -->
+                <mat-icon *ngIf="data.status === 'error'" class="status-icon error">error</mat-icon>
+                
+                <span class="status-message" [ngClass]="{'success': data.status === 'success', 'pending': data.status === 'pending', 'error': data.status === 'error'}">{{data.message}}</span>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions *ngIf="successfullyCompleted">
+        <button mat-button class="view-transaction-button" [routerLink]="['/profile/transaction-history', transactionId]" (click)="onClose()">View Transaction</button>
+    </mat-dialog-actions>
+</div>

@@ -22,23 +22,7 @@ export class WebShocketService {
     this.serverSocket.emit(event, data);
   }
 
-  receiveMessageFromServerSocket(event: string) {
-    return this.serverSocket.fromEvent(event);
+  receiveMessageFromServerSocket<T>(event: string) {
+    return this.serverSocket.fromEvent<T>(event);
   }
 }
-
-// ? How to use it? Example:
-// updates: string[] = [];
-
-// mintNft() {
-//   this.wsSrv.connect();
-//   this.wsSrv.sendMessageToServerSocket('mint-nft', { data: 'Start minting NFT' });
-
-//   this.wsSrv.receiveMessageFromServerSocket('mint-nft-status').subscribe((message: any) => {
-//     this.updates.push('NFT Minting Status: ' + message);
-//   });
-
-//   this.wsSrv.receiveMessageFromServerSocket('mint-nft-error').subscribe((message: any) => {
-//     this.updates.push('NFT Minting Error: ' + message);
-//   });
-// }

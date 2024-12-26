@@ -10,6 +10,8 @@ import { ResizeObserverDirective } from './directives/resize-observer.directive'
 import { SolanaWalletConnectComponent } from './components/wallet-connects/solana-wallet-connect/solana-wallet-connect.component';
 import { SolanaWalletConnectUIComponent } from './dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { WebSocketMessageBoardComponent } from './dialogs/web-socket-message-board/web-socket-message-board.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
@@ -17,7 +19,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     BlockchainSelectorComponent,
     ResizeObserverDirective,
     SolanaWalletConnectComponent,
-    SolanaWalletConnectUIComponent
+    SolanaWalletConnectUIComponent,
+    WebSocketMessageBoardComponent
   ],
   imports: [
     CommonModule,
@@ -25,14 +28,16 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     MatButtonModule,
     MatIconModule,
     MatCardModule,
-    MatProgressSpinnerModule
+    MatProgressSpinnerModule,
+    RouterModule
   ],
   exports: [
     ConfirmDialogComponent,
     BlockchainSelectorComponent,
     ResizeObserverDirective,
     SolanaWalletConnectComponent,
-    SolanaWalletConnectUIComponent
+    SolanaWalletConnectUIComponent,
+    WebSocketMessageBoardComponent
   ]
 })
 export class SharedModule { }
