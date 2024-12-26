@@ -112,7 +112,11 @@ export class SolanaWalletService {
 
     // Check if the user has enough Solana for the transaction
     const balance = await connection.getBalance(senderPublicKey);
-    if (balance <= amount * LAMPORTS_PER_SOL) {
+
+    // Calculat the transaction amount in lamports
+    const lamportAmount = Math.ceil(amount * LAMPORTS_PER_SOL);
+
+    if (balance <= lamportAmount) {
       this.openConfirmDialog('Insufficient SOL balance');
       console.error('Insufficient SOL balance');
       return null;
@@ -122,7 +126,7 @@ export class SolanaWalletService {
       SystemProgram.transfer({
         fromPubkey: senderPublicKey,
         toPubkey: new PublicKey(recipient),
-        lamports: amount * LAMPORTS_PER_SOL, // Convert SOL to lamports (1 SOL = 1B lamport)
+        lamports: lamportAmount, // Convert SOL to lamports (1 SOL = 1B lamport)
       })
     );
 
