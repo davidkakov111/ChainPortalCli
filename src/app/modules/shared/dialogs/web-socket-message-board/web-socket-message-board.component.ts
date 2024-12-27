@@ -62,10 +62,23 @@ export class WebSocketMessageBoardComponent implements OnInit {
       }
     });
     this.wsSrv.receiveMessageFromServerSocket<{id: number, errorMessage: string}>(this.data.error_event).subscribe((error) => {
-      const index = this.displayData.findIndex((item) => item.id === error.id);
-      this.displayData[index].status = 'error';
-      this.displayData[index].message = `Error: ${error.errorMessage}`;
-      this.completedWithError = true;
+      if (error.id < 0) {
+        // In this case the error is related to the current job processing
+        for (let i of this.displayData) {
+          if (i.status === 'processing') {
+            i.status = 'error';
+            i.message = `Error: ${error.errorMessage}`;
+            this.completedWithError = true;
+            break;
+          }
+        }
+      } else {
+        // In this case the error is related to a specific step of the job processing
+        const index = this.displayData.findIndex((item) => item.id === error.id);
+        this.displayData[index].status = 'error';
+        this.displayData[index].message = `Error: ${error.errorMessage}`;
+        this.completedWithError = true;
+      }
     });
   }
 
