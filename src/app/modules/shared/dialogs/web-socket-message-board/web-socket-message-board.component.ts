@@ -12,7 +12,8 @@ export class WebSocketMessageBoardComponent implements OnInit {
   // Data to display steps with statuses
   displayData: {id: number, message: string, status: 'success' | 'error' | 'processing' | 'pending'}[] = [];
 
-  successfullyCompleted: boolean = true;
+  successfullyCompleted: boolean = false;
+  completedWithError: boolean = false;
   transactionId: number | null = null;
 
   constructor( 
@@ -60,11 +61,17 @@ export class WebSocketMessageBoardComponent implements OnInit {
       const index = this.displayData.findIndex((item) => item.id === error.id);
       this.displayData[index].status = 'error';
       this.displayData[index].message = `Error: ${error.errorMessage}`;
+      this.completedWithError = true;
     });
   }
 
   // Close dialog
   onClose(): void {
     this.dialogRef.close();
+  }
+
+  // Reload the page
+  reloadPage(): void {
+    window.location.reload();
   }
 }

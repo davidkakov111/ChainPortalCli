@@ -1,7 +1,7 @@
 <div class="status-container">
     <div class="dialog-header">
-        <div class="w100"><h3 *ngIf="!successfullyCompleted" class="txt-center mb0" mat-dialog-title>Operation Progress</h3></div>
-        <button *ngIf="successfullyCompleted" mat-icon-button class="close-button" (click)="onClose()">
+        <div class="w100"><h3 *ngIf="!successfullyCompleted" class="txt-center mb0" mat-dialog-title>{{completedWithError ? 'Operation Failed' : 'Operation Progress'}}</h3></div>
+        <button *ngIf="successfullyCompleted || completedWithError" mat-icon-button class="close-button" (click)="onClose()">
             <mat-icon>close</mat-icon>
         </button>
     </div>
@@ -30,6 +30,9 @@
         </div>
     </mat-dialog-content>
     <mat-dialog-actions *ngIf="successfullyCompleted">
-        <button mat-button class="view-transaction-button" [routerLink]="['/profile/transaction-history', transactionId]" (click)="onClose()">View Transaction</button>
+        <button mat-button class="action-button view-transaction-button" [routerLink]="['/profile/transaction-history', transactionId]" (click)="onClose()">View Transaction</button>
+    </mat-dialog-actions>
+    <mat-dialog-actions *ngIf="completedWithError">
+        <button mat-button class="action-button try-again-button" (click)="reloadPage()">Try Again</button>
     </mat-dialog-actions>
 </div>
