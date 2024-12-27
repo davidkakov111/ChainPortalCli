@@ -11,7 +11,15 @@ export class WebShocketService {
   constructor(private serverSrv: ServerService) {}
 
   connect() {
-    this.serverSocket = new Socket({url: this.serverSrv.serverEndpoint, options: {}});
+    this.serverSocket = new Socket({
+      url: this.serverSrv.serverEndpoint, 
+      options: {
+        extraHeaders: {
+          maxHttpBufferSize: '1e8'  // 100 MB
+        },
+        transports: ['websocket', 'polling']
+      }
+    });
   }
 
   disConnect() {

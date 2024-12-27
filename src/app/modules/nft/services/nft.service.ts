@@ -1,6 +1,8 @@
 import { Injectable } from '@angular/core';
 import { NftMetadata } from '../components/mint/nft-metadata/nft-metadata.component';
 import { blockchain } from '../../shared/components/blockchain-selector/blockchain-selector.component';
+import { MatDialog } from '@angular/material/dialog';
+import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 
 export type mintStep = 'step1' | 'step2';
 
@@ -8,7 +10,7 @@ export type mintStep = 'step1' | 'step2';
   providedIn: 'root'
 })
 export class NftService {
-  constructor() { }
+  constructor(private dialog: MatDialog) {}
 
   // Data to track the user's mint process
   private mintProcess = {
@@ -30,9 +32,25 @@ export class NftService {
  
   // Individual handlers for setting step data
   async setNftMetadata(nftMetadata: NftMetadata) {
-    this.mintProcess.step1.data = nftMetadata;
-    this.mintProcess.step1.metadataByteSize = await this.calcNftMetadataByteSize(nftMetadata);
-    this.mintProcess.step1.completed = true;
+    const metadataByteSize = await this.calcNftMetadataByteSize(nftMetadata);
+    const metadataMB = this.bytesToMB(metadataByteSize);
+
+    if (metadataMB < 100) {
+      this.mintProcess.step1 = {
+        completed: true,
+        data: nftMetadata,
+        metadataByteSize: metadataByteSize
+      };
+    } else {
+      const dialogRef = this.dialog.open(ConfirmDialogComponent, {
+        width: '270px',
+        data: { message: 'The metadata size is too large. Please keep it under 100 MB.' }
+      });
+
+      dialogRef.afterClosed().subscribe(() => {
+        window.location.reload();
+      });
+    }
 
     // Remove selected blockahin if metadata change, bc this can effect the minting fee
     this.removeStepData('step2');
@@ -59,5 +77,18 @@ export class NftService {
 
   getMetadataByteSize(): number {
     return this.mintProcess.step1.metadataByteSize;
+  }
+
+  // Convert byte to MB
+  bytesToMB(bytes: number): number {
+    return bytes / (1024 * 1024);
+  }
+
+  // Open confirmation dialog with a message
+  openConfirmDialog(message: string) {
+    this.dialog.open(ConfirmDialogComponent, {
+      width: '270px',
+      data: { message }
+    });
   }
 }
