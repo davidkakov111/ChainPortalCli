@@ -1,6 +1,7 @@
 import { Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { WebShocketService } from '../../services/web-shocket.service';
+import { ConfettiService } from '../../services/confetti.service';
 
 @Component({
   selector: 'app-web-socket-message-board',
@@ -26,6 +27,7 @@ export class WebSocketMessageBoardComponent implements OnInit {
       success_message: string
     },
     private wsSrv: WebShocketService,
+    private confettiSrv: ConfettiService,
   ) {
     // Initialize the display data based on the event
     if (this.data.event === 'mint-nft') {
@@ -50,9 +52,11 @@ export class WebSocketMessageBoardComponent implements OnInit {
       this.displayData[index].status = 'success';
 
       if (index < this.displayData.length - 1) {
+        // If there is a next step, set it to processing
         this.displayData[index + 1].status = 'processing';
       } else {
-        // TODO - display some confetti animation or something
+        // If there is no next step, trigger confetti and set the transaction id to view the transaction
+        this.confettiSrv.triggerContinuousConfetti();
         this.transactionId = data.txId;
         this.successfullyCompleted = true;
       }
