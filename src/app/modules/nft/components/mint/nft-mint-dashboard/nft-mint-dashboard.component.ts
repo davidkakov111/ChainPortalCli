@@ -59,7 +59,7 @@ export class NftMintDashboardComponent {
         event: 'mint-nft', 
         status_event: 'mint-nft-status', 
         error_event: 'mint-nft-error', 
-        data: {bChainSymbol, paymentTxSignature, metadataWithMediaName},
+        data: {bChainSymbol, paymentTxSignature, NftMetadata: metadataWithMediaName},
         success_message: 'Your NFT has been minted successfully!'
       },
     });
