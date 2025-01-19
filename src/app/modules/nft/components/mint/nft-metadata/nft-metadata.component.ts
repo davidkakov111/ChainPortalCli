@@ -11,6 +11,7 @@ export interface NftMetadata {
   title: string;                         // Title of the NFT
   description: string;                   // Description of the NFT
   media: File | null;                    // Media file (can be an image, video, etc.)
+  symbol: string;                        // Symbol of the NFT
   attributes: Array<Attribute>;          // Array of attributes for the NFT
   creator?: string;                      // Optional creator information
   isLimitedEdition: boolean;             // Checkbox for limited edition
@@ -57,6 +58,7 @@ export class NftMetadataComponent {
       title: [existingMetadata?.title || '', Validators.required],
       description: [existingMetadata?.description || '', Validators.required],
       media: ['', Validators.required],
+      symbol: [existingMetadata?.symbol || ''],
       attributes: this.fb.array(
         existingMetadata?.attributes?.map(attr => this.fb.group(attr)) || []
       ),

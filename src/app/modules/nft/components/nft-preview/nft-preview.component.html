@@ -39,9 +39,6 @@
         <!-- Title -->
         <ng-container *ngTemplateOutlet="titleTemplate"></ng-container>
 
-        <!-- Creator with Icon -->
-        <ng-container *ngTemplateOutlet="creatorTemplate"></ng-container>
-
         <!-- Description with Icon -->
         <div *ngIf="mediaHeight > largeDescriptionHeight" appResizeObserver (boxResize)="onDescriptionResize($event)">
           <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
@@ -57,12 +54,16 @@
 
       <!-- On small screens -->
       <div class="sm-creator-description mt-15">
-        <!-- Creator with Icon -->
-        <ng-container *ngTemplateOutlet="creatorTemplate"></ng-container>
 
         <!-- Description with Icon -->
         <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
       </div>
+
+      <!-- Creator with Icon -->
+      <mat-card-subtitle *ngIf="nftMetadata.creator" class="mt-15">
+        <mat-icon color="primary" aria-hidden="true" fontIcon="person"></mat-icon>
+        {{ nftMetadata.creator }}
+      </mat-card-subtitle>
       
       <!-- Attributes with Icon -->
       <div *ngIf="nftMetadata.attributes?.length" class="mt-15">
@@ -127,16 +128,10 @@
         #{{ nftMetadata.editionNumber }}
         <span *ngIf="nftMetadata.totalEditions" class="fs-s">/ {{ nftMetadata.totalEditions }}</span>
       </span>
+      <!-- Symbol -->
+      <br><span class="fs-l">{{nftMetadata.symbol}}</span>
     </h5>
   </mat-card-title>
-</ng-template>
-
-<!-- Creator with Icon -->
-<ng-template #creatorTemplate>
-  <mat-card-subtitle *ngIf="nftMetadata.creator">
-    <mat-icon color="primary" aria-hidden="true" fontIcon="person"></mat-icon>
-    {{ nftMetadata.creator }}
-  </mat-card-subtitle>
 </ng-template>
 
 <!-- Description with Icon -->
