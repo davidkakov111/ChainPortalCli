@@ -50,7 +50,7 @@ export class NftMintDashboardComponent {
   async handlePayment(paymentTxSignature: string) {
     const NftMetadata: NftMetadata = this.nftSrv.getStepData('step1');
     const bChainSymbol: blockchainSymbols = this.nftSrv.getStepData('step2').symbol;
-    const metadataWithMediaName = {...NftMetadata, mediaName: NftMetadata.media?.name};
+    const metadataWithMediaProperties = {...NftMetadata, mediaName: NftMetadata.media?.name, mediaContentType: NftMetadata.media?.type};
 
     // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
     this.dialog.open(WebSocketMessageBoardComponent, {
@@ -59,7 +59,7 @@ export class NftMintDashboardComponent {
         event: 'mint-nft', 
         status_event: 'mint-nft-status', 
         error_event: 'mint-nft-error', 
-        data: {bChainSymbol, paymentTxSignature, NftMetadata: metadataWithMediaName},
+        data: {bChainSymbol, paymentTxSignature, NftMetadata: metadataWithMediaProperties},
         success_message: 'Your NFT has been minted successfully!'
       },
     });
