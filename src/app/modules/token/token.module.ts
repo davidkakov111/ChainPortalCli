@@ -1,21 +1,27 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TokenRoutingModule } from './token-routing.module';
-import { TokenBridgeComponent } from './components/token-bridge/token-bridge.component';
-import { TokenMintComponent } from './components/token-mint/token-mint.component';
+import { TokenBridgeComponent } from './components/bridge/token-bridge/token-bridge.component';
+import { TokenMintComponent } from './components/mint/token-mint/token-mint.component';
 import { TokenDashboardComponent } from './components/token-dashboard/token-dashboard.component';
-import { MatButtonModule } from '@angular/material/button';
+import { MaterialModule } from '../shared/material/material.module';
+import { SharedModule } from '../shared/shared.module';
+import { TokenMetadataComponent } from './components/mint/token-metadata/token-metadata.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 @NgModule({
   declarations: [
     TokenBridgeComponent,
     TokenMintComponent,
-    TokenDashboardComponent
+    TokenDashboardComponent,
+    TokenMetadataComponent,
   ],
   imports: [
     CommonModule,
     TokenRoutingModule,
-    MatButtonModule
+    MaterialModule,
+    SharedModule,
+    ReactiveFormsModule,
   ]
 })
 export class TokenModule { }

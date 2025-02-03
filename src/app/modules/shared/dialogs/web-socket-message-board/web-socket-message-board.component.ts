@@ -20,9 +20,9 @@ export class WebSocketMessageBoardComponent implements OnInit {
   constructor( 
     public dialogRef: MatDialogRef<WebSocketMessageBoardComponent>,
     @Inject(MAT_DIALOG_DATA) public data: {
-      event: 'mint-nft', 
-      status_event: 'mint-nft-status', 
-      error_event: 'mint-nft-error', 
+      event: 'mint-nft' | 'mint-token', 
+      status_event: 'mint-nft-status' | 'mint-token-status', 
+      error_event: 'mint-nft-error' | 'mint-token-error', 
       data: any,
       success_message: string
     },
@@ -36,7 +36,13 @@ export class WebSocketMessageBoardComponent implements OnInit {
         {id: 1, message: 'Uploading NFT metadata', status: 'pending'},
         {id: 2, message: 'Minting NFT on blockchain', status: 'pending'}
       ];
-    } else if (this.data.event === '???') {
+    } else if (this.data.event === 'mint-token') {
+      this.displayData = [
+        {id: 0, message: 'Validating payment transaction', status: 'processing'},
+        {id: 1, message: 'Uploading token icon', status: 'pending'},
+        {id: 2, message: 'Minting tokens on the blockchain', status: 'pending'}
+      ];
+    } else {
       // TODO - Add other events here when implemented
     }
   }

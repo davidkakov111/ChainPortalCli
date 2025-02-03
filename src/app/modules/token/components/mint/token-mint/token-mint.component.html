@@ -1,0 +1,55 @@
+<mat-horizontal-stepper (selectionChange)="onStepChange($event)" linear>
+  <!-- Step 1 -->
+  <mat-step [completed]="tokenSrv.stepCompleted('step1')">
+    <ng-template matStepLabel>Metadata</ng-template>
+    <!-- Metadata form component -->
+    <app-token-metadata></app-token-metadata>
+    <!-- Next step button -->
+    <div class="w100 flx-row-center">
+      <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center next-btn"
+        [disabled]="!tokenSrv.stepCompleted('step1')">
+        Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <!-- Step 2 -->
+  <mat-step [completed]="tokenSrv.stepCompleted('step2')">
+    <ng-template matStepLabel>Blockchain</ng-template>
+    <!-- Blockchain selector component -->
+    <app-blockchain-selector 
+      [title]="'Select Blockchain to Mint Tokens'"
+      [suportedBlockchains]="['SOL']"
+      [selectedByDefault]="tokenSrv.getStepData('step2').symbol"
+      [assetType]="'Token'"
+      [operationType]="'mint'"
+      [metadataByteSize]="tokenSrv.getMetadataByteSize()"
+      (blockchainSelected)="onBlockchainSelected($event)">
+    </app-blockchain-selector>
+    <!-- Next step button -->
+    <div class="w100 flx-row-center">
+      <button mat-raised-button matStepperNext color="primary" class="mt-10 pr-10 flx-row-center next-btn"
+        [disabled]="!tokenSrv.stepCompleted('step2')">
+        Next <mat-icon class="next-btn-icon">arrow_forward</mat-icon>
+      </button>
+    </div>
+  </mat-step>
+
+  <!-- Step 3 -->
+  <mat-step>
+    <ng-template matStepLabel>Mint</ng-template>
+    <div class="w100 flx-col-center">
+      <!-- Display the appropriate wallet connection component based on the selected blockchain. 
+        Load the component and its service only when required to avoid unnecessary overhead. -->
+      <div *ngIf="selectedStepIndex === 2 && !payed" class="my-20">
+        <!-- Solana W.C. -->
+        <div *ngIf="tokenSrv.getStepData('step2').symbol === 'SOL'">
+          <app-solana-wallet-connect [estFee]="tokenSrv.getStepData('step2').estFee" [operationType]="'mint'"
+            (paymentTxSignature)="handlePayment($event)" class="my-20"></app-solana-wallet-connect>
+        </div>
+      </div>
+      <!-- TODO - Display the token -->
+      <!-- <app-nft-preview class="w100 my-20" [nftMetadata]="nftSrv.getStepData('step1')" [blockchain]="nftSrv.getStepData('step2')"></app-nft-preview> -->
+    </div>
+  </mat-step>
+</mat-horizontal-stepper>

@@ -1,0 +1,63 @@
+@use '../../../../../../styles/_breakpoints' as *;
+
+mat-form-field {
+    display: flex;
+    flex-direction: column;
+}
+.selected-file-card {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+.media-error {
+    font-size: small;
+    margin-left: 15px;
+}
+span {
+    display: block;
+    margin-top: 8px;
+    font-size: 14px;
+    color: rgba(0, 0, 0, 0.6);
+}
+.flx-col-center {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
+.flx-row-center {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+}
+form {
+    width: 70%;
+}
+.w100 {
+    width: 100%;
+}
+.m-y20 {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+.pt-15 {
+    padding-top: 15px;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.mb-20 {
+    margin-bottom: 20px;
+}
+
+/* Responsive design */
+@media (max-width: $breakpoint-sm) {
+    form {
+        width: 90%;
+    }
+    h3 {
+        font-size: x-large;
+    }
+    mat-card-content {
+        font-size: small;
+    }
+}

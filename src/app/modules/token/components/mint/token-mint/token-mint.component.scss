@@ -1,0 +1,35 @@
+.next-btn-icon {
+    margin-left: 5px; 
+    order: 2;
+}
+.flx-row-center {
+    display: flex; 
+    flex-direction: row; 
+    align-items: center;
+    justify-content: center;
+}
+.mt-30 {
+    margin-top: 30px;
+}
+.my-20 {
+    margin: 20px 0;
+}
+.mt-10 {
+    margin-top: 10px;
+}
+.pr-10 {
+    padding-right: 10px;
+}
+.w100 {
+    width: 100%;
+}
+.next-btn {
+    width: 120px; 
+    height: 50px; 
+    font-size: larger;
+}
+.flx-col-center {
+    display: flex; 
+    flex-direction: column; 
+    align-items: center;
+}
