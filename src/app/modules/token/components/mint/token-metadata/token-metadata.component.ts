@@ -39,8 +39,8 @@ export class TokenMetadataComponent {
       name: [existingMetadata?.name || '', Validators.required],
       symbol: [existingMetadata?.symbol || '', Validators.required],
       media: ['', Validators.required],
-      supply: [existingMetadata?.supply || 1],
-      decimals: [existingMetadata?.decimals || 0],
+      supply: [existingMetadata?.supply || 1, [Validators.min(1), Validators.max(1e19), Validators.pattern(/^\d+$/)]],
+      decimals: [existingMetadata?.decimals || 0, [Validators.min(0), Validators.max(9), Validators.pattern(/^\d+$/)]],
       description: [existingMetadata?.description || ''],
       externalLink: [existingMetadata?.externalLink || ''],
     });

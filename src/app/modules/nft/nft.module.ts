@@ -7,7 +7,6 @@ import { NftMetadataComponent } from './components/mint/nft-metadata/nft-metadat
 import { NftMintDashboardComponent } from './components/mint/nft-mint-dashboard/nft-mint-dashboard.component';
 import { SharedModule } from '../shared/shared.module';
 import { NftPreviewComponent } from './components/nft-preview/nft-preview.component';
-import { ThreeDViewerComponent } from './components/nft-preview/three-dviewer/three-dviewer.component';
 import { MaterialModule } from '../shared/material/material.module';
 import { ReactiveFormsModule } from '@angular/forms';
 
@@ -18,7 +17,6 @@ import { ReactiveFormsModule } from '@angular/forms';
     NftDashboardComponent,
     NftMintDashboardComponent,
     NftPreviewComponent,
-    ThreeDViewerComponent,
   ],
   imports: [
     CommonModule,

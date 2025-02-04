@@ -48,8 +48,8 @@
             (paymentTxSignature)="handlePayment($event)" class="my-20"></app-solana-wallet-connect>
         </div>
       </div>
-      <!-- TODO - Display the token -->
-      <!-- <app-nft-preview class="w100 my-20" [nftMetadata]="nftSrv.getStepData('step1')" [blockchain]="nftSrv.getStepData('step2')"></app-nft-preview> -->
+      <!-- Display the token -->
+      <app-token-preview class="w100 my-20" [tokenMetadata]="tokenSrv.getStepData('step1')" [blockchain]="tokenSrv.getStepData('step2')"></app-token-preview>
     </div>
   </mat-step>
 </mat-horizontal-stepper>

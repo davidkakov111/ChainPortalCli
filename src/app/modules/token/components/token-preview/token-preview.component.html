@@ -1,0 +1,94 @@
+<div class="w100 flx-col-center">
+  <mat-card>
+    <mat-card-header>
+      <!-- Name - on small screens -->
+      <div class="sm-title"><ng-container *ngTemplateOutlet="nameTemplate"></ng-container></div>
+
+      <!-- Selected Blockchain Logo -->
+      <button mat-icon-button class="b-chain-logo" *ngIf="blockchain"
+        [matTooltip]="blockchain.estFee ? 'Estimated Fee: ' + blockchain.estFee + ' ' + blockchain.coin : ''">
+        <img [src]="blockchain.logo"/>
+      </button>
+      
+      <!-- Media file -->
+      <div><div appResizeObserver (boxResize)="onMediaFileResize($event)">
+        <!-- Image display -->
+        <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.tokenMetadata.media?.name }}" class="media-width"/>
+
+        <!-- Video display -->
+        <video *ngIf="fileCategory === 'video'" [src]="selectedFileUrl" controls class="media-width">
+          Your browser does not support the video tag.
+        </video>
+
+        <!-- Audio display -->
+        <audio *ngIf="fileCategory === 'audio'" [src]="selectedFileUrl" controls class="media-width">
+          Your browser does not support the audio element.
+        </audio>
+
+        <!-- 3D model display (.glb / .obj) -->
+        <div *ngIf="fileCategory === 'model' || fileCategory === 'application'" class="media-width media-height">
+          <app-three-dviewer [file]="tokenMetadata.media"></app-three-dviewer>
+        </div>
+
+        <!-- Unsupported file type -->
+        <p *ngIf="fileCategory === 'unsupported'" class="media-width" style="word-wrap: break-word;">This file type is not supported for display.</p>
+      </div></div>
+
+      <!-- On large screens -->
+      <div class="right-text-block">
+        <!-- Name -->
+        <ng-container *ngTemplateOutlet="nameTemplate"></ng-container>
+
+        <!-- Description with Icon -->
+        <div *ngIf="mediaHeight > largeDescriptionHeight" appResizeObserver (boxResize)="onDescriptionResize($event)">
+          <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
+        </div>
+      </div>
+    </mat-card-header>
+
+    <mat-card-content>
+      <!-- Long description on large screens -->
+      <div *ngIf="mediaHeight <= largeDescriptionHeight" class="right-text-block">
+        <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
+      </div>
+
+      <!-- On small screens -->
+      <div class="sm-creator-description mt-15">
+
+        <!-- Description with Icon -->
+        <ng-container *ngTemplateOutlet="descriptionTemplate"></ng-container>
+      </div>
+
+      <!-- Supply with Icon -->
+      <div *ngIf="tokenMetadata.supply">
+        <mat-icon color="primary" aria-hidden="true" fontIcon="account_balance"></mat-icon>Supply: {{ tokenMetadata.supply }}
+      </div>
+    
+      <!-- Decimals with Icon -->
+      <div *ngIf="tokenMetadata.decimals">
+        <mat-icon color="primary" aria-hidden="true" fontIcon="pie_chart"></mat-icon>Decimals: {{ tokenMetadata.decimals }}
+      </div>
+
+      <!-- External Link with Icon -->
+      <div *ngIf="tokenMetadata.externalLink">
+        <mat-icon color="primary" aria-hidden="true" fontIcon="open_in_new"></mat-icon>
+        <a [href]="tokenMetadata.externalLink" target="_blank">{{ tokenMetadata.externalLink }}</a>
+      </div>
+    </mat-card-content>
+  </mat-card>
+</div>
+
+<!-- ------------------- Reusable templates --------------------------- -->
+<!-- Name -->
+<ng-template #nameTemplate>
+  <mat-card-title>
+    <h5>{{ tokenMetadata.name }} <br class="sm-title"><span class="fs-l gray"> {{tokenMetadata.symbol}}</span></h5>
+  </mat-card-title>
+</ng-template>
+
+<!-- Description with Icon -->
+<ng-template #descriptionTemplate>
+  <div *ngIf="tokenMetadata.description">
+    <mat-icon color="primary" aria-hidden="true" fontIcon="description"></mat-icon>Description: <p>{{ tokenMetadata.description }}</p>
+  </div>
+</ng-template>

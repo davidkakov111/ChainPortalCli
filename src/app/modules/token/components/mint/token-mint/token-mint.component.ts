@@ -7,6 +7,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
 import { TokenService } from '../../../services/token.service';
 import { TokenMetadata } from '../token-metadata/token-metadata.component';
+import { TokenPreviewComponent } from '../../token-preview/token-preview.component';
 
 @Component({
   selector: 'app-token-mint',
@@ -16,6 +17,7 @@ import { TokenMetadata } from '../token-metadata/token-metadata.component';
 })
 export class TokenMintComponent {
   // ViewChilds 
+  @ViewChild(TokenPreviewComponent) TokenPreviewComponent!: TokenPreviewComponent;
   @ViewChild(BlockchainSelectorComponent) BlockchainSelectorComponent!: BlockchainSelectorComponent;
 
   constructor (
@@ -40,7 +42,7 @@ export class TokenMintComponent {
       }
     } else if (event.selectedIndex === 2) {
       window.Buffer = Buffer;
-      // this.tokenPreviewComponent.onStepVisible();// TODO
+      this.TokenPreviewComponent.onStepVisible();
     }
   }
 

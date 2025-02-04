@@ -8,6 +8,7 @@ import { MaterialModule } from '../shared/material/material.module';
 import { SharedModule } from '../shared/shared.module';
 import { TokenMetadataComponent } from './components/mint/token-metadata/token-metadata.component';
 import { ReactiveFormsModule } from '@angular/forms';
+import { TokenPreviewComponent } from './components/token-preview/token-preview.component';
 
 @NgModule({
   declarations: [
@@ -15,6 +16,7 @@ import { ReactiveFormsModule } from '@angular/forms';
     TokenMintComponent,
     TokenDashboardComponent,
     TokenMetadataComponent,
+    TokenPreviewComponent,
   ],
   imports: [
     CommonModule,

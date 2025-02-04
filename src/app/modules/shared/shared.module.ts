@@ -8,6 +8,7 @@ import { SolanaWalletConnectUIComponent } from './dialogs/solana-wallet-connect-
 import { WebSocketMessageBoardComponent } from './dialogs/web-socket-message-board/web-socket-message-board.component';
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material/material.module';
+import { ThreeDViewerComponent } from './components/three-dviewer/three-dviewer.component';
 
 @NgModule({
   declarations: [
@@ -16,7 +17,8 @@ import { MaterialModule } from './material/material.module';
     ResizeObserverDirective,
     SolanaWalletConnectComponent,
     SolanaWalletConnectUIComponent,
-    WebSocketMessageBoardComponent
+    WebSocketMessageBoardComponent,
+    ThreeDViewerComponent,
   ],
   imports: [
     CommonModule,
@@ -29,7 +31,8 @@ import { MaterialModule } from './material/material.module';
     ResizeObserverDirective,
     SolanaWalletConnectComponent,
     SolanaWalletConnectUIComponent,
-    WebSocketMessageBoardComponent
+    WebSocketMessageBoardComponent,
+    ThreeDViewerComponent,
   ]
 })
 export class SharedModule { }
