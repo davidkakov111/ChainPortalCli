@@ -65,7 +65,10 @@ export class TokenService {
     const { media, ...metaObj } = metadata;
 
     // Metadata size in bytes
-    const metadataByteSize = new Blob([JSON.stringify(metaObj)]).size; 
+    const metadataByteSize = new Blob([JSON.stringify({
+      name: metaObj.name, symbol: metaObj.symbol, description: metaObj.description,
+      image: "https://gateway.irys.xyz/7ocJMYa6UPZcFPKiYtqsG6uJJzNmLNFHrtcDixXMRALZ"
+    })]).size; 
 
     // Media file size in bytes
     const arrayBuffer = await media?.arrayBuffer();

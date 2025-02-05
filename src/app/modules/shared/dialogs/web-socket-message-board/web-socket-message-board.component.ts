@@ -39,7 +39,7 @@ export class WebSocketMessageBoardComponent implements OnInit {
     } else if (this.data.event === 'mint-token') {
       this.displayData = [
         {id: 0, message: 'Validating payment transaction', status: 'processing'},
-        {id: 1, message: 'Uploading token icon', status: 'pending'},
+        {id: 1, message: 'Uploading token metadata', status: 'pending'},
         {id: 2, message: 'Minting tokens on the blockchain', status: 'pending'}
       ];
     } else {

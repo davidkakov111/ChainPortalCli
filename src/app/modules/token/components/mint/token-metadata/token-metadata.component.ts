@@ -36,8 +36,8 @@ export class TokenMetadataComponent {
 
     // Asign the existing values to the form, if any
     this.tokenForm = this.fb.group({
-      name: [existingMetadata?.name || '', Validators.required],
-      symbol: [existingMetadata?.symbol || '', Validators.required],
+      name: [existingMetadata?.name || '', [Validators.required, Validators.maxLength(32)]],
+      symbol: [existingMetadata?.symbol || '', [Validators.required, Validators.maxLength(10)]],
       media: ['', Validators.required],
       supply: [existingMetadata?.supply || 1, [Validators.min(1), Validators.max(1e19), Validators.pattern(/^\d+$/)]],
       decimals: [existingMetadata?.decimals || 0, [Validators.min(0), Validators.max(9), Validators.pattern(/^\d+$/)]],
