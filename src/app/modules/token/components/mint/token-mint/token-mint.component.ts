@@ -59,7 +59,7 @@ export class TokenMintComponent {
         event: 'mint-token', 
         status_event: 'mint-token-status', 
         error_event: 'mint-token-error', 
-        data: {bChainSymbol, paymentTxSignature, NftMetadata: metadataWithMediaProperties},
+        data: {bChainSymbol, paymentTxSignature, TokenMetadata: metadataWithMediaProperties},
         success_message: 'Your tokens has been minted successfully!'
       },
     });

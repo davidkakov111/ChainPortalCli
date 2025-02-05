@@ -6,12 +6,12 @@ import { TokenService } from '../../../services/token.service';
 
 // Token metadata interface
 export interface TokenMetadata {
-  name: string;                          // Name of the NFT
-  symbol: string;                        // Symbol of the NFT
+  name: string;                          // Name of the Token
+  symbol: string;                        // Symbol of the Token
   media: File | null;                    // Media file (can be an image, video, etc.)
-  supply?: number;                        // Total supply of the token
+  supply?: number;                       // Total supply of the token
   decimals?: number;                     // How many decimal places should the token have
-  description?: string;                  // Description of the NFT
+  description?: string;                  // Description of the Token
   externalLink?: string;                 // Optional external link
 }
 

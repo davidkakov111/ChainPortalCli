@@ -31,7 +31,7 @@ export class TokenService {
 
   // Individual handlers for setting step data
   async setTokenMetadata(tokenMetadata: TokenMetadata) {
-    const metadataByteSize = await this.calcNftMetadataByteSize(tokenMetadata);
+    const metadataByteSize = await this.calcTokenMetadataByteSize(tokenMetadata);
     const metadataMB = this.bytesToMB(metadataByteSize);
 
     if (metadataMB < 100) {
@@ -61,7 +61,7 @@ export class TokenService {
   }
 
   // Calculate the Token metadata size in bytes (to calculate the storage fee for IPFS on the server)
-  async calcNftMetadataByteSize(metadata: TokenMetadata) {
+  async calcTokenMetadataByteSize(metadata: TokenMetadata) {
     const { media, ...metaObj } = metadata;
 
     // Metadata size in bytes
