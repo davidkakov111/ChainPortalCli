@@ -2,11 +2,12 @@
   <h3>Provide NFT Details</h3>
 
   <form [formGroup]="nftForm" class="flx-col-center">
-    <!-- Title -->
+    <!-- Name -->
     <mat-form-field appearance="fill" class="w100">
-      <mat-label>Title</mat-label>
+      <mat-label>Name</mat-label>
       <input matInput formControlName="title" required>
-      <mat-error *ngIf="nftForm.get('title')?.hasError('required')">Title is required.</mat-error>
+      <mat-error *ngIf="nftForm.get('title')?.hasError('required')">Name is required.</mat-error>
+      <mat-error *ngIf="nftForm.get('title')?.hasError('maxlength')">Name cannot be longer than 32 characters.</mat-error>
     </mat-form-field>
 
     <!-- Description -->
@@ -115,16 +116,20 @@
             <mat-form-field appearance="fill" class="w100">
               <mat-label>Type</mat-label>
               <input matInput formControlName="type" placeholder="e.g., Color">
+              <mat-error *ngIf="attribute.get('type')?.hasError('maxlength')">Key cannot be longer than 32 characters.</mat-error>
+              <mat-error *ngIf="attribute.get('type')?.hasError('required')">Key is required.</mat-error>
             </mat-form-field>
             <mat-form-field appearance="fill" class="w100">
               <mat-label>Value</mat-label>
               <input matInput formControlName="value" placeholder="e.g., Red">
+              <mat-error *ngIf="attribute.get('value')?.hasError('maxlength')">Value cannot be longer than 64 characters.</mat-error>
+              <mat-error *ngIf="attribute.get('value')?.hasError('required')">Value is required.</mat-error>
             </mat-form-field>
             <button mat-icon-button color="warn" (click)="removeAttribute(i)">
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <button mat-stroked-button color="primary" (click)="addAttribute()">Add Attribute</button>
+          <button mat-stroked-button color="primary" [disabled]="this.attributes.length >= 6" (click)="addAttribute()">Add Attribute</button>
         </div>
 
         <!-- Edition Information -->

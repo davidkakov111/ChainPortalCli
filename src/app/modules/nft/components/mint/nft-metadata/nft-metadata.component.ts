@@ -55,12 +55,15 @@ export class NftMetadataComponent {
     // Asign the existing values to the form, if any
     this.tags = existingMetadata?.tags || [];
     this.nftForm = this.fb.group({
-      title: [existingMetadata?.title || '', Validators.required],
+      title: [existingMetadata?.title || '', [Validators.required, Validators.maxLength(32)]],
       description: [existingMetadata?.description || '', Validators.required],
       media: ['', Validators.required],
       symbol: [existingMetadata?.symbol || ''],
       attributes: this.fb.array(
-        existingMetadata?.attributes?.map(attr => this.fb.group(attr)) || []
+        existingMetadata?.attributes?.map(attr => this.fb.group({
+          type: [attr.type || '', [Validators.required, Validators.maxLength(32)]],
+          value: [attr.value || '', [Validators.required, Validators.maxLength(64)]]
+        })) || []
       ),
       creator: [existingMetadata?.creator || ''],
       isLimitedEdition: [existingMetadata?.isLimitedEdition || false], // Checkbox or toggle
@@ -111,9 +114,10 @@ export class NftMetadataComponent {
     return this.nftForm.get('attributes') as FormArray;
   }
   addAttribute() {
+    if (this.attributes.length >= 6) return;
     this.attributes.push(this.fb.group({
-      type: ['', Validators.required],
-      value: ['', Validators.required]
+      type: ['', [Validators.required, Validators.maxLength(32)]],
+      value: ['', [Validators.required, Validators.maxLength(64)]]
     }));
   }
   removeAttribute(index: number) {
