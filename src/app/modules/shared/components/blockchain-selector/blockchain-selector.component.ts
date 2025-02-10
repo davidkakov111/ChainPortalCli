@@ -123,18 +123,18 @@ export class BlockchainSelectorComponent {
       const cardHeight = cardElement ? cardElement.clientHeight : 0;
       const selectedCardHeight = cardHeight * 1.05; // e.g.: transform: scale(1.05);
       scrollElement.style.height = `${selectedCardHeight}px`;
-
-      // Scroll to the first card (no initial gap)
-      scrollElement.scrollLeft = (scrollElement.clientWidth / 2)-gap;
   
+      if (this.selectedByDefault) {
+        // Select and scroll to the selected by defualt blockahin card, if provided 
+        this.selectBlockchain(this.selectedByDefault);
+      } else {
+        // Scroll to the first card (no initial gap)
+        scrollElement.scrollLeft = (scrollElement.clientWidth / 2)-gap;
+      }
+
       // Use a timeout to enable the scroll listener logic after the initial scroll setup
       setTimeout(() => {
         this.setupAutoScroll();
-
-        // Select and scroll to the selected by defualt blockahin card, if provided 
-        if (this.selectedByDefault) {
-          this.selectBlockchain(this.selectedByDefault);
-        }
       }, 2000); // Delay for 2 sec to ensure the programmatic scroll has completed    
     }
   }
