@@ -9,6 +9,7 @@
         <div class="sidenav-content">
             <button mat-button (click)="sidenav.close()" routerLink="/nft">NFTs</button>
             <button mat-button (click)="sidenav.close()" routerLink="/token">Tokens</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/learn">Learn</button>
         </div>
     </mat-sidenav>
 
@@ -23,6 +24,9 @@
             <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()">
                 <mat-icon>menu</mat-icon>
             </button>
+
+            <!-- Left learn button on large screens -->
+            <button mat-button class="learn" routerLink="/learn">Learn</button>
         
             <!-- Navbar buttons, hidden on small screens -->
             <span class="navbar">

@@ -7,6 +7,7 @@ import { TransactionHistoryComponent } from './components/account/transaction-hi
 import { TransactionDetailComponent } from './components/account/transaction-detail/transaction-detail.component';
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material/material.module';
+import { LearnComponent } from './components/learn/learn.component';
 
 @NgModule({
   declarations: [
@@ -14,6 +15,7 @@ import { MaterialModule } from '../shared/material/material.module';
     AccountDropdownComponent,
     TransactionHistoryComponent,
     TransactionDetailComponent,
+    LearnComponent,
   ],
   imports: [
     CommonModule,

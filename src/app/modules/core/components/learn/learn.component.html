@@ -1,0 +1,122 @@
+<div class="sidebar">
+    <div class="h-70"></div>
+    <button class="title" (click)="scrollTo('overview')" [class.active]="isActive('overview')">Overview</button>
+    
+    <button class="title" (click)="scrollTo('nft-minting')" [class.active]="isActive('nft-minting')">NFT Minting Process</button>
+    <button class="subtitle" (click)="scrollTo('nftMintingStep1')" [class.active]="isActive('nftMintingStep1')">Step 1: Provide Metadata</button>
+    <button class="subtitle" (click)="scrollTo('nftMintingStep2')" [class.active]="isActive('nftMintingStep2')">Step 2: Select Blockchain</button>
+    <button class="subtitle" (click)="scrollTo('nftMintingStep3')" [class.active]="isActive('nftMintingStep3')">Step 3: Mint Your NFT</button>
+
+    <button class="title" (click)="scrollTo('token-minting')" [class.active]="isActive('token-minting')">Token Minting Process</button>
+    <button class="subtitle" (click)="scrollTo('tokenMintingStep1')" [class.active]="isActive('tokenMintingStep1')">Step 1: Provide Metadata</button>
+    <button class="subtitle" (click)="scrollTo('tokenMintingStep2')" [class.active]="isActive('tokenMintingStep2')">Step 2: Select Blockchain</button>
+    <button class="subtitle" (click)="scrollTo('tokenMintingStep3')" [class.active]="isActive('tokenMintingStep3')">Step 3: Mint Your Token</button>
+
+    <button class="title" (click)="scrollTo('faqs')" [class.active]="isActive('faqs')">FAQs</button>
+</div>
+
+<div class="container">
+    <!-- Overview -->
+    <section id="overview" id="overview" #overview>
+        <h2 class="mat-primary">Overview</h2>
+        <p>ChainPortal allows you to manage your NFTs and tokens across blockchains with a streamlined, easy-to-use interface and very low fees to save money for users and providing value to the Web3 community. You can mint NFTs and tokens on the supported blockchains and bridge them between blockchains in the future. Follow the steps below to understand the process and start creating your assets with confidence.</p>
+    </section>
+
+    <!-- NFT minting -->
+    <section id="nft-minting" id="nftMinting" #nftMinting>
+        <h3>NFT Minting Process</h3>
+        <div class="step" id="nftMintingStep1" #nftMintingStep1>
+            <h5>Step 1: Provide Metadata</h5>
+            <p>Fill in the details about your NFT, such as its name, description, and file (supporting a wide range of file types, from images to 3D objects, videos, audio files, and more). While there are many additional NFT properties you can include, these are the required ones. The metadata will be securely stored on IPFS, ensuring decentralized and tamper-proof storage, staying true to the Web3 decentralized nature.</p>
+            <img src="/images/learn/nft-metadata-form1.png" alt="NFT metadata form, first part" />
+            <img src="/images/learn/nft-metadata-form2.png" alt="NFT metadata form, second part" />
+        </div>
+
+        <div class="step" id="nftMintingStep2" id="nftMintingStep2" #nftMintingStep2>
+            <h5>Step 2: Select Blockchain</h5>
+            <p>Choose the blockchain where you want to mint your NFT. Simply scroll to the desired blockchain or click on it to select it. A blue border around the blockchain card visually indicates that the blockchain is selected. The card contains the estimated total fee for minting your specific NFT on each blockchain, helping you decide which blockchain to use, along with a short description of each blockchain. Currently, the Solana blockchain is integrated, but more blockchains will be added soon.</p>
+            <img src="/images/learn/nft-bchain-selector.png" alt="NFT blockchain selector" />
+        </div>
+
+        <div class="step" id="nftMintingStep3" #nftMintingStep3>
+            <h5>Step 3: Mint Your NFT</h5>
+            <p>Review your NFT details, connect your wallet from the wide range of supported ones, mint the NFT by clicking the mint button and approve the payment transaction.</p>
+            <img src="/images/learn/nft-preview.png" alt="NFT preview" />
+            <p>The minting process will automatically start and will complete shortly. The time required depends on multiple factors, such as the selected blockchain and network conditions, but usually, the process completes in seconds.</p>
+            <p>For clarity, you will see the real-time progress of the NFT minting, displayed in 3 steps:</p>
+            <ul>
+                <li><strong>Validating payment transaction:</strong> Validating your payment and ensuring ChainPortal has received the correct amount for your NFT minting.</li>
+                <li><strong>Uploading NFT metadata:</strong> The NFT metadata will be uploaded to IPFS, including the NFT media file and other NFT details.</li>
+                <li><strong>Minting NFT on blockchain:</strong> The NFT will be minted on the selected blockchain and sent to your wallet.</li>
+            </ul>    
+            <p>Once your NFT is minted, confetti will appear, and you can find your new NFT in your wallet.</p>
+            <img src="/images/learn/nft-mint-congrat.png" alt="NFT minted successfully" />
+            <img src="/images/learn/nft-in-wallet.png" alt="NFT in wallet" />
+        </div>
+    </section>
+
+    <!-- Token Minting -->
+    <section id="token-minting" id="tokenMinting" #tokenMinting>
+        <h3>Token Minting Process</h3>
+        <div class="step" id="tokenMintingStep1" #tokenMintingStep1>
+            <h5>Step 1: Provide Metadata</h5>
+            <p>Provide details about your token, such as its name, symbol, and image (or another file type, if needed). While there are many additional important token properties you can include, these are the required ones. The metadata will be securely stored on IPFS, ensuring decentralized and tamper-proof storage, staying true to the decentralized nature of Web3.</p>
+            <img src="/images/learn/token-metadata-form.png" alt="Token metadata form" />
+        </div>
+
+        <div class="step" id="tokenMintingStep2" #tokenMintingStep2>
+            <h5>Step 2: Select Blockchain</h5>
+            <p>Choose the blockchain where you want to mint your tokens. Simply scroll to the desired blockchain or click on it to select it. A blue border around the blockchain card visually indicates that the blockchain is selected. The card contains the estimated total fee for minting your specific token on each blockchain, helping you decide which blockchain to use, along with a short description of each blockchain. Currently, the Solana blockchain is integrated, but more blockchains will be added soon.</p>
+            <img src="/images/learn/token-bchain-selector.png" alt="Token blockchain selector" />
+        </div>
+
+        <div class="step" id="tokenMintingStep3" #tokenMintingStep3>
+            <h5>Step 3: Mint Your Token</h5>
+            <p>Review your token details, connect your wallet from the wide range of supported options, click the mint button, and approve the payment transaction.</p>
+            <img src="/images/learn/token-preview.png" alt="Token preview" />
+            <p>The minting process will automatically start and complete shortly. The time required depends on multiple factors, such as the selected blockchain and network conditions, but the process typically completes in seconds.</p>
+            <p>To ensure clarity, you will see the real-time progress of the token minting process, displayed in three steps:</p>
+            <ul>
+                <li><strong>Validating payment transaction:</strong> This step ensures your payment is valid and that ChainPortal has received the correct amount for minting your token.</li>
+                <li><strong>Uploading token metadata:</strong> The token metadata, including the token icon and other details, will be uploaded to IPFS.</li>
+                <li><strong>Minting tokens on the blockchain:</strong> Your tokens will be minted on the selected blockchain and sent directly to your wallet.</li>
+            </ul>    
+            <p>Once your tokens are minted, confetti will appear, and you can find your new tokens in your wallet.</p>
+            <img src="/images/learn/token-mint-congrat.png" alt="Token minted successfully" />
+            <img src="/images/learn/token-in-wallet.png" alt="Token in wallet" />
+        </div>
+    </section>
+
+    <!-- Faq -->
+    <section id="faqs" id="faqs" #faqs>
+        <h3>FAQs</h3>
+        <div class="faq-item">
+            <h6>What is ChainPortal?</h6>
+            <p>ChainPortal is a streamlined platform that allows you to manage NFTs and tokens across blockchains with low fees and user-friendly tools for creating and managing assets securely.</p>
+        </div>
+        <div class="faq-item">
+            <h6>What blockchains are currently supported?</h6>
+            <p>Currently, ChainPortal supports the Solana blockchain. Additional blockchains will be integrated in the future to offer users more flexibility.</p>
+        </div>
+        <div class="faq-item">
+            <h6>What file types are supported for NFTs?</h6>
+            <p>ChainPortal supports a wide range of file types, including images, 3D objects, videos, and audio files, providing flexibility for your creative needs.</p>
+        </div>
+        <div class="faq-item">
+            <h6>How long does the minting process take?</h6>
+            <p>Minting typically completes within seconds, but the duration may vary depending on the blockchain selected and network conditions.</p>
+        </div>
+        <div class="faq-item">
+            <h6>Is my metadata secure?</h6>
+            <p>Yes. Metadata is securely stored on IPFS, ensuring decentralized and tamper-proof storage in line with Web3 principles.</p>
+        </div>
+        <div class="faq-item">
+            <h6>What happens if the minting process fails?</h6>
+            <p>If the minting process fails, your funds will be returned automatically to your wallet after deducting the applicable fee(s). You can retry the process after checking for errors or network conditions.</p>
+        </div>
+        <div class="faq-item">
+            <h6>Where can I find my minted tokens or NFTs?</h6>
+            <p>Once minted, your tokens or NFTs will be sent directly to your connected wallet, where you can view them immediately.</p>
+        </div>
+    </section>    
+</div>

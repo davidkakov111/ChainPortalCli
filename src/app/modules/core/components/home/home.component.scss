@@ -68,7 +68,8 @@
 
 // Features section styles
 .features {
-  margin-bottom: 100px;
+  margin-top: 100px;
+  margin-bottom: 140px;
   text-align: center;
 }
 .features ul {
@@ -90,6 +91,16 @@
 .cta button {
   font-size: 1.5rem;
   padding: 12px 24px;
+}
+
+.how-it-works button {
+  font-size: 1.3rem;
+  padding: 18px 36px;
+  margin-top: 30px;
+}
+
+.steps {
+  margin-top: 30px
 }
 
 // Responsive design

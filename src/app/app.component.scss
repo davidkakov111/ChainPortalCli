@@ -69,10 +69,23 @@
     right: 10px;
 }
 
+.learn {
+    font-size: medium;
+    position: absolute;
+    left: 10px;
+}
+
+.nav-buttons {
+    font-size: medium;
+}
+
 /* Show the hamburger menu on small screens */
 @media (max-width: $breakpoint-sm) {
     .nav-buttons {
         display: none; /* Hide the extra buttons */
+    }
+    .learn {
+        display: none;
     }
     .menu-icon {
         display: inline-flex; /* Show the hamburger icon */

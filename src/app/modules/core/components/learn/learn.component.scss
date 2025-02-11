@@ -1,0 +1,82 @@
+.container {
+    margin-left: 250px;
+    padding: 2rem 4rem;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+h3, h2 {
+    color: #007bff;
+}
+
+div, section {
+    scroll-margin-top: 70px;
+}
+
+section:not(#overview) {
+    margin-top: 50px;
+}
+
+.subtitle {
+    text-indent: 20px;
+    color: black;
+}
+
+.title {
+    color: #007bff;
+    font-size: larger;
+}
+
+.title, .subtitle {
+    &.active {
+        color: #00356d;
+        font-weight: bold;
+    }
+}
+
+.step {
+    margin-bottom: 1.5rem;
+}
+
+.step img {
+    max-width: 100%;
+    height: auto;
+    margin: 1rem 0;
+    border-radius: 8px;
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 250px;
+    height: 100%;
+    background-color: #f1f1f1;
+    padding: 1rem;
+    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+}
+
+.h-70 {
+    height: 70px;
+}
+
+.sidebar button {
+    display: block;
+    margin: 1rem 0;
+    background: none;
+    border: none;
+    text-align: left;
+    cursor: pointer;
+    padding: 0;
+    font-size: large;
+}
+
+.sidebar button:hover {
+    text-decoration: underline;
+}
+
+.faq-item {
+    margin: 40px 0;
+}
