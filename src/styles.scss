@@ -1,5 +1,6 @@
 /* You can add global styles to this file, and also import other style files */
 @use './styles/_breakpoints' as *;
+@use 'css-star-rating/scss/star-rating';
 
 .walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
     width: 300px;

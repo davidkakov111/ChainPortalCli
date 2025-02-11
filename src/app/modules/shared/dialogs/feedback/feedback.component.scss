@@ -1,0 +1,24 @@
+.flx-col {
+    display: flex; 
+    flex-direction: column; 
+}
+.dialog-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: x-large;
+    font-weight: bold;
+} 
+.dialog-header button {
+    margin-left: 20px;
+}
+.m-y-10 {
+    margin: 20px 0;
+}
+.flx-center {
+    display: flex;
+    justify-content: center;
+}
+.submit-btn {
+    font-size: larger;
+}

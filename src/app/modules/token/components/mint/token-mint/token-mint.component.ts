@@ -2,7 +2,6 @@ import { Component, ViewChild } from '@angular/core';
 import { blockchain, BlockchainSelectorComponent, blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Buffer } from 'buffer';
-import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
 import { TokenService } from '../../../services/token.service';
@@ -65,13 +64,5 @@ export class TokenMintComponent {
     });
     
     this.payed = true;
-  }
-
-  // Open confirmation dialog with a message
-  openConfirmDialog(message: string): void {
-    this.dialog.open(ConfirmDialogComponent, {
-      width: '270px',
-      data: { message }
-    });
   }
 }

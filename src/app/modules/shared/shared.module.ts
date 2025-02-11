@@ -9,6 +9,9 @@ import { WebSocketMessageBoardComponent } from './dialogs/web-socket-message-boa
 import { RouterModule } from '@angular/router';
 import { MaterialModule } from './material/material.module';
 import { ThreeDViewerComponent } from './components/three-dviewer/three-dviewer.component';
+import { FeedbackComponent } from './dialogs/feedback/feedback.component';
+import { FormsModule } from '@angular/forms';
+import { StarRatingModule } from 'angular-star-rating';
 
 @NgModule({
   declarations: [
@@ -19,11 +22,14 @@ import { ThreeDViewerComponent } from './components/three-dviewer/three-dviewer.
     SolanaWalletConnectUIComponent,
     WebSocketMessageBoardComponent,
     ThreeDViewerComponent,
+    FeedbackComponent,
   ],
   imports: [
     CommonModule,
     MaterialModule,
-    RouterModule
+    RouterModule,
+    FormsModule, 
+    StarRatingModule.forRoot()
   ],
   exports: [
     ConfirmDialogComponent,
@@ -33,6 +39,7 @@ import { ThreeDViewerComponent } from './components/three-dviewer/three-dviewer.
     SolanaWalletConnectUIComponent,
     WebSocketMessageBoardComponent,
     ThreeDViewerComponent,
+    FeedbackComponent,
   ]
 })
 export class SharedModule { }
