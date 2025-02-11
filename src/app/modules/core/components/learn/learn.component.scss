@@ -1,3 +1,5 @@
+@use '../../../../../styles/_breakpoints' as *;
+
 .container {
     margin-left: 250px;
     padding: 2rem 4rem;
@@ -25,7 +27,6 @@ section:not(#overview) {
 
 .title {
     color: #007bff;
-    font-size: larger;
 }
 
 .title, .subtitle {
@@ -79,4 +80,35 @@ section:not(#overview) {
 
 .faq-item {
     margin: 40px 0;
+}
+
+/* Responsive Design */
+@media (max-width: $breakpoint-lg) {
+    .sidebar button {
+        font-size: small;
+    }
+
+    .sidebar {
+        width: 150px;
+        padding: 0.5rem;
+    }
+
+    .subtitle {
+        text-indent: 10px;
+    }
+
+    .container {
+        margin-left: 150px;
+        padding: 1rem 2rem;
+    }    
+}
+@media (max-width: $breakpoint-sm) {
+    .sidebar {
+        display: none;
+    }
+
+    .container {
+        margin-left: 0;
+        padding: 0.5rem 1rem;
+    }    
 }
