@@ -61,7 +61,11 @@
 
       <!-- Supply with Icon -->
       <div *ngIf="tokenMetadata.supply">
-        <mat-icon color="primary" aria-hidden="true" fontIcon="account_balance"></mat-icon>Supply: {{ tokenMetadata.supply }}
+        <!-- Supply with Icon -->
+        <div *ngIf="tokenMetadata.decimals">
+          <mat-icon color="primary" aria-hidden="true" fontIcon="account_balance"></mat-icon>Total Token Supply: {{ divideByDecimals(tokenMetadata.supply, tokenMetadata.decimals) }}
+        </div>
+        <mat-icon color="primary" aria-hidden="true" fontIcon="account_balance"></mat-icon>Supply (in Smallest Units): {{ tokenMetadata.supply }}
       </div>
     
       <!-- Decimals with Icon -->

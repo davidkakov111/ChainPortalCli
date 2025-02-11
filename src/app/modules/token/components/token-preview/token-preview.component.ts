@@ -64,4 +64,8 @@ export class TokenPreviewComponent {
   onMediaFileResize(newSize: DOMRectReadOnly): void {
     if (newSize.height) this.mediaHeight = newSize.height;
   }
+
+  divideByDecimals(number: number, decimals: number): string {
+    return (number / (10 ** decimals)).toFixed(decimals);
+  }  
 }
