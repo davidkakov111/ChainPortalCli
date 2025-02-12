@@ -1,7 +1,8 @@
 import { Component, Inject, OnInit } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { WebShocketService } from '../../services/web-shocket.service';
 import { ConfettiService } from '../../services/confetti.service';
+import { FeedbackComponent } from '../feedback/feedback.component';
 
 @Component({
   selector: 'app-web-socket-message-board',
@@ -28,6 +29,7 @@ export class WebSocketMessageBoardComponent implements OnInit {
     },
     private wsSrv: WebShocketService,
     private confettiSrv: ConfettiService,
+    private dialog: MatDialog,
   ) {
     // Initialize the display data based on the event
     if (this.data.event === 'mint-nft') {
@@ -90,11 +92,17 @@ export class WebSocketMessageBoardComponent implements OnInit {
 
   // Close dialog
   onClose(): void {
+    this.openFeedbackDialog();
     this.dialogRef.close();
   }
 
   // Reload the page
   reloadPage(): void {
-    window.location.reload();
+    this.openFeedbackDialog().afterClosed().subscribe(() => {window.location.reload()});
+  }
+
+  // Open feedback dialog with a message
+  openFeedbackDialog() {
+    return this.dialog.open(FeedbackComponent, {data: { afterUse: true }});
   }
 }

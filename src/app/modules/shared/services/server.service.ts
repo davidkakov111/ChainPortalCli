@@ -82,4 +82,9 @@ export class ServerService {
   getTxDetails(txId: number): Observable<transaction> {
     return this.http.get<transaction>(`${this.serverEndpoint}/tx-details?txId=${txId}`);
   }
+
+  // Save feedback
+  saveFeedback(feedback: {rating: number, feedback: string, afterUse: boolean, ip: any}): Observable<any> {
+    return this.http.post<any>(this.serverEndpoint+'/submit-feedback', feedback);
+  }
 }

@@ -8,6 +8,8 @@ import { CommonModule } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { SharedModule } from './modules/shared/shared.module';
 import { CoreModule } from './modules/core/core.module';
+import { MatDialog } from '@angular/material/dialog';
+import { FeedbackComponent } from './modules/shared/dialogs/feedback/feedback.component';
 
 @Component({
   selector: 'app-root',
@@ -43,7 +45,10 @@ export class AppComponent {
   @ViewChild('navbarHeightEl', { static: false }) navbarHeightEl!: ElementRef;
 
   // Get the current year for the footer
-  constructor(private cdr: ChangeDetectorRef) {this.currentYear = new Date().getFullYear()};
+  constructor(
+    private cdr: ChangeDetectorRef,
+    private dialog: MatDialog,
+  ) {this.currentYear = new Date().getFullYear()};
 
   // Access the height of the element after the view initializes 
   ngAfterViewInit() {
@@ -68,5 +73,10 @@ export class AppComponent {
     }
 
     this.previousScrollPosition = currentScrollPosition;
+  }
+
+  // Open feedback dialog
+  openFeedbackDialog(): void {
+    this.dialog.open(FeedbackComponent, {data: { afterUse: false }});
   }
 }

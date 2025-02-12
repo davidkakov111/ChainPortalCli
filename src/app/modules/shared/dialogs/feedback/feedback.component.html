@@ -1,4 +1,5 @@
-<mat-dialog-content>
+<!-- Feedback form -->
+<mat-dialog-content *ngIf="!submitted">
   <div class="dialog-header">
     <span>Rate Your Experience</span>
     <button mat-icon-button aria-label="Close dialog" color="primary" (click)="dialogRef.close()">
@@ -16,11 +17,17 @@
 
     <mat-form-field appearance="fill">
       <mat-label>Feedback (Optional)</mat-label>
-      <textarea matInput [(ngModel)]="data.feedback"></textarea>
+      <textarea matInput [(ngModel)]="feedbackData.feedback"></textarea>
     </mat-form-field>
   </div>
 </mat-dialog-content>
 
-<mat-dialog-actions class="flx-center">
-  <button mat-raised-button color="primary" (click)="submit()" class="submit-btn" [disabled]="data.rating < 0">Submit</button>
+<!-- Thank You Message -->
+<mat-dialog-content *ngIf="submitted">
+  <div class="txt-center"><h3>Thank You!</h3></div>
+</mat-dialog-content>
+
+<!-- Submit button -->
+<mat-dialog-actions class="flx-center" *ngIf="!submitted">
+  <button mat-raised-button color="primary" (click)="submit()" class="submit-btn" [disabled]="feedbackData.rating < 0">Submit</button>
 </mat-dialog-actions>

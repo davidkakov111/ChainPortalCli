@@ -1,5 +1,7 @@
-import { Component } from '@angular/core';
-import { MatDialogRef } from '@angular/material/dialog';
+import { HttpClient } from '@angular/common/http';
+import { Component, Inject } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { ServerService } from '../../services/server.service';
 
 @Component({
   selector: 'app-feedback',
@@ -8,22 +10,33 @@ import { MatDialogRef } from '@angular/material/dialog';
   standalone: false
 })
 export class FeedbackComponent {
-  data: {rating: number, feedback: string} = {rating: -1, feedback: ''};
+  feedbackData: {rating: number, feedback: string} = {rating: -1, feedback: ''};
+  submitted: boolean = false;
 
   // Build the form in the constructor
   constructor(
     public dialogRef: MatDialogRef<FeedbackComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: { afterUse: boolean },
+    private http: HttpClient,
+    private serverSrv: ServerService,
   ) {}
 
   // Method to handle star rating changes
   onRatingChanged(newRating: any): void {
-    this.data.rating = newRating.rating;
+    this.feedbackData.rating = newRating.rating;
   } 
 
-  // Function to save the feedback
+  // Function to save the feedback with IP address
   submit() {
-    // TODO - Send it to the server and save it, maybe send the users ip also
-    console.log(this.data);
-    this.dialogRef.close();
+    this.submitted = true;
+    this.http.get<any>('https://api.ipify.org?format=json').subscribe((response) => {
+      this.serverSrv.saveFeedback({...this.feedbackData, afterUse: this.data.afterUse, ip: response?.ip}).subscribe({
+        next: (response) => {this.dialogRef.close()},
+        error: (err) => {
+          console.error('Error saving feedback:', err);
+          this.dialogRef.close();
+        }
+      });
+    });
   }
 }

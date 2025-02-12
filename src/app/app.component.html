@@ -9,7 +9,8 @@
         <div class="sidenav-content">
             <button mat-button (click)="sidenav.close()" routerLink="/nft">NFTs</button>
             <button mat-button (click)="sidenav.close()" routerLink="/token">Tokens</button>
-            <button mat-button (click)="sidenav.close()" routerLink="/learn">Learn</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/learn"><mat-icon>help_outline</mat-icon> Learn</button>
+            <button mat-button (click)="openFeedbackDialog()"><mat-icon>rate_review</mat-icon> Feedback</button>
         </div>
     </mat-sidenav>
 
@@ -21,13 +22,14 @@
         <mat-toolbar color="primary" class="navbar-container navbar"
             [@slideInOut]="navbarAnimationIn ? 'in' : 'out'" *ngIf="isNavbar">
             <!-- Hamburger icon, visible only on small screens -->
-            <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()">
-                <mat-icon>menu</mat-icon>
-            </button>
+            <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
 
-            <!-- Left learn button on large screens -->
-            <button mat-button class="learn" routerLink="/learn">Learn</button>
-        
+            <!-- Left menu items on large screens -->
+            <div class="left-menu-items">
+                <button mat-icon-button color="primary" (click)="openFeedbackDialog()"><mat-icon>rate_review</mat-icon></button>
+                <button mat-button routerLink="/learn" color="primary"><mat-icon>help_outline</mat-icon> Learn</button>
+            </div>
+
             <!-- Navbar buttons, hidden on small screens -->
             <span class="navbar">
                 <button mat-button class="nav-buttons" routerLink="/nft">NFTs</button>

@@ -15,7 +15,7 @@
 .navbar-container {
     position: fixed;
     z-index: 2;
-    box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
+    box-shadow: 0px 0px 10px 0px rgb(78, 78, 78);
 }
 .navbar {
     display: flex;
@@ -54,7 +54,7 @@
 
 // Footer styles
 .footer-toolbar {
-    box-shadow: 0px 0px 15px 0px rgb(0, 0, 0);
+    box-shadow: 0px 0px 10px 0px rgb(78, 78, 78);
     position: relative;
     bottom: 0;
     width: 100%;
@@ -69,8 +69,9 @@
     right: 10px;
 }
 
-.learn {
-    font-size: medium;
+.left-menu-items {
+    display: flex; 
+    flex-direction: row;
     position: absolute;
     left: 10px;
 }
@@ -84,7 +85,7 @@
     .nav-buttons {
         display: none; /* Hide the extra buttons */
     }
-    .learn {
+    .left-menu-items {
         display: none;
     }
     .menu-icon {
