@@ -33,6 +33,10 @@
   width: 100%; 
   font-size: large;
 }
+.title {
+  margin-top: 40px;
+  text-align: center;
+}
 
 // Responsive design
 @media (max-width: $breakpoint-xl) {
@@ -51,6 +55,10 @@
   .action-card p {
     font-size: smaller;
   }
+  .title h2 {
+    font-size: xx-large;
+    font-weight: 400;
+  }
 }
 @media (max-width: $breakpoint-sm) {
   #actions {
@@ -58,5 +66,9 @@
   }
   .action-card {
     width: 75%;
+  }
+  .title h2 {
+    margin-top: 20px;
+    font-size: x-large;
   }
 }
