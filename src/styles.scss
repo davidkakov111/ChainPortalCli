@@ -22,6 +22,9 @@ $dark-theme: mat.define-theme((
 .h100 {
   height: 100%;
 }
+.m-10 {
+  margin: 10px;
+}
 .walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
   width: 300px;
 }

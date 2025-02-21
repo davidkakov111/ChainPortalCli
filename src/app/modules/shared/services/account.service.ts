@@ -31,6 +31,6 @@ export class AccountService {
       if (this.router.url.includes('profile')) {
         this.router.navigate(['/']);
       }
-    }
+    }// TODO - Implement other blockchains later
   };
 }

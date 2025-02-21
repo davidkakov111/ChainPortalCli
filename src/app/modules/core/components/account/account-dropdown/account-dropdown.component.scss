@@ -6,8 +6,34 @@ button[mat-menu-item]:hover {
 .mobile-account-btn {
     display: none;
 }
-.m-5 {
-    margin: 5px;
+.mobile-account-btn:hover {
+    color: var(--hover-blue);
+}
+.pc-account-btn:hover {
+    color: var(--hover-blue);
+}
+.chain-selector {
+    text-align: center;
+}
+.chain-selector p {
+    color: rgb(192, 192, 192);
+    font-size: medium;
+}
+.connect-wallet {
+    font-size: medium;
+    font-weight: bold;
+}
+.connect-wallet:hover {    
+    color: var(--hover-blue);    
+}
+.chain-content {
+    display: inline-flex;
+    align-items: center; 
+    gap: 10px;
+    font-size: x-large; 
+}
+.chain-content:hover {
+    color: var(--hover-blue);
 }
 
 /* Responsive Design */

@@ -8,6 +8,7 @@ import { TransactionDetailComponent } from './components/account/transaction-det
 import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material/material.module';
 import { LearnComponent } from './components/learn/learn.component';
+import { SharedModule } from '../shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -22,6 +23,7 @@ import { LearnComponent } from './components/learn/learn.component';
     CoreRoutingModule,
     FormsModule,
     MaterialModule,
+    SharedModule,
   ],
   exports: [
     AccountDropdownComponent,
