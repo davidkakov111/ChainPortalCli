@@ -1,5 +1,5 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from '@angular/core';
+import { Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
 
 @Component({
   selector: 'app-home',
@@ -8,7 +8,6 @@ import { Component, ElementRef, Inject, PLATFORM_ID, Renderer2, ViewChild } from
   standalone: false
 })
 export class HomeComponent {
-  @ViewChild('topSection') topSection!: ElementRef;
   isBrowser!: boolean;
 
   constructor(
@@ -17,27 +16,6 @@ export class HomeComponent {
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
-  }
-
-  ngAfterViewInit() {
-    // Only execute if running in the browser
-    if (this.isBrowser) {
-      this.adjustTopSectionHeight();
-      window.addEventListener('resize', () => this.adjustTopSectionHeight());
-    }
-  }
-
-  adjustTopSectionHeight() {
-    const viewportHeight = window.innerHeight;
-
-    // Get the top position of the top section relative to the entire document
-    const top = this.topSection.nativeElement.offsetTop;
-
-    // Calculate the space remaining to the viewport bottom
-    const remainingHeight = viewportHeight - top;
-
-    // Adjust the height
-    this.renderer.setStyle(this.topSection.nativeElement, 'min-height', `${remainingHeight}px`);
   }
 
   // Function to scroll to the specified section

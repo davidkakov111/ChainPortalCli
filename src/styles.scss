@@ -1,9 +1,29 @@
 /* You can add global styles to this file, and also import other style files */
 @use './styles/_breakpoints' as *;
 @use 'css-star-rating/scss/star-rating';
+@use '@angular/material' as mat;
+@include mat.core();
 
+:root {
+  --hover-blue: rgb(0, 204, 255);
+}
+
+$dark-theme: mat.define-theme((
+  color: (
+    theme-type: dark,
+    primary: mat.$blue-palette
+  )
+));
+
+:root {
+  @include mat.all-component-themes($dark-theme);
+}
+
+.h100 {
+  height: 100%;
+}
 .walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
-    width: 300px;
+  width: 300px;
 }
 
 html, body { height: 100%; }

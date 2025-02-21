@@ -1,4 +1,4 @@
-<mat-sidenav-container color="primary">
+<mat-sidenav-container>
     <!-- Sidebar for small screens -->
     <mat-sidenav #sidenav mode="over" hasBackdrop="true" class="sidenav">
         <div class="sidenav-header">
@@ -7,53 +7,78 @@
             </button>
         </div>
         <div class="sidenav-content">
+            <button mat-button (click)="sidenav.close()" routerLink="/">ChainPortal</button>
             <button mat-button (click)="sidenav.close()" routerLink="/nft">NFTs</button>
             <button mat-button (click)="sidenav.close()" routerLink="/token">Tokens</button>
-            <button mat-button (click)="sidenav.close()" routerLink="/learn"><mat-icon>help_outline</mat-icon> Learn</button>
-            <button mat-button (click)="openFeedbackDialog()"><mat-icon>rate_review</mat-icon> Feedback</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/learn">Learn</button>
+            <button mat-button (click)="openFeedbackDialog(); sidenav.close();">Feedback</button>
         </div>
     </mat-sidenav>
 
     <div class="app-container">
-        <!-- Placeholder for the fixed position header -->
+        <!-- Placeholder for the fixed position navbar -->
         <div [ngStyle]="{ height: navbarHeight }"></div>
         
         <!-- Navbar -->
-        <mat-toolbar color="primary" class="navbar-container navbar"
-            [@slideInOut]="navbarAnimationIn ? 'in' : 'out'" *ngIf="isNavbar">
-            <!-- Hamburger icon, visible only on small screens -->
-            <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
+        <mat-toolbar class="navbar-container" [@slideInOut]="navbarAnimationIn ? 'in' : 'out'" *ngIf="isNavbar">
+            <div class="mw-1600 navbar-inner">
+                <!-- Hamburger icon, visible only on small screens -->
+                <button mat-icon-button class="menu-icon" (click)="sidenav.toggle()"><mat-icon>menu</mat-icon></button>
 
-            <!-- Left menu items on large screens -->
-            <div class="left-menu-items">
-                <button mat-icon-button color="primary" (click)="openFeedbackDialog()"><mat-icon>rate_review</mat-icon></button>
-                <button mat-button routerLink="/learn" color="primary"><mat-icon>help_outline</mat-icon> Learn</button>
+                <!-- Left menu logo on large screens -->
+                <div class="site-logo-wrapper">
+                    <button color="primary" mat-button class="logo" routerLink="/">
+                        <div class="site-logo-inner-wrapper">
+                            <img src="/favicon.ico" width="30" height="30" loading="lazy" alt="ChainPortal" title="ChainPortal">
+                            <span>ChainPortal</span>
+                        </div>
+                    </button>
+                </div>
+                
+                <!-- Navbar buttons, hidden on small screens -->
+                <span>
+                    <button mat-button class="nav-buttons" routerLink="/nft">NFTs</button>
+                    <button mat-button class="nav-buttons" routerLink="/token">Tokens</button>
+                    <button mat-button class="nav-buttons" routerLink="/learn">Learn</button>
+                    <button mat-button class="nav-buttons" (click)="openFeedbackDialog()">Feedback</button>
+                </span>
+
+                <!-- Account Dropdown -->
+                <app-account-dropdown></app-account-dropdown>
             </div>
-
-            <!-- Navbar buttons, hidden on small screens -->
-            <span class="navbar">
-                <button mat-button class="nav-buttons" routerLink="/nft">NFTs</button>
-                <button mat-button color="primary" class="logo" routerLink="/">ChainPortal</button>
-                <button mat-button class="nav-buttons" routerLink="/token">Tokens</button>
-            </span>
-
             <!-- To observe the height of the material toolbar header -->
-            <div #navbarHeightEl style="height: 100%;"></div>
-            
-            <!-- Account Dropdown -->
-            <app-account-dropdown class="account-dropdown"></app-account-dropdown>
+            <div #navbarHeightEl class="h100"></div>
         </mat-toolbar>
 
         <!-- Router outlet for the entire site -->
-        <div class="content">
+        <div class="content mw-1600">
             <router-outlet />
         </div>
 
         <!-- Footer -->
-        <footer>
-            <mat-toolbar color="primary" class="footer-toolbar">
-            <span>&copy;{{currentYear}} ChainPortal.</span>
-            </mat-toolbar>
-        </footer>
+        <footer class="footer">
+            <div class="mw-1600">    
+                <div class="footer-container">
+                    <div class="footer-brand">
+                        <div class="site-logo-inner-wrapper footer-site-logo">
+                            <img src="/favicon.ico" width="30" height="30" loading="lazy" alt="ChainPortal" title="ChainPortal">
+                            <span>ChainPortal</span>
+                        </div>
+                        <br>
+                        <p>Manage your digital assets effortlessly.</p>
+                    </div>
+                    
+                    <nav class="footer-links">
+                        <a routerLink="/">Home</a>
+                        <a routerLink="/nft">NFTs</a>
+                        <a routerLink="/token">Tokens</a>
+                        <a routerLink="/learn">Learn</a>
+                        <a (click)="openFeedbackDialog()">Feedback</a>
+                    </nav>
+                </div>
+                <br>
+                <span>&copy;{{currentYear}} ChainPortal. All Rights Reserved.</span>
+            </div>
+        </footer>  
     </div>
 </mat-sidenav-container>

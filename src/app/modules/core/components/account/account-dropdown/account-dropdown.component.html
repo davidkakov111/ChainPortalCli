@@ -10,6 +10,11 @@
     <span>{{shortenPubKey(accountSrv.getAccount()?.pubKey || '')}}</span>
 </button>
 
+<!-- TODO - Implement general wallet connect regardless of blockchain if needed and put it in mobile menu also. Or figure out something else here -->
+<button mat-button aria-label="Connect Wallet" color="primary" class="" *ngIf="!accountSrv.getAccount()">
+    <span>Connect Wallet</span>
+</button>
+
 <!-- Dropdown Menu -->
 <mat-menu #accountMenu="matMenu">
     <button mat-menu-item [routerLink]="['/profile/transaction-history']">Transaction History</button>

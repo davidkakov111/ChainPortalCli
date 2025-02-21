@@ -5,8 +5,8 @@
     display: flex;
     flex-direction: column;
     min-height: 100vh;
+    overflow-x: hidden;
 }
-/* Style for the content area to grow and fill space between header and footer */
 .content {
     flex: 1;
 }
@@ -15,22 +15,44 @@
 .navbar-container {
     position: fixed;
     z-index: 2;
-    box-shadow: 0px 0px 10px 0px rgb(78, 78, 78);
 }
-.navbar {
-    display: flex;
-    justify-content: center;
+.navbar-inner {
+    display: flex; 
+    justify-content: space-between;
 }
-
-// Mobile sidenav styles
+.nav-buttons {
+    font-size: medium;
+}
+.nav-buttons:hover {
+    color: var(--hover-blue);
+}
+.menu-icon {
+    display: none;
+}
+.logo {
+    font-size: x-large;
+    font-weight: bold;
+}
+.site-logo-inner-wrapper {
+    display: flex; 
+    flex-direction: row;
+    align-items: center;
+    gap: 8px;
+}
+.logo:hover {
+    color: var(--hover-blue);
+}
 .sidenav {
     position: fixed;
-    width: 50%;
+    width: 65%;
     height: 100vh;
 }
 .sidenav-content {
     display: flex;
     flex-direction: column;
+}
+.sidenav-content button:hover {
+    color: var(--hover-blue);
 }
 .sidenav-header {
     display: flex;
@@ -38,60 +60,72 @@
     padding: 16px;
 }
 
-// Hamburger menu logo styles
-.menu-icon {
-    position: absolute;
-    left: 10px;
-    display: none;
-}
-
-// Logo styles
-.logo {
-    font-size: x-large;
-    font-weight: bold;
-    transform: translateY(-10%);
-}
-
 // Footer styles
-.footer-toolbar {
-    box-shadow: 0px 0px 10px 0px rgb(78, 78, 78);
+.footer {
+    background: linear-gradient(to right, rgba(0, 162, 255, 0.2), rgba(71, 25, 114, 0.4));
+    color: white;
+    padding: 30px 20px;
+    text-align: center;
     position: relative;
-    bottom: 0;
-    width: 100%;
+}
+.footer-container {
     display: flex;
-    justify-content: center;
+    flex-direction: column;
     align-items: center;
-    font-size: medium;
+    gap: 15px;
+}
+.footer-site-logo {
+    justify-content: center;
+}
+.footer-site-logo span {
+    font-size: xx-large;
+}
+.footer-links {
+    display: flex;
+    gap: 15px;
+}
+.footer-links a {
+    cursor: pointer;
+    color: white;
+    text-decoration: none;
+    transition: color 0.2s ease-in-out;
+}
+.footer-links a:hover {
+    color: rgba(0, 162, 255, 0.8);
 }
 
-.account-dropdown {
-    position: absolute;
-    right: 10px;
+// General styles
+.mw-1600 {
+    max-width: 1600px;
+    width: 100%;
+    margin: 0 auto;
 }
 
-.left-menu-items {
-    display: flex; 
-    flex-direction: row;
-    position: absolute;
-    left: 10px;
+/* Responsive design */
+@media (max-width: $breakpoint-md) {
+    .site-logo-wrapper button div img {
+        display: none;
+    }
+    .logo {
+        font-size: large;
+    }
 }
-
-.nav-buttons {
-    font-size: medium;
-}
-
-/* Show the hamburger menu on small screens */
 @media (max-width: $breakpoint-sm) {
     .nav-buttons {
-        display: none; /* Hide the extra buttons */
+        display: none;
     }
-    .left-menu-items {
+    .site-logo-wrapper {
         display: none;
     }
     .menu-icon {
-        display: inline-flex; /* Show the hamburger icon */
+        display: inline-flex;
     }
-    .logo {
-        transform: translateY(0%); /* Remove the translate */
+    .footer-links {
+        flex-direction: column;
+    }
+}
+@media (max-width: $breakpoint-xs) {
+    .sidenav {
+        width: 100%;
     }
 }
