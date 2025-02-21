@@ -30,7 +30,7 @@
         @for (bChain of bChains; track bChain) {
             <button class="m-10" mat-button color="primary" (click)="connectWallet(bChain.symbol)">
                 <div class="chain-content">
-                    <img [src]="bChain.logo" alt="{{ bChain.name }} logo" title="{{ bChain.name }} logo" width="30" height="30" />
+                    <img [src]="bChain.logo" alt="{{ bChain.name }} logo" title="{{ bChain.name }} logo" width="30" height="30" loading="lazy"/>
                     <span>{{ bChain.name.length > 9 ? bChain.symbol : bChain.name }}</span>
                 </div>
             </button>

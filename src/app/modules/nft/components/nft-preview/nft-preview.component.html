@@ -7,13 +7,13 @@
       <!-- Selected Blockchain Logo -->
       <button mat-icon-button class="b-chain-logo" *ngIf="blockchain"
         [matTooltip]="blockchain.estFee ? 'Estimated Fee: ' + blockchain.estFee + ' ' + blockchain.coin : ''">
-        <img [src]="blockchain.logo"/>
+        <img [src]="blockchain.logo" alt="{{ blockchain.name }}" title="{{ blockchain.name }}" loading="lazy"/>
       </button>
       
       <!-- Media file -->
       <div><div appResizeObserver (boxResize)="onMediaFileResize($event)">
         <!-- Image display -->
-        <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" class="media-width"/>
+        <img *ngIf="fileCategory === 'image'" [src]="selectedFileUrl" alt="{{ this.nftMetadata.media?.name }}" title="{{ this.nftMetadata.media?.name }}" loading="lazy" class="media-width"/>
 
         <!-- Video display -->
         <video *ngIf="fileCategory === 'video'" [src]="selectedFileUrl" controls class="media-width">

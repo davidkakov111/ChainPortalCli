@@ -13,7 +13,7 @@
         [attr.data-symbol]="chain.symbol">
         <mat-card-header>
           <div mat-card-avatar>
-            <img [src]="chain.logo" alt="{{ chain.name }} logo" width="40" height="40" />
+            <img [src]="chain.logo" alt="{{ chain.name }} logo" title="{{ chain.name }} logo" width="40" height="40" loading="lazy" />
           </div>
           <mat-card-title>{{ chain.name.length > 9 ? chain.symbol : chain.name }}</mat-card-title>
         </mat-card-header>
