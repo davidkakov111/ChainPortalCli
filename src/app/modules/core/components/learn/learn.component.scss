@@ -3,13 +3,12 @@
 .container {
     margin-left: 250px;
     padding: 2rem 4rem;
-    background: white;
     border-radius: 8px;
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 h3, h2 {
-    color: #007bff;
+    color: #90d3ff;
 }
 
 div, section {
@@ -22,16 +21,16 @@ section:not(#overview) {
 
 .subtitle {
     text-indent: 20px;
-    color: black;
+    color: white;
 }
 
 .title {
-    color: #007bff;
+    color: #90d3ff;
 }
 
 .title, .subtitle {
     &.active {
-        color: #00356d;
+        color: var(--hover-blue);
         font-weight: bold;
     }
 }
@@ -51,12 +50,9 @@ section:not(#overview) {
 .sidebar {
     position: fixed;
     top: 0;
-    left: 0;
     width: 250px;
     height: 100%;
-    background-color: #f1f1f1;
     padding: 1rem;
-    box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
 }
 
 .h-70 {
