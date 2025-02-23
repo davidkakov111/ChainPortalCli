@@ -1,7 +1,81 @@
+@use '../../../../../../styles/_breakpoints' as *;
+
 .no-data-container {
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
     margin-top: 100px;
+}
+.no-data-container button {
+    background: linear-gradient(
+        to right, 
+        rgba(18, 37, 63),
+        rgba(18, 50, 77),
+        rgba(21, 51, 85),
+        rgba(23, 49, 88),
+        rgba(25, 61, 109),
+        rgba(23, 68, 109)
+    );
+}
+.no-data-container button:hover {
+    color: var(--hover-blue);
+}
+
+.transaction-details {
+    margin: 30px 0 60px 0;
+    padding: 20px;
+    border-radius: 10px;
+    background: #1e1e2f;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
+    overflow-x: auto;
+}
+.reward-transactions h4 {
+    margin: 30px 0 20px 0;
+    font-size: 22px;
+}
+.transaction-details h2, .transaction-details h3 {
+    text-align: center;
+    margin-bottom: 20px;
+    font-size: 22px;
+}
+.transaction-details p {
+    display: flex;
+    justify-content: space-between;
+    padding: 10px 15px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+.transaction-details strong {
+    font-weight: bold;
+}
+.mint-history {
+    margin-top: 20px;
+    padding: 15px;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 8px;
+    overflow-x: auto;
+}
+.reward-transactions ul {
+    list-style: none;
+    padding: 0;
+}
+.reward-transactions li {
+    padding: 10px;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+strong {
+    margin-right: 10px;
+}
+
+// Responsive
+@media (max-width: $breakpoint-xs) {
+    p {
+        font-size: 12px;
+    }
+    .reward-transactions h4 {
+        font-size: 18px;
+    }
+    .transaction-details h2, .transaction-details h3 {
+        font-size: 18px;
+    }
 }
