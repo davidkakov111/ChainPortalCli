@@ -28,6 +28,38 @@ $dark-theme: mat.define-theme((
 .walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
   width: 300px;
 }
+.right-purple-light {
+  position: relative;
+}
+.right-purple-light::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  right: -45%;
+  width: 30%;
+  height: 100%;
+  border-radius: 30%;
+  background-color: rgb(148, 61, 247); 
+  filter: blur(150px);
+}
+.left-blue-light{
+  position: relative;
+}
+.left-blue-light::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  left: -25%;
+  width: 50%;
+  height: 100%;
+  border-radius: 30%;
+  background-color: rgba(0, 162, 255);
+  filter: blur(150px);
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
@@ -37,4 +69,41 @@ body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
     .walletconnect-modal__base { // Change the size of the default wallet connect popup "dialog"
         width: 200px;
     }
+}
+
+// Animation(s)
+@keyframes floatAnimation {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(10px); }
+}.right-purple-light {
+  position: relative;
+}
+.right-purple-light::after {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  right: -45%;
+  width: 30%;
+  height: 100%;
+  border-radius: 30%;
+  background-color: rgb(148, 61, 247); 
+  filter: blur(150px);
+}
+.left-blue-light{
+  position: relative;
+}
+.left-blue-light::before {
+  content: "";
+  position: absolute;
+  z-index: -1;
+  top: 50%; 
+  transform: translate(-50%, -50%);
+  left: -25%;
+  width: 50%;
+  height: 100%;
+  border-radius: 30%;
+  background-color: rgba(0, 162, 255);
+  filter: blur(150px);
 }

@@ -1,25 +1,30 @@
 <!-- Title section -->
 <section class="title">
-  <h2>NFT Minting or Bridging</h2>
+  <div>
+    <img src="/images/nft-logo.png" alt="NFT" title="NFT" loading="lazy">
+  </div>
+  <div>
+    <h2>NFT Minting or Bridging</h2>
+  </div>
 </section>
 
 <!-- Actions section -->
-<section id="actions">
-    <!-- Mint -->
-    <div class="action-card">
-      <img src="/images/minting-logo.png" loading="lazy" alt="Mint" title="Mint">
-      <h2>Mint</h2>
-      <p>Mint NFTs across multiple blockchains.</p>
-      <button mat-raised-button color="primary" routerLink="/nft/mint">Mint Now</button>
-    </div>
+<section id="actions" class="left-blue-light right-purple-light">
+  <!-- Mint -->
+  <div class="action-card  action-card-animation">
+    <img src="/images/minting-logo.png" loading="lazy" alt="Mint" title="Mint">
+    <h2>Mint</h2>
+    <p>Mint NFTs across multiple blockchains.</p>
+    <button mat-raised-button color="primary" routerLink="/nft/mint">Mint Now</button>
+  </div>
 
-    <div></div>
-    
-    <!-- Bridge -->
-    <div class="action-card">
-      <img src="/images/bridging-logo.png" loading="lazy" alt="Bridge" title="Bridge">
-      <h2>Bridge</h2>
-      <p>Bridge NFTs across multiple blockchains.</p>
-      <button mat-raised-button color="primary" routerLink="/nft/bridge" [disabled]="true">Coming Soon</button>
-    </div>
+  <div></div>
+  
+  <!-- Bridge -->
+  <div class="action-card">
+    <img src="/images/bridging-logo.png" loading="lazy" alt="Bridge" title="Bridge">
+    <h2>Bridge</h2>
+    <p>Bridge NFTs across multiple blockchains.</p>
+    <button mat-raised-button color="primary" routerLink="/nft/bridge" [disabled]="true">Coming Soon</button>
+  </div>
 </section>

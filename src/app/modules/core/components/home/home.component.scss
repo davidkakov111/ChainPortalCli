@@ -207,38 +207,6 @@
 .h-200 {
   height: 200px;
 }
-.right-purple-light {
-  position: relative;
-}
-.right-purple-light::after {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 50%; 
-  transform: translate(-50%, -50%);
-  right: -45%;
-  width: 30%;
-  height: 100%;
-  border-radius: 30%;
-  background-color: rgb(148, 61, 247); 
-  filter: blur(150px);
-}
-.left-blue-light{
-  position: relative;
-}
-.left-blue-light::before {
-  content: "";
-  position: absolute;
-  z-index: -1;
-  top: 50%; 
-  transform: translate(-50%, -50%);
-  left: -25%;
-  width: 50%;
-  height: 100%;
-  border-radius: 30%;
-  background-color: rgba(0, 162, 255);
-  filter: blur(150px);
-}
 .blue-gradient-button {
   font-size: x-large;
   font-weight: bold;
@@ -362,10 +330,6 @@
     opacity: 1;
     transform: translate(-50%, -50%) scale(1.2);
   }
-}
-@keyframes floatAnimation {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(10px); }
 }
 @keyframes gradientAnimation {
   0% {

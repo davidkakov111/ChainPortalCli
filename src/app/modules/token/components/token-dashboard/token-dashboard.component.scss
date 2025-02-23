@@ -1,5 +1,23 @@
 @use '../../../../../styles/_breakpoints' as *;
 
+// Title section styling
+.title {
+  margin-top: 40px;
+  margin-bottom: 40px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  gap: 10px;
+}
+.title img {
+  width: 70px;
+}
+.title div h2 {
+  font-size: 35px;
+  font-weight: bold;
+}
+
 // Actions section styles 
 #actions {
   margin: 15px;
@@ -7,35 +25,61 @@
   flex-direction: row; 
   justify-content: center;
   align-items: center;
+  gap: 40px;
 }
 .action-card {
   display: flex; 
   flex-direction: column; 
   align-items: center; 
   text-align: center; 
-  width: 20%; 
-  margin: 5%;
+  width: 25%; 
+  padding: 30px;
+  border-radius: 20px;
+  background: linear-gradient(
+    to right, 
+    rgba(18, 37, 63),
+    rgba(18, 50, 77),
+    rgba(21, 51, 85),
+    rgba(23, 49, 88),
+    rgba(25, 61, 109),
+    rgba(23, 68, 109)
+  );
 }
 .action-card img {
-  box-shadow: 10px 10px 10px rgb(61, 61, 61); 
   border-radius: 50%; 
   margin-bottom: 20px;
-  width: 60%;
+  width: 50%;
+}
+.action-card-animation img {
+  animation: floatAnimation 2.5s infinite linear;
 }
 .action-card h2 {
-  margin-bottom: 0;
+  margin-bottom: 10px;
+  font-weight: bold;
+  font-size: 24px;
+  color: #ffffff;
 }
 .action-card p {
-  font-size: small;
+  font-size: medium;
+  color: rgba(255, 255, 255, 0.8);
 }
 .action-card button {
-  margin-top: 10px; 
+  margin-top: 15px; 
   width: 100%; 
   font-size: large;
+  font-weight: bold;
+  padding: 12px 20px;
+  border-radius: 10px;
+  background-color: rgba(71, 25, 114, 0.8);
+  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
-.title {
-  margin-top: 40px;
-  text-align: center;
+.action-card button:hover {
+  transform: scale(1.1);
+  color: var(--hover-blue);
+}
+.action-card button:disabled {
+  background-color: rgba(71, 25, 114, 0.4);
+  cursor: not-allowed;
 }
 
 // Responsive design
@@ -46,29 +90,27 @@
 }
 @media (max-width: $breakpoint-md) {
   .action-card {
-    margin: 10%;
-    width: 60%;
+    width: 50%;
   }
-  .action-card h2 {
-    font-size: xx-large;
-  }
-  .action-card p {
-    font-size: smaller;
-  }
-  .title h2 {
-    font-size: xx-large;
-    font-weight: 400;
+  .title div h2 {
+    font-size: 30px;
   }
 }
 @media (max-width: $breakpoint-sm) {
   #actions {
-    flex-direction: column; 
+    flex-direction: column;
+    gap: 20px;
   }
   .action-card {
-    width: 75%;
+    width: 80%;
   }
-  .title h2 {
-    margin-top: 20px;
-    font-size: x-large;
+  .title div h2 {
+    font-size: 24px;
+  }
+  .title {
+    flex-direction: column;
+  }
+  .title img {
+    width: 30%;
   }
 }
