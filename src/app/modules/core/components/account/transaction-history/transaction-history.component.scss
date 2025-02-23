@@ -1,3 +1,5 @@
+@use '../../../../../../styles/_breakpoints' as *;
+
 header {
     text-align: center;
     padding-top: 20px;
@@ -5,7 +7,38 @@ header {
 .overflow-auto {
     overflow: auto;
 }
+.mat-elevation-z8 {
+    margin-top: 20px;
+    margin-bottom: 50px;
+}
 .table-row:hover {
-    background-color: rgba(233, 233, 233, 0.5);
     cursor: pointer;
+    background: linear-gradient(
+        to right, 
+        rgba(23, 68, 109),
+        rgba(23, 68, 109)
+    );
+}
+tr, mat-paginator {
+    background: linear-gradient(
+        to right, 
+        rgba(18, 37, 63),
+        rgba(18, 50, 77),
+        rgba(21, 51, 85),
+        rgba(23, 49, 88),
+        rgba(25, 61, 109),
+        rgba(23, 68, 109)
+    );
+}
+.no-data {
+    text-align: center; 
+    font-size: xx-large; 
+    height: 100px;
+}
+
+// Responsive
+@media (max-width: $breakpoint-sm) {
+    .no-data {
+        font-size: medium;
+    }
 }
