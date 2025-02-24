@@ -1,3 +1,6 @@
+mat-horizontal-stepper {
+    background-color: transparent;
+}
 .next-btn-icon {
     margin-left: 5px; 
     order: 2;
@@ -27,6 +30,18 @@
     width: 120px; 
     height: 50px; 
     font-size: larger;
+    margin-top: 10px;
+    font-weight: bold;
+    background-color: rgba(71, 25, 114, 0.8);
+    transition: transform 0.3s ease-in-out;
+
+    &:disabled {
+        background-color: rgba(90, 61, 117, 0.5);
+    }
+}
+.next-btn:hover {
+    transform: scale(1.08);
+    color: var(--hover-blue);
 }
 .flx-col-center {
     display: flex; 

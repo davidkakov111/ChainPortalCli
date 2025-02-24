@@ -15,9 +15,7 @@ mat-form-field {
 }
 span {
     display: block;
-    margin-top: 8px;
-    font-size: 14px;
-    color: rgba(0, 0, 0, 0.6);
+    color: white;
 }
 .flx-col-center {
     display: flex; 
@@ -47,6 +45,20 @@ form {
 }
 .mb-20 {
     margin-bottom: 20px;
+}
+.add-attribute-btn {
+    background-color: rgba(58, 58, 58, 0.438)
+}
+mat-expansion-panel {
+    background: linear-gradient(
+        to right, 
+        rgba(18, 37, 63),
+        rgba(18, 50, 77),
+        rgba(21, 51, 85),
+        rgba(23, 49, 88),
+        rgba(25, 61, 109),
+        rgba(23, 68, 109)
+    );
 }
 
 /* Responsive design */

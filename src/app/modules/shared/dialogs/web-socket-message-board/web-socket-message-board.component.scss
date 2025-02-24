@@ -2,6 +2,16 @@
     padding: 0 25px;
     padding-bottom: 15px;
     padding-top: 10px;
+    color: white;
+    background: linear-gradient(
+        to right, 
+        rgba(18, 37, 63),
+        rgba(18, 50, 77),
+        rgba(21, 51, 85),
+        rgba(23, 49, 88),
+        rgba(25, 61, 109),
+        rgba(23, 68, 109)
+    );
 }
 
 .status-row {
@@ -49,6 +59,7 @@
     position: absolute;
     top: 8px;
     right: 8px;
+    z-index: 1;
 }
 
 .action-button {

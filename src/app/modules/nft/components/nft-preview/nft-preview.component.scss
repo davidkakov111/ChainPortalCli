@@ -55,6 +55,22 @@ mat-chip {
 }
 mat-card {
     width: 70%;
+    background: linear-gradient(
+        to right, 
+        rgb(6, 13, 22),
+        rgb(8, 21, 32),
+        rgb(8, 21, 36),
+        rgb(12, 27, 49),
+        rgb(12, 32, 58),
+        rgb(13, 39, 63)
+    );
+    border: 1px solid rgb(0, 89, 255);
+}
+a {
+    color: rgb(36, 131, 255);
+}
+a:hover {
+    color: rgb(0, 90, 207);
 }
 
 /* Responsive design */

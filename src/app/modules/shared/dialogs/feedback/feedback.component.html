@@ -1,5 +1,5 @@
 <!-- Feedback form -->
-<mat-dialog-content *ngIf="!submitted">
+<mat-dialog-content *ngIf="!submitted" class="linear-gray">
   <div class="dialog-header">
     <span>Rate Your Experience</span>
     <button mat-icon-button aria-label="Close dialog" color="primary" (click)="dialogRef.close()">
@@ -23,11 +23,11 @@
 </mat-dialog-content>
 
 <!-- Thank You Message -->
-<mat-dialog-content *ngIf="submitted">
+<mat-dialog-content *ngIf="submitted" class="linear-gray">
   <div class="txt-center"><h3>Thank You for Your Feedback!</h3></div>
 </mat-dialog-content>
 
 <!-- Submit button -->
-<mat-dialog-actions class="flx-center" *ngIf="!submitted">
+<mat-dialog-actions class="flx-center linear-gray" *ngIf="!submitted">
   <button mat-raised-button color="primary" (click)="submit()" class="submit-btn" [disabled]="feedbackData.rating < 0">Submit</button>
 </mat-dialog-actions>

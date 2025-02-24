@@ -11,6 +11,10 @@
 } 
 .dialog-header button {
     margin-left: 20px;
+    color: rgb(150, 105, 255);
+    &:hover {
+        background-color: rgb(171, 135, 255, 0.2);
+    }
 }
 .m-y-10 {
     margin: 20px 0;
@@ -25,9 +29,19 @@
     transition: transform 0.3s ease-in-out;
 }
 .submit-btn:hover {
-    color: var(--hover-blue);
     transform: scale(1.08);
 }
 .txt-center {
     text-align: center;
+}
+.linear-gray {
+    background: linear-gradient(
+        to right, 
+        rgba(0, 0, 0, 0.5),
+        rgba(15, 15, 15, 0.5),
+        rgba(37, 37, 37, 0.5),
+        rgba(60, 60, 60, 0.5),
+        rgba(80, 80, 80, 0.5),
+        rgba(100, 100, 100, 0.5)
+    );
 }

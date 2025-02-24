@@ -1,9 +1,8 @@
-<button *ngIf="!walletSrv.selectedWallet" mat-raised-button color="primary" (click)="connectWallet()">
+<button *ngIf="!walletSrv.selectedWallet" mat-raised-button (click)="connectWallet()">
     Connect Wallet
 </button>
 <div *ngIf="walletSrv.selectedWallet" class="flx-col-center">
-    <button mat-raised-button color="primary" 
-        [disabled]="disablePay" (click)="requestPayment()">
+    <button mat-raised-button [disabled]="disablePay" (click)="requestPayment()">
         <ng-container *ngIf="disablePay; else payText">
             <mat-progress-spinner 
                 diameter="20" 

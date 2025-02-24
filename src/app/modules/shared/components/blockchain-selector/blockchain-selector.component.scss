@@ -13,6 +13,7 @@
   overflow: hidden;
   border-radius: 12px;
   border: 1px solid #e0e0e0;
+  background-color: rgba(0, 0, 0, 0.5);
 }
 .scroll-container {
   display: flex;
@@ -27,10 +28,11 @@ mat-card.card {
   text-align: center;
   cursor: pointer;
   transition: transform 0.3s ease;
+  background-color: rgba(23, 68, 109);
 }
 mat-card.card.selected {
-  border: 2px solid #3f51b5;
-  box-shadow: 0 0 10px rgba(63, 81, 181, 0.5);
+  border: 2px solid rgb(0, 153, 255);
+  box-shadow: 0 0 20px rgb(0, 153, 255);
   transform: scale(1.05);
 }
 mat-card.card:hover {

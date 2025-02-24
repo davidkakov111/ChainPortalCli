@@ -129,11 +129,11 @@
               <mat-icon>delete</mat-icon>
             </button>
           </div>
-          <button mat-stroked-button color="primary" [disabled]="this.attributes.length >= 6" (click)="addAttribute()">Add Attribute</button>
+          <button class="add-attribute-btn" mat-stroked-button color="primary" [disabled]="this.attributes.length >= 6" (click)="addAttribute()">Add Attribute</button>
         </div>
 
         <!-- Edition Information -->
-        <mat-slide-toggle formControlName="isLimitedEdition" class="mb-20">Is Limited Edition</mat-slide-toggle>
+        <mat-slide-toggle formControlName="isLimitedEdition" class="mb-20"><span>Is Limited Edition</span></mat-slide-toggle>
         <br>
         <div *ngIf="nftForm.get('isLimitedEdition')?.value" class="flx-row-center ">
           <mat-form-field appearance="fill" class="w100">
@@ -147,7 +147,7 @@
         </div>
 
         <!-- Creation Timestamp (Hidden/Read-Only) -->
-        <mat-slide-toggle formControlName="creationTimestampToggle">Include Creation Time</mat-slide-toggle>
+        <mat-slide-toggle formControlName="creationTimestampToggle"><span>Include Creation Time</span></mat-slide-toggle>
         <mat-form-field appearance="fill" style="display: none;">
           <input matInput formControlName="creationTimestamp" placeholder="Creation Timestamp" readonly>
         </mat-form-field>
