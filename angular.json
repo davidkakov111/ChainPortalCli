@@ -56,12 +56,7 @@
               "whatwg-url",
               "encoding",
               "bufferutil",
-              "utf-8-validate",
-
-              "@walletconnect/time",
-              "@walletconnect/window-getters",
-              "@walletconnect/window-metadata",
-              "query-string"
+              "utf-8-validate"
             ]
           },
           "configurations": {
