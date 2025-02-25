@@ -3,6 +3,7 @@ import { AccountService } from '../../../../shared/services/account.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SolanaWalletConnectUIComponent } from '../../../../shared/dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
 import { blockchainNames, blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
+import { Buffer } from 'buffer';
 
 @Component({
   selector: 'app-account-dropdown',
@@ -33,6 +34,8 @@ export class AccountDropdownComponent {
   }
 
   connectWallet(bChain: blockchainSymbols) {
+    window.Buffer = Buffer;
+
     if (bChain === 'SOL') {
       this.dialog.open(SolanaWalletConnectUIComponent);
     }// TODO - Implement other blockchains later
