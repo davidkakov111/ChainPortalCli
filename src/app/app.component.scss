@@ -99,6 +99,9 @@
     width: 100%;
     margin: 0 auto;
 }
+.hover-blue {
+    color: var(--hover-blue) !important;
+}
 
 /* Responsive design */
 @media (max-width: $breakpoint-md) {

@@ -154,28 +154,21 @@
   gap: 20px;
 }
 .feature {
-  background: linear-gradient(
-    to right, 
-    rgba(0, 0, 0, 0.5),
-    rgba(15, 15, 15, 0.5),
-    rgba(37, 37, 37, 0.5),
-    rgba(60, 60, 60, 0.5),
-    rgba(80, 80, 80, 0.5),
-    rgba(100, 100, 100, 0.5)
-  );
+  background: rgba(255, 255, 255, 0.1);
   padding: 30px 20px 20px 20px;
   border-radius: 10px;
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: column;
-  transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
-  border-left: 1px solid rgba(100, 100, 100, 0.8);  
-  border-top: 1px solid rgba(100, 100, 100, 0.8);   
+  transition: transform 0.3s ease-in-out, background-color 0.2s ease-in-out;
+  border-left: 2px solid rgba(255, 255, 255, 0.3);  
+  border-top: 1px solid rgba(255, 255, 255, 0.3);
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.1);   
 }
 .feature:hover {
   transform: translateY(-10px);
-  background-color: rgba(55, 180, 211, 0.5);
+  background-color: rgba(176, 243, 255, 0.2);
 }
 .feature-icon {
   font-size: 40px;

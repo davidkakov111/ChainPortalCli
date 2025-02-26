@@ -7,10 +7,10 @@
             </button>
         </div>
         <div class="sidenav-content">
-            <button mat-button (click)="sidenav.close()" routerLink="/">ChainPortal</button>
-            <button mat-button (click)="sidenav.close()" routerLink="/nft">NFTs</button>
-            <button mat-button (click)="sidenav.close()" routerLink="/token">Tokens</button>
-            <button mat-button (click)="sidenav.close()" routerLink="/learn">Learn</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/" [class.hover-blue]="isActive('/')">ChainPortal</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</button>
             <button mat-button (click)="openFeedbackDialog(); sidenav.close();">Feedback</button>
         </div>
     </mat-sidenav>
@@ -30,16 +30,16 @@
                     <button color="primary" mat-button class="logo" routerLink="/">
                         <div class="site-logo-inner-wrapper">
                             <img src="/favicon.ico" width="30" height="30" loading="lazy" alt="ChainPortal" title="ChainPortal">
-                            <span>ChainPortal</span>
+                            <span [class.hover-blue]="isActive('/')">ChainPortal</span>
                         </div>
                     </button>
                 </div>
                 
                 <!-- Navbar buttons, hidden on small screens -->
                 <span>
-                    <button mat-button class="nav-buttons" routerLink="/nft">NFTs</button>
-                    <button mat-button class="nav-buttons" routerLink="/token">Tokens</button>
-                    <button mat-button class="nav-buttons" routerLink="/learn">Learn</button>
+                    <button mat-button class="nav-buttons" routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</button>
+                    <button mat-button class="nav-buttons" routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</button>
+                    <button mat-button class="nav-buttons" routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</button>
                     <button mat-button class="nav-buttons" (click)="openFeedbackDialog()">Feedback</button>
                 </span>
 
@@ -69,10 +69,10 @@
                     </div>
                     
                     <nav class="footer-links">
-                        <a routerLink="/">Home</a>
-                        <a routerLink="/nft">NFTs</a>
-                        <a routerLink="/token">Tokens</a>
-                        <a routerLink="/learn">Learn</a>
+                        <a routerLink="/" [class.hover-blue]="isActive('/')">Home</a>
+                        <a routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</a>
+                        <a routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</a>
+                        <a routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</a>
                         <a (click)="openFeedbackDialog()">Feedback</a>
                     </nav>
                 </div>

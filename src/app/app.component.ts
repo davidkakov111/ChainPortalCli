@@ -10,6 +10,7 @@ import { SharedModule } from './modules/shared/shared.module';
 import { CoreModule } from './modules/core/core.module';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedbackComponent } from './modules/shared/dialogs/feedback/feedback.component';
+import { Router, NavigationEnd } from '@angular/router';
 
 @Component({
   selector: 'app-root',
@@ -36,6 +37,7 @@ import { FeedbackComponent } from './modules/shared/dialogs/feedback/feedback.co
   ]
 })
 export class AppComponent {
+  currentRoute: string = '';
   currentYear: number;
   isNavbar: boolean = true;
   navbarAnimationIn: boolean = true;
@@ -48,7 +50,15 @@ export class AppComponent {
   constructor(
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
-  ) {this.currentYear = new Date().getFullYear()};
+    private router: Router,
+  ) {
+    this.router.events.subscribe(event => {
+      if (event instanceof NavigationEnd) {
+        this.currentRoute = event.urlAfterRedirects;
+      }
+    });
+    this.currentYear = new Date().getFullYear();
+  };
 
   // Access the height of the element after the view initializes 
   ngAfterViewInit() {
@@ -78,5 +88,10 @@ export class AppComponent {
   // Open feedback dialog
   openFeedbackDialog(): void {
     this.dialog.open(FeedbackComponent, {data: { afterUse: false }});
+  }
+
+  // Check if the current route is active
+  isActive(route: string): boolean {
+    return this.currentRoute === route;
   }
 }
