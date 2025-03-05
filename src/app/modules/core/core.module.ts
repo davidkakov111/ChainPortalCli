@@ -9,6 +9,7 @@ import { FormsModule } from '@angular/forms';
 import { MaterialModule } from '../shared/material/material.module';
 import { LearnComponent } from './components/learn/learn.component';
 import { SharedModule } from '../shared/shared.module';
+import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { SharedModule } from '../shared/shared.module';
     TransactionHistoryComponent,
     TransactionDetailComponent,
     LearnComponent,
+    TermsAndConditionsComponent,
   ],
   imports: [
     CommonModule,
