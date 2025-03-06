@@ -6,6 +6,9 @@ import { TransactionDetailComponent } from './components/account/transaction-det
 import { authGuard } from './auth.guard';
 import { LearnComponent } from './components/learn/learn.component';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
+import { TermsOfSmartContractsComponent } from './components/terms-of-smart-contracts/terms-of-smart-contracts.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -13,6 +16,9 @@ const routes: Routes = [
   { path: 'profile/transaction-history', component: TransactionHistoryComponent, canActivate: [authGuard]},
   { path: 'profile/transaction-history/:txId', component: TransactionDetailComponent, canActivate: [authGuard]},
   { path: 'terms-and-conditions', component: TermsAndConditionsComponent},
+  { path: 'privacy-policy', component: PrivacyPolicyComponent},
+  { path: 'disclaimer', component: DisclaimerComponent},
+  { path: 'terms-of-smart-contracts', component: TermsOfSmartContractsComponent},
 ];
 
 @NgModule({

@@ -10,6 +10,9 @@ import { MaterialModule } from '../shared/material/material.module';
 import { LearnComponent } from './components/learn/learn.component';
 import { SharedModule } from '../shared/shared.module';
 import { TermsAndConditionsComponent } from './components/terms-and-conditions/terms-and-conditions.component';
+import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
+import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
+import { TermsOfSmartContractsComponent } from './components/terms-of-smart-contracts/terms-of-smart-contracts.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +22,9 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
     TransactionDetailComponent,
     LearnComponent,
     TermsAndConditionsComponent,
+    PrivacyPolicyComponent,
+    DisclaimerComponent,
+    TermsOfSmartContractsComponent,
   ],
   imports: [
     CommonModule,
