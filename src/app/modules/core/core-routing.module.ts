@@ -9,6 +9,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
 import { TermsOfSmartContractsComponent } from './components/terms-of-smart-contracts/terms-of-smart-contracts.component';
+import { FaqComponent } from './components/faq/faq.component';
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
@@ -19,6 +20,7 @@ const routes: Routes = [
   { path: 'privacy-policy', component: PrivacyPolicyComponent},
   { path: 'disclaimer', component: DisclaimerComponent},
   { path: 'terms-of-smart-contracts', component: TermsOfSmartContractsComponent},
+  { path: 'faq', component: FaqComponent},
 ];
 
 @NgModule({

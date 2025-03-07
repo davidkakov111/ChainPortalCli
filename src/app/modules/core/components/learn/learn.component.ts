@@ -19,8 +19,6 @@ export class LearnComponent implements AfterViewInit {
   @ViewChild('tokenMintingStep2') tokenMintingStep2Section!: ElementRef;
   @ViewChild('tokenMintingStep3') tokenMintingStep3Section!: ElementRef;
 
-  @ViewChild('faqs') faqsSection!: ElementRef;
-
   activeSection: string = '';
 
   // Set up observer to observe the sections apparance in the window
@@ -30,7 +28,7 @@ export class LearnComponent implements AfterViewInit {
     // Collect all sections
     const sections = [
       this.overviewSection, this.nftMintingStep1Section, this.nftMintingStep2Section, this.nftMintingStep3Section,
-      this.tokenMintingStep1Section, this.tokenMintingStep2Section, this.tokenMintingStep3Section, this.faqsSection
+      this.tokenMintingStep1Section, this.tokenMintingStep2Section, this.tokenMintingStep3Section
     ];
 
     const observer = new IntersectionObserver((entries) => {entries.forEach((entry) => {
@@ -79,10 +77,6 @@ export class LearnComponent implements AfterViewInit {
         break;
       case 'tokenMintingStep3':
         this.tokenMintingStep3Section.nativeElement.scrollIntoView({ behavior: 'smooth' });
-        break;
-        
-      case 'faqs':
-        this.faqsSection.nativeElement.scrollIntoView({ behavior: 'smooth' });
         break;
     }
   }

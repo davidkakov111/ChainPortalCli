@@ -13,6 +13,7 @@ import { TermsAndConditionsComponent } from './components/terms-and-conditions/t
 import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-policy.component';
 import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
 import { TermsOfSmartContractsComponent } from './components/terms-of-smart-contracts/terms-of-smart-contracts.component';
+import { FaqComponent } from './components/faq/faq.component';
 
 @NgModule({
   declarations: [
@@ -25,6 +26,7 @@ import { TermsOfSmartContractsComponent } from './components/terms-of-smart-cont
     PrivacyPolicyComponent,
     DisclaimerComponent,
     TermsOfSmartContractsComponent,
+    FaqComponent,
   ],
   imports: [
     CommonModule,
