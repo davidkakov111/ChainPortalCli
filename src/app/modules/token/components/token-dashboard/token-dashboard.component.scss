@@ -21,6 +21,7 @@
 // Actions section styles 
 #actions {
   margin: 15px;
+  margin-bottom: 100px;
   display: flex; 
   flex-direction: row; 
   justify-content: center;
@@ -37,12 +38,12 @@
   border-radius: 20px;
   background: linear-gradient(
     to right, 
-    rgba(18, 37, 63),
-    rgba(18, 50, 77),
-    rgba(21, 51, 85),
-    rgba(23, 49, 88),
-    rgba(25, 61, 109),
-    rgba(23, 68, 109)
+    rgb(32, 18, 63),
+    rgb(39, 18, 77),
+    rgb(49, 21, 85),
+    rgb(48, 23, 88),
+    rgb(64, 25, 109),
+    rgb(60, 23, 109)
   );
 }
 .action-card img {
@@ -70,7 +71,7 @@
   font-weight: bold;
   padding: 12px 20px;
   border-radius: 10px;
-  background-color: rgba(71, 25, 114, 0.8);
+  background-color: rgb(21, 67, 85);
   transition: transform 0.3s ease-in-out, background-color 0.3s ease-in-out;
 }
 .action-card button:hover {
@@ -78,7 +79,7 @@
   color: var(--hover-blue);
 }
 .action-card button:disabled {
-  background-color: rgba(71, 25, 114, 0.4);
+  background-color: rgba(21, 67, 85, 0.4);
   cursor: not-allowed;
 }
 

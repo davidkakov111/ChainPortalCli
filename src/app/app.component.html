@@ -11,6 +11,7 @@
             <button mat-button (click)="sidenav.close()" routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</button>
             <button mat-button (click)="sidenav.close()" routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</button>
             <button mat-button (click)="sidenav.close()" routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</button>
+            <button mat-button (click)="sidenav.close()" routerLink="/faq" [class.hover-blue]="isActive('/faq')">FAQ</button>
             <button mat-button (click)="openFeedbackDialog(); sidenav.close();">Feedback</button>
         </div>
     </mat-sidenav>
@@ -40,6 +41,7 @@
                     <button mat-button class="nav-buttons" routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</button>
                     <button mat-button class="nav-buttons" routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</button>
                     <button mat-button class="nav-buttons" routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</button>
+                    <button mat-button class="nav-buttons" routerLink="/faq" [class.hover-blue]="isActive('/faq')">FAQ</button>
                     <button mat-button class="nav-buttons" (click)="openFeedbackDialog()">Feedback</button>
                 </span>
 
@@ -57,28 +59,41 @@
 
         <!-- Footer -->
         <footer class="footer">
-            <div class="mw-1600">    
-                <div class="footer-container">
-                    <div class="footer-brand">
-                        <div class="site-logo-inner-wrapper footer-site-logo">
-                            <img src="/favicon.ico" width="30" height="30" loading="lazy" alt="ChainPortal" title="ChainPortal">
-                            <span>ChainPortal</span>
-                        </div>
-                        <br>
-                        <p>Manage your digital assets effortlessly.</p>
-                    </div>
-                    
-                    <nav class="footer-links">
-                        <a routerLink="/" [class.hover-blue]="isActive('/')">Home</a>
-                        <a routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</a>
-                        <a routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</a>
-                        <a routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</a>
-                        <a (click)="openFeedbackDialog()">Feedback</a>
-                    </nav>
+            <div class="mw-1600 footer-detailed">    
+                <div class="flx flx-col footer-pages">
+                    <p class="footer-col-title">Pages</p>
+                    <a class="footer-link" routerLink="/" [class.hover-blue]="isActive('/')">Home</a>
+                    <a class="footer-link" routerLink="/nft" [class.hover-blue]="isActive('/nft')">NFTs</a>
+                    <a class="footer-link" routerLink="/token" [class.hover-blue]="isActive('/token')">Tokens</a>
+                    <a class="footer-link" routerLink="/learn" [class.hover-blue]="isActive('/learn')">Learn</a>
+                    <a class="footer-link" routerLink="/faq" [class.hover-blue]="isActive('/faq')">FAQ</a>
                 </div>
-                <br>
-                <span>&copy;{{currentYear}} ChainPortal. All Rights Reserved.</span>
+
+                <div class="flx flx-col footer-contact">
+                    <div class="footer-site-logo">
+                        <img src="/favicon.ico" width="30" height="30" loading="lazy" alt="ChainPortal" title="ChainPortal">
+                        <span>ChainPortal</span>
+                    </div>
+                    <p>Manage your digital assets effortlessly</p>
+                    <!-- TODO - Add real email -->
+                    <p>For inquiries: support&#64;chainportal.com</p>
+                    <div class="flx flx-row footer-socials">
+                        <!-- TODO - Update x link -->
+                        <a href="https://twitter.com/ChainPortal" target="_blank"><img class="footer-social" src="/images/x-logo.png" width="40" height="40" loading="lazy" alt="X (Twitter)" title="X (Twitter)"></a>
+                    </div>
+                </div>
+                
+                <div class="flx flx-col footer-useful-links">
+                    <p class="footer-col-title">Useful links</p>
+                    <a class="footer-link" routerLink="/terms-and-conditions" [class.hover-blue]="isActive('/terms-and-conditions')">Terms & Conditions</a>
+                    <a class="footer-link" routerLink="/privacy-policy" [class.hover-blue]="isActive('/privacy-policy')">Privacy Policy</a>
+                    <a class="footer-link" routerLink="/disclaimer" [class.hover-blue]="isActive('/disclaimer')">Disclaimer</a>
+                    <a class="footer-link" routerLink="/terms-of-smart-contracts" [class.hover-blue]="isActive('/terms-of-smart-contracts')">Terms of Smart Contracts</a>
+                </div>
             </div>
+            <div class="footer-copyright"><div class="mw-1600">
+                <span>&copy;{{currentYear}} ChainPortal. All Rights Reserved.</span>
+            </div></div>
         </footer>  
     </div>
 </mat-sidenav-container>

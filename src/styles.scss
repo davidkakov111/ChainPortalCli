@@ -60,6 +60,15 @@ $dark-theme: mat.define-theme((
   background-color: rgba(0, 162, 255);
   filter: blur(150px);
 }
+.flx {
+  display: flex;
+}
+.flx-col {
+  flex-direction: column;
+}
+.flx-row {
+  flex-direction: row;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
