@@ -36,9 +36,6 @@ jobs:
               echo "Repository exists. Pulling latest changes..."
               cd /home/root/chainportal/cli && git pull origin main
             fi
-            
-            # Navigate to repo directory
-            cd /home/root/chainportal/cli
           EOF
           
       # Build and start Docker container for Angular client
