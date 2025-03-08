@@ -6,6 +6,7 @@ import { MatSort } from '@angular/material/sort';
 import { Router } from '@angular/router';
 import { ServerService } from '../../../../shared/services/server.service';
 import { AccountService } from '../../../../shared/services/account.service';
+import { Meta, Title } from '@angular/platform-browser';
 
 export interface transactionHistory {
   id: number,
@@ -26,7 +27,9 @@ export class TransactionHistoryComponent {
     private router: Router,
     private serverSrv: ServerService,
     private accountSrv: AccountService,
-  ) {}
+    private titleService: Title, 
+    private metaService: Meta,
+  ) {this.setSEO('Transaction History', 'Users transaction history page.');}
 
   transactions = new MatTableDataSource<transactionHistory>([]);
   displayedColumns: string[] = ['assetType', 'operationType', 'blockchain', 'date'];
@@ -62,5 +65,13 @@ export class TransactionHistoryComponent {
   // Navigate to transaction details component
   navigateToTrxDetailsComp(txId: number) {
     this.router.navigateByUrl(`/profile/transaction-history/${txId}`);
+  }
+
+  // Update the meta tags for SEO
+  setSEO(title: string, description: string) {
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

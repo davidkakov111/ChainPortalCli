@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { ServerService, transaction } from '../../../../shared/services/server.service';
 import { finalize } from 'rxjs';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-transaction-detail',
@@ -10,7 +11,15 @@ import { finalize } from 'rxjs';
   standalone: false
 })
 export class TransactionDetailComponent implements OnInit {
-  constructor(private route: ActivatedRoute, private serverSrv: ServerService) {}
+  constructor(
+    private route: ActivatedRoute, 
+    private serverSrv: ServerService,
+    private titleService: Title, 
+    private metaService: Meta,
+  ) {
+    this.setSEO('Transaction Details', 'Transaction details page for a single transaction.');
+  }
+
   transaction: transaction | null = null;
   completed = false;
 
@@ -32,5 +41,13 @@ export class TransactionDetailComponent implements OnInit {
         console.error('Error fetching transaction details:', error);
       },
     });
+  }
+
+  // Update the meta tags for SEO
+  setSEO(title: string, description: string) {
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

@@ -8,6 +8,7 @@ import { NftMetadata } from '../nft-metadata/nft-metadata.component';
 import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-nft-mint-dashboard',
@@ -23,7 +24,9 @@ export class NftMintDashboardComponent {
   constructor (
     public nftSrv: NftService,
     private dialog: MatDialog,
-  ) {}
+    private titleService: Title, 
+    private metaService: Meta,
+  ) {this.setSEO('Mint NFT', 'Page for NFT minting.');}
 
   selectedStepIndex: number = 0;
   payed: boolean = false;
@@ -73,5 +76,13 @@ export class NftMintDashboardComponent {
       width: '270px',
       data: { message }
     });
+  }
+
+  // Update the meta tags for SEO
+  setSEO(title: string, description: string) {
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

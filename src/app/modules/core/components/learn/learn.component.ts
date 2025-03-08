@@ -1,4 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-learn',
@@ -7,6 +8,10 @@ import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
   standalone: false
 })
 export class LearnComponent implements AfterViewInit {
+  constructor(private titleService: Title, private metaService: Meta) {
+    this.setSEO('Learn', 'Learn page for ChainPortal.');
+  }
+
   @ViewChild('overview') overviewSection!: ElementRef;
 
   @ViewChild('nftMinting') nftMintingSection!: ElementRef;
@@ -83,5 +88,13 @@ export class LearnComponent implements AfterViewInit {
 
   isActive(section: string): boolean {
     return this.activeSection === section;
+  }
+  
+  // Update the meta tags for SEO
+  setSEO(title: string, description: string) {
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

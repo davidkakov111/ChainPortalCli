@@ -7,6 +7,7 @@ import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-s
 import { TokenService } from '../../../services/token.service';
 import { TokenMetadata } from '../token-metadata/token-metadata.component';
 import { TokenPreviewComponent } from '../../token-preview/token-preview.component';
+import { Meta, Title } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-token-mint',
@@ -22,7 +23,9 @@ export class TokenMintComponent {
   constructor (
     public tokenSrv: TokenService,
     private dialog: MatDialog,
-  ) {}
+    private titleService: Title, 
+    private metaService: Meta,
+  ) {this.setSEO('Mint Token', 'Page for Token minting.');}
 
   selectedStepIndex: number = 0;
   payed: boolean = false;
@@ -64,5 +67,13 @@ export class TokenMintComponent {
     });
     
     this.payed = true;
+  }
+
+  // Update the meta tags for SEO
+  setSEO(title: string, description: string) {
+    this.titleService.setTitle(title);
+    this.metaService.updateTag({ name: 'description', content: description });
+    this.metaService.updateTag({ property: 'og:title', content: title });
+    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }
