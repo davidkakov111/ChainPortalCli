@@ -44,7 +44,7 @@ export type blockchainFees = Partial<Record<blockchainSymbols, number>>;
 export class ServerService {
   constructor(private router: Router, private http: HttpClient) {}
 
-  serverEndpoint: string = "https://chainportal.mooo.com"; // "https://chain-portal-srv.vercel.app"; // "http://localhost:3000";
+  serverEndpoint: string = "https://server.chainportal.app"; // "http://localhost:3000";
   private environment!: Environment;
 
   // Load & return the environment details from server
