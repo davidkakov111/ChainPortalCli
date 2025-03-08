@@ -3,7 +3,7 @@ networks:
     driver: bridge
 
 services:
-  angular-client:
+  chain-portal:
     build:
       context: .
       dockerfile: Dockerfile
