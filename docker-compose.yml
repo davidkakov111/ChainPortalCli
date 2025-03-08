@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "80:80"
+      - "45645646456:80"
     restart: always
     networks:
       - chain-portal-network
