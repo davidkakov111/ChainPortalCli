@@ -34,10 +34,14 @@ jobs:
               git clone https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/davidkakov111/ChainPortalCli.git /home/root/chainportal/cli
             else
               echo "Repository exists. Pulling latest changes..."
-              cd /home/root/chainportal/cli && git pull origin main
+              cd /home/root/chainportal/cli
+              git config user.email "github-actions@github.com"
+              git config user.name "github-actions"
+              git pull https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/davidkakov111/ChainPortalCli.git main
             fi
           EOF
-          
+      #  cd /home/root/chainportal/cli && git pull origin main
+      
       # Build and start Docker container for Angular client
       - name: Build and Start Docker Container
         run: |
