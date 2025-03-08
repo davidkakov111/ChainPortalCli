@@ -1,6 +1,6 @@
-# networks:
-#   chain-portal-network:
-#     driver: bridge
+networks:
+  chain-portal-network:
+    driver: bridge
 
 services:
   angular-client:
@@ -8,7 +8,7 @@ services:
       context: .
       dockerfile: Dockerfile
     ports:
-      - "81:81"
+      - "80:80"
     restart: always
-    # networks:
-    #   - chain-portal-network
+    networks:
+      - chain-portal-network
