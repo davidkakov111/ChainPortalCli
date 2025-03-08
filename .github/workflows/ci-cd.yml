@@ -40,8 +40,7 @@ jobs:
               git pull https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/davidkakov111/ChainPortalCli.git main
             fi
           EOF
-      #  cd /home/root/chainportal/cli && git pull origin main
-      
+
       # Build and start Docker container for Angular client
       - name: Build and Start Docker Container
         run: |
