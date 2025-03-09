@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-privacy-policy',
@@ -8,15 +8,23 @@ import { Meta, Title } from '@angular/platform-browser';
   standalone: false
 })
 export class PrivacyPolicyComponent {
-  constructor(private titleService: Title, private metaService: Meta) {
-    this.setSEO('Privacy Policy', 'Privacy policy page for ChainPortal.');
-  }
-
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
+  constructor(private seoSrv: SeoService) {
+    this.seoSrv.setPageSEO('Privacy Policy', 'The privacy policy page of ChainPortal, outlining the collection, use, and protection of the user data.', {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Privacy Policy",
+      "url": "https://chainportal.app/privacy-policy",
+      "description": "The privacy policy page of ChainPortal, outlining the collection, use, and protection of the user data.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "url": "https://chainportal.app",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chainportal.app/favicon.ico"
+        }
+      },
+      "mainEntityOfPage": "https://chainportal.app/privacy-policy"
+    });
   }
 }

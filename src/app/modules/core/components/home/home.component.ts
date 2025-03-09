@@ -1,6 +1,6 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, PLATFORM_ID, Renderer2 } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { SeoService } from '../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-home',
@@ -12,14 +12,22 @@ export class HomeComponent {
   isBrowser!: boolean;
 
   constructor(
-    private renderer: Renderer2,
     @Inject(PLATFORM_ID) private platformId: Object,
-    private titleService: Title, 
-    private metaService: Meta,
+    private seoSrv: SeoService,
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.setSEO('ChainPortal', 'Manage Web3 assets effortlessly.');
+    this.seoSrv.setPageSEO('ChainPortal', 'Your all-in-one platform for minting and bridging NFTs and tokens across multiple blockchains.', {
+      "@context": "https://schema.org",
+      "@type": "Organization",
+      "name": "ChainPortal",
+      "url": "https://chainportal.app",
+      "logo": "https://chainportal.app/favicon.ico",
+      "sameAs": [
+        "https://x.com/cha1nportal",
+      ],
+      "description": "Your all-in-one platform for minting and bridging NFTs and tokens across multiple blockchains."
+    });
   }
 
   // Function to scroll to the specified section
@@ -28,13 +36,5 @@ export class HomeComponent {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
-  }
-
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

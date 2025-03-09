@@ -1,17 +1,16 @@
-import { ChangeDetectorRef, Component, ElementRef, HostListener, Inject, PLATFORM_ID, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, HostListener, ViewChild } from '@angular/core';
 import { RouterModule, RouterOutlet } from '@angular/router';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { CommonModule, DOCUMENT, isPlatformBrowser } from '@angular/common';
+import { CommonModule } from '@angular/common';
 import { trigger, state, style, animate, transition } from '@angular/animations';
 import { SharedModule } from './modules/shared/shared.module';
 import { CoreModule } from './modules/core/core.module';
 import { MatDialog } from '@angular/material/dialog';
 import { FeedbackComponent } from './modules/shared/dialogs/feedback/feedback.component';
 import { Router, NavigationEnd } from '@angular/router';
-import { Meta } from '@angular/platform-browser';
 
 @Component({
   selector: 'app-root',
@@ -52,14 +51,7 @@ export class AppComponent {
     private cdr: ChangeDetectorRef,
     private dialog: MatDialog,
     private router: Router,
-    @Inject(DOCUMENT) private document: Document,
-    @Inject(PLATFORM_ID) private platformId: any,
-    private metaService: Meta,
   ) {
-    // Add social card image for SEO
-    const baseUrl = isPlatformBrowser(this.platformId) ? window.location.origin : this.document.location.origin;
-    this.metaService.updateTag({ property: 'og:image', content: `${baseUrl}/favicon.ico` });
-
     this.router.events.subscribe(event => {
       if (event instanceof NavigationEnd) {
         this.currentRoute = event.urlAfterRedirects;

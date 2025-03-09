@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-terms-and-conditions',
@@ -8,15 +8,23 @@ import { Meta, Title } from '@angular/platform-browser';
   standalone: false
 })
 export class TermsAndConditionsComponent {
-  constructor(private titleService: Title, private metaService: Meta) {
-    this.setSEO('Terms & Conditions', 'Terms and conditions page for ChainPortal.');
-  }
-
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
+  constructor(private seoSrv: SeoService) {
+    this.seoSrv.setPageSEO('Terms and Conditions', 'The Terms and Conditions page of ChainPortal, outlining the rules and regulations for using the platform.', {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Terms and Conditions",
+      "url": "https://chainportal.app/terms-and-conditions",
+      "description": "The Terms and Conditions page of ChainPortal, outlining the rules and regulations for using the platform.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "url": "https://chainportal.app",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chainportal.app/favicon.ico"
+        }
+      },
+      "mainEntityOfPage": "https://chainportal.app/terms-and-conditions"
+    });
   }
 }

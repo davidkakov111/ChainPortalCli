@@ -8,7 +8,7 @@ import { NftMetadata } from '../nft-metadata/nft-metadata.component';
 import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { MatDialog } from '@angular/material/dialog';
 import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-nft-mint-dashboard',
@@ -24,9 +24,58 @@ export class NftMintDashboardComponent {
   constructor (
     public nftSrv: NftService,
     private dialog: MatDialog,
-    private titleService: Title, 
-    private metaService: Meta,
-  ) {this.setSEO('Mint NFT', 'Page for NFT minting.');}
+    private seoSrv: SeoService,
+  ) {
+    this.seoSrv.setPageSEO('Mint NFT', "Mint your NFT seamlessly on different blockchains with ChainPortal's NFT minter.", {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Mint NFT",
+      "description": "Mint your NFT seamlessly on different blockchains with ChainPortal's NFT minter.",
+      "url": "https://chainportal.app/nft/mint",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "url": "https://chainportal.app/nft/mint"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://chainportal.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Mint NFT",
+            "item": "https://chainportal.app/nft/mint"
+          }
+        ]
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "url": "https://chainportal.app"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chainportal.app/favicon.ico"
+        }
+      },
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://chainportal.app/favicon.ico"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://chainportal.app/images/minting-logo.png"
+      }
+    });
+  }
 
   selectedStepIndex: number = 0;
   payed: boolean = false;
@@ -76,13 +125,5 @@ export class NftMintDashboardComponent {
       width: '270px',
       data: { message }
     });
-  }
-
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

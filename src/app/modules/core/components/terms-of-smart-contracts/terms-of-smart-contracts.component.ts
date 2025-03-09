@@ -1,5 +1,5 @@
 import { Component } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-terms-of-smart-contracts',
@@ -8,15 +8,24 @@ import { Meta, Title } from '@angular/platform-browser';
   standalone: false
 })
 export class TermsOfSmartContractsComponent {
-  constructor(private titleService: Title, private metaService: Meta) {
-    this.setSEO('Terms of Smart Contracts', 'Terms of smart contracts page for ChainPortal.');
-  }
-
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
+  constructor(private seosrv: SeoService) {
+    this.seosrv.setPageSEO('Terms of Smart Contracts', 'The Terms of Smart Contracts page of ChainPortal, detailing the rules, regulations, and legal implications of using smart contracts on the platform.', {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Terms of Smart Contracts",
+      "url": "https://chainportal.app/terms-of-smart-contracts",
+      "description": "The Terms of Smart Contracts page of ChainPortal, detailing the rules, regulations, and legal implications of using smart contracts on the platform.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "url": "https://chainportal.app",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chainportal.app/favicon.ico"
+        }
+      },
+      "mainEntityOfPage": "https://chainportal.app/terms-of-smart-contracts"
+    }
+    );
   }
 }

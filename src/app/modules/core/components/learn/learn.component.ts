@@ -1,5 +1,5 @@
 import { AfterViewInit, Component, ElementRef, ViewChild } from '@angular/core';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-learn',
@@ -8,8 +8,20 @@ import { Meta, Title } from '@angular/platform-browser';
   standalone: false
 })
 export class LearnComponent implements AfterViewInit {
-  constructor(private titleService: Title, private metaService: Meta) {
-    this.setSEO('Learn', 'Learn page for ChainPortal.');
+  constructor(private seoSrv: SeoService) {
+    this.seoSrv.setPageSEO('Learn', 'Learn page of ChainPortal, providing information about how to use the platform and its features.', {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Learn",
+      "url": "https://chainportal.app/learn",
+      "description": "Learn page of ChainPortal, providing information about how to use the platform and its features.",
+      "publisher": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "url": "https://chainportal.app"
+      },
+      "mainEntityOfPage": "https://chainportal.app/learn"
+    });
   }
 
   @ViewChild('overview') overviewSection!: ElementRef;
@@ -88,13 +100,5 @@ export class LearnComponent implements AfterViewInit {
 
   isActive(section: string): boolean {
     return this.activeSection === section;
-  }
-  
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }

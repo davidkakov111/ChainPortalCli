@@ -7,7 +7,7 @@ import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-s
 import { TokenService } from '../../../services/token.service';
 import { TokenMetadata } from '../token-metadata/token-metadata.component';
 import { TokenPreviewComponent } from '../../token-preview/token-preview.component';
-import { Meta, Title } from '@angular/platform-browser';
+import { SeoService } from '../../../../shared/services/seo.service';
 
 @Component({
   selector: 'app-token-mint',
@@ -23,9 +23,58 @@ export class TokenMintComponent {
   constructor (
     public tokenSrv: TokenService,
     private dialog: MatDialog,
-    private titleService: Title, 
-    private metaService: Meta,
-  ) {this.setSEO('Mint Token', 'Page for Token minting.');}
+    private seoSrv: SeoService,
+  ) {
+    this.seoSrv.setPageSEO('Mint Token', "Mint your tokens seamlessly on different blockchains with ChainPortal's token minter.", {
+      "@context": "https://schema.org",
+      "@type": "WebPage",
+      "name": "Mint Token",
+      "description": "Mint your tokens seamlessly on different blockchains with ChainPortal's token minter.",
+      "url": "https://chainportal.app/token/mint",
+      "mainEntityOfPage": {
+        "@type": "WebPage",
+        "url": "https://chainportal.app/token/mint"
+      },
+      "breadcrumb": {
+        "@type": "BreadcrumbList",
+        "itemListElement": [
+          {
+            "@type": "ListItem",
+            "position": 1,
+            "name": "Home",
+            "item": "https://chainportal.app"
+          },
+          {
+            "@type": "ListItem",
+            "position": 2,
+            "name": "Mint Token",
+            "item": "https://chainportal.app/token/mint"
+          }
+        ]
+      },
+      "author": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "url": "https://chainportal.app"
+      },
+      "publisher": {
+        "@type": "Organization",
+        "name": "ChainPortal",
+        "logo": {
+          "@type": "ImageObject",
+          "url": "https://chainportal.app/favicon.ico"
+        }
+      },
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://chainportal.app/favicon.ico"
+      },
+      "image": {
+        "@type": "ImageObject",
+        "url": "https://chainportal.app/images/minting-logo.png"
+      }
+    });
+  }
 
   selectedStepIndex: number = 0;
   payed: boolean = false;
@@ -67,13 +116,5 @@ export class TokenMintComponent {
     });
     
     this.payed = true;
-  }
-
-  // Update the meta tags for SEO
-  setSEO(title: string, description: string) {
-    this.titleService.setTitle(title);
-    this.metaService.updateTag({ name: 'description', content: description });
-    this.metaService.updateTag({ property: 'og:title', content: title });
-    this.metaService.updateTag({ property: 'og:description', content: description });
   }
 }
