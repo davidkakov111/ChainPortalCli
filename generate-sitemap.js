@@ -3,7 +3,7 @@ import { fileURLToPath } from 'url';
 import { dirname, join } from 'path';
 
 // Site pages
-const pages = [
+const pages = [// TODO: Update this once the pages are edited.
     '',
     'learn', 
     'profile/transaction-history', 
