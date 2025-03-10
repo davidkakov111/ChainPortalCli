@@ -9,12 +9,13 @@ import { SeoService } from '../../../shared/services/seo.service';
 })
 export class DisclaimerComponent {
   constructor(private seoSrv: SeoService) {
-    this.seoSrv.setPageSEO('Disclaimer', 'The disclaimer page of ChainPortal, providing legal and regulatory information regarding the use of the service.', {
+    this.seoSrv.setPageSEO('ChainPortal Disclaimer - Legal and Regulatory Information', 
+      'Read the ChainPortal Disclaimer for important legal and regulatory information about using the platform, including terms, conditions, and liabilities.', {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Disclaimer",
+      "name": "ChainPortal Disclaimer - Legal and Regulatory Information",
       "url": "https://chainportal.app/disclaimer",
-      "description": "The disclaimer page of ChainPortal, providing legal and regulatory information regarding the use of the service.",
+      "description": "Read the ChainPortal Disclaimer for important legal and regulatory information about using the platform, including terms, conditions, and liabilities.",
       "publisher": {
         "@type": "Organization",
         "name": "ChainPortal",

@@ -9,16 +9,17 @@ import { SeoService } from '../../../shared/services/seo.service';
 })
 export class TokenDashboardComponent {
     constructor(private seoSrv: SeoService) {
-        this.seoSrv.setPageSEO('Token', 'Token dashboard page to mint or bridge tokens.', {
+        this.seoSrv.setPageSEO('Token Dashboard - Mint and Bridge Tokens Across Chains', 
+            'Manage your tokens seamlessly with ChainPortal. Mint new tokens or bridge them across multiple blockchains with low fees and real-time updates.', {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "Token",
-            "description": "Token dashboard page to mint or bridge tokens.",
+            "name": "Token Dashboard - Mint and Bridge Tokens Across Chains",
+            "description": "Manage your tokens seamlessly with ChainPortal. Mint new tokens or bridge them across multiple blockchains with low fees and real-time updates.",
             "url": "https://chainportal.app/token",
             "mainEntity": {
               "@type": "WebApplication",
-              "name": "Token",
-              "description": "A platform that allows users to mint or bridge tokens.",
+              "name": "Token Dashboard - Mint and Bridge Tokens Across Chains",
+              "description": "Manage your tokens seamlessly with ChainPortal. Mint new tokens or bridge them across multiple blockchains with low fees and real-time updates.",
               "url": "https://chainportal.app/token",
               "operatingSystem": "All",
               "browserRequirements": "Requires modern browsers with WebSocket support for optimal performance.",

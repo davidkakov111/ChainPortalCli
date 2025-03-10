@@ -9,12 +9,13 @@ import { SeoService } from '../../../shared/services/seo.service';
 })
 export class TermsOfSmartContractsComponent {
   constructor(private seosrv: SeoService) {
-    this.seosrv.setPageSEO('Terms of Smart Contracts', 'The Terms of Smart Contracts page of ChainPortal, detailing the rules, regulations, and legal implications of using smart contracts on the platform.', {
+    this.seosrv.setPageSEO('ChainPortal - Terms & Legal Aspects of Smart Contracts', 
+      'Learn about the rules, regulations, and legal implications of using smart contracts on ChainPortal, ensuring transparency and security for all users.', {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Terms of Smart Contracts",
+      "name": "ChainPortal - Terms & Legal Aspects of Smart Contracts",
       "url": "https://chainportal.app/terms-of-smart-contracts",
-      "description": "The Terms of Smart Contracts page of ChainPortal, detailing the rules, regulations, and legal implications of using smart contracts on the platform.",
+      "description": "Learn about the rules, regulations, and legal implications of using smart contracts on ChainPortal, ensuring transparency and security for all users.",
       "publisher": {
         "@type": "Organization",
         "name": "ChainPortal",

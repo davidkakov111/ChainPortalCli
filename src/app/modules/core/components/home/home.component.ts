@@ -17,16 +17,17 @@ export class HomeComponent {
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
-    this.seoSrv.setPageSEO('ChainPortal', 'Your all-in-one platform for minting and bridging NFTs and tokens across multiple blockchains.', {
+    this.seoSrv.setPageSEO('ChainPortal - Multi-Chain NFT and Token Management Platform', 
+      'ChainPortal is an advanced platform for minting and bridging NFTs and tokens across multiple blockchains, offering a seamless experience for creators and collectors.', {
       "@context": "https://schema.org",
       "@type": "Organization",
-      "name": "ChainPortal",
+      "name": "ChainPortal - Multi-Chain NFT and Token Management Platform",
       "url": "https://chainportal.app",
       "logo": "https://chainportal.app/favicon.ico",
       "sameAs": [
         "https://x.com/cha1nportal",
       ],
-      "description": "Your all-in-one platform for minting and bridging NFTs and tokens across multiple blockchains."
+      "description": "ChainPortal is an advanced platform for minting and bridging NFTs and tokens across multiple blockchains, offering a seamless experience for creators and collectors."
     });
   }
 

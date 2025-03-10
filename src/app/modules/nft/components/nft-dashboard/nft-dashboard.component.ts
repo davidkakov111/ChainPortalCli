@@ -9,16 +9,17 @@ import { SeoService } from '../../../shared/services/seo.service';
 })
 export class NftDashboardComponent {
     constructor(private seoSrv: SeoService) {
-        this.seoSrv.setPageSEO('NFT', 'NFT dashboard page to mint or bridge NFTs.', {
+        this.seoSrv.setPageSEO('Mint and Bridge NFTs | NFT Dashboard - ChainPortal', 
+            "Use ChainPortal's NFT dashboard to easily mint and bridge NFTs across multiple blockchains. Secure, fast, and seamless Web3 asset management.", {
             "@context": "https://schema.org",
             "@type": "WebPage",
-            "name": "NFT",
-            "description": "NFT dashboard page to mint or bridge NFTs.",
+            "name": "Mint and Bridge NFTs | NFT Dashboard - ChainPortal",
+            "description": "Use ChainPortal's NFT dashboard to easily mint and bridge NFTs across multiple blockchains. Secure, fast, and seamless Web3 asset management.",
             "url": "https://chainportal.app/nft",
             "mainEntity": {
               "@type": "WebApplication",
-              "name": "NFT",
-              "description": "A platform that allows users to mint or bridge NFTs",
+              "name": "Mint and Bridge NFTs | NFT Dashboard - ChainPortal",
+              "description": "Use ChainPortal's NFT dashboard to easily mint and bridge NFTs across multiple blockchains. Secure, fast, and seamless Web3 asset management.",
               "url": "https://chainportal.app/nft",
               "operatingSystem": "All",
               "browserRequirements": "Requires modern browsers with WebSocket support for optimal performance.",

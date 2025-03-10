@@ -16,11 +16,12 @@ export class TransactionDetailComponent implements OnInit {
     private serverSrv: ServerService,
     private seoSrv: SeoService,
   ) {
-    this.seoSrv.setPageSEO('Transaction Details', 'Transaction details page for a single transaction.', {
+    this.seoSrv.setPageSEO('Transaction Details - View Your ChainPortal NFT/Token Tx', 
+      'Explore the details of your ChainPortal transaction, including asset type, operation type, blockchain, payment transaction, and more.', {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Transaction Details",
-      "description": "Transaction details page for a single transaction.",
+      "name": "Transaction Details - View Your ChainPortal NFT/Token Tx",
+      "description": "Explore the details of your ChainPortal transaction, including asset type, operation type, blockchain, payment transaction, and more.",
       "url": "https://chainportal.app/profile/transaction-history/"
     });
   }

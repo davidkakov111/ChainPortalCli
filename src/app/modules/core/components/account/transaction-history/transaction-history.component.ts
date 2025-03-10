@@ -28,14 +28,14 @@ export class TransactionHistoryComponent {
     private serverSrv: ServerService,
     private accountSrv: AccountService,
     private seoSrv: SeoService,
-  ) {this.seoSrv.setPageSEO('Transaction History', 'Users transaction history page.', {
+  ) {this.seoSrv.setPageSEO('Transaction History - View Your ChainPortal Activity', 
+    'Track all your NFT and token transactions made on ChainPortal. View detailed records of your past mintings or bridgings.', {
     "@context": "https://schema.org",
     "@type": "WebPage",
-    "name": "Transaction History",
-    "description": "Users transaction history page.",
+    "name": "Transaction History - View Your ChainPortal Activity",
+    "description": "Track all your NFT and token transactions made on ChainPortal. View detailed records of your past mintings or bridgings.",
     "url": "https://chainportal.app/profile/transaction-history"
-  }
-  );}
+  })}
 
   transactions = new MatTableDataSource<transactionHistory>([]);
   displayedColumns: string[] = ['assetType', 'operationType', 'blockchain', 'date'];

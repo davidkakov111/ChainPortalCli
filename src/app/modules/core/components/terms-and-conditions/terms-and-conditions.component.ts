@@ -9,12 +9,13 @@ import { SeoService } from '../../../shared/services/seo.service';
 })
 export class TermsAndConditionsComponent {
   constructor(private seoSrv: SeoService) {
-    this.seoSrv.setPageSEO('Terms and Conditions', 'The Terms and Conditions page of ChainPortal, outlining the rules and regulations for using the platform.', {
+    this.seoSrv.setPageSEO('ChainPortal Terms and Conditions - Platform Usage Rules', 
+      "Read the Terms and Conditions of ChainPortal, detailing the rules, regulations, and user responsibilities for using the platform's NFT and token services.", {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Terms and Conditions",
+      "name": "ChainPortal Terms and Conditions - Platform Usage Rules",
       "url": "https://chainportal.app/terms-and-conditions",
-      "description": "The Terms and Conditions page of ChainPortal, outlining the rules and regulations for using the platform.",
+      "description": "Read the Terms and Conditions of ChainPortal, detailing the rules, regulations, and user responsibilities for using the platform's NFT and token services.",
       "publisher": {
         "@type": "Organization",
         "name": "ChainPortal",

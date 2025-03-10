@@ -26,11 +26,12 @@ export class NftMintDashboardComponent {
     private dialog: MatDialog,
     private seoSrv: SeoService,
   ) {
-    this.seoSrv.setPageSEO('Mint NFT', "Mint your NFT seamlessly on different blockchains with ChainPortal's NFT minter.", {
+    this.seoSrv.setPageSEO('Mint NFTs Easily on Multiple Blockchains | ChainPortal', 
+      "Create and mint NFTs seamlessly across multiple blockchains with ChainPortal's user-friendly NFT minter. Secure, fast, and cost effective.", {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Mint NFT",
-      "description": "Mint your NFT seamlessly on different blockchains with ChainPortal's NFT minter.",
+      "name": "Mint NFTs Easily on Multiple Blockchains | ChainPortal",
+      "description": "Create and mint NFTs seamlessly across multiple blockchains with ChainPortal's user-friendly NFT minter. Secure, fast, and cost effective.",
       "url": "https://chainportal.app/nft/mint",
       "mainEntityOfPage": {
         "@type": "WebPage",
@@ -48,7 +49,7 @@ export class NftMintDashboardComponent {
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Mint NFT",
+            "name": "Mint NFTs Easily on Multiple Blockchains | ChainPortal",
             "item": "https://chainportal.app/nft/mint"
           }
         ]

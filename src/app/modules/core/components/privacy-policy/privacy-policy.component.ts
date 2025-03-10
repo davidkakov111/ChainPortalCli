@@ -9,12 +9,13 @@ import { SeoService } from '../../../shared/services/seo.service';
 })
 export class PrivacyPolicyComponent {
   constructor(private seoSrv: SeoService) {
-    this.seoSrv.setPageSEO('Privacy Policy', 'The privacy policy page of ChainPortal, outlining the collection, use, and protection of the user data.', {
+    this.seoSrv.setPageSEO('ChainPortal Privacy Policy - Data Collection & Protection', 
+      "Read ChainPortal's Privacy Policy to learn about the collection, use, and protection of your data. Your privacy and security are top priorities on the platform.", {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Privacy Policy",
+      "name": "ChainPortal Privacy Policy - Data Collection & Protection",
       "url": "https://chainportal.app/privacy-policy",
-      "description": "The privacy policy page of ChainPortal, outlining the collection, use, and protection of the user data.",
+      "description": "Read ChainPortal's Privacy Policy to learn about the collection, use, and protection of your data. Your privacy and security are top priorities on the platform.",
       "publisher": {
         "@type": "Organization",
         "name": "ChainPortal",

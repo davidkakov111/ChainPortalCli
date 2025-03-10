@@ -25,11 +25,12 @@ export class TokenMintComponent {
     private dialog: MatDialog,
     private seoSrv: SeoService,
   ) {
-    this.seoSrv.setPageSEO('Mint Token', "Mint your tokens seamlessly on different blockchains with ChainPortal's token minter.", {
+    this.seoSrv.setPageSEO('Mint Tokens Easily on Multiple Blockchains | ChainPortal', 
+      "Use ChainPortal to mint tokens effortlessly on multiple blockchains. Secure, fast, and cost-effective token creation for Web3 projects and businesses.", {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Mint Token",
-      "description": "Mint your tokens seamlessly on different blockchains with ChainPortal's token minter.",
+      "name": "Mint Tokens Easily on Multiple Blockchains | ChainPortal",
+      "description": "Use ChainPortal to mint tokens effortlessly on multiple blockchains. Secure, fast, and cost-effective token creation for Web3 projects and businesses.",
       "url": "https://chainportal.app/token/mint",
       "mainEntityOfPage": {
         "@type": "WebPage",
@@ -47,7 +48,7 @@ export class TokenMintComponent {
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Mint Token",
+            "name": "Mint Tokens Easily on Multiple Blockchains | ChainPortal",
             "item": "https://chainportal.app/token/mint"
           }
         ]
