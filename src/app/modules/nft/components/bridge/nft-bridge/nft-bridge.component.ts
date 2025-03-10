@@ -9,11 +9,11 @@ import { SeoService } from '../../../../shared/services/seo.service';
 })
 export class NftBridgeComponent {
   constructor(private seoSrv: SeoService) {
-    this.seoSrv.setPageSEO('Bridge NFTs Across Blockchains with ChainPortal', 
+    this.seoSrv.setPageSEO('Bridge your NFTs Across Blockchains with ChainPortal', 
       "Seamlessly transfer your NFTs between multiple blockchains using ChainPortal's secure and efficient NFT bridging solution. Fast, easy, and reliable.", {
       "@context": "https://schema.org",
       "@type": "WebPage",
-      "name": "Bridge NFTs Across Blockchains with ChainPortal",
+      "name": "Bridge your NFTs Across Blockchains with ChainPortal",
       "description": "Seamlessly transfer your NFTs between multiple blockchains using ChainPortal's secure and efficient NFT bridging solution. Fast, easy, and reliable.",
       "url": "https://chainportal.app/nft/bridge",
       "mainEntityOfPage": {
@@ -32,7 +32,7 @@ export class NftBridgeComponent {
           {
             "@type": "ListItem",
             "position": 2,
-            "name": "Bridge NFTs Across Blockchains with ChainPortal",
+            "name": "Bridge your NFTs Across Blockchains with ChainPortal",
             "item": "https://chainportal.app/nft/bridge"
           }
         ]

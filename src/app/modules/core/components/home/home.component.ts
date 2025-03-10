@@ -18,7 +18,7 @@ export class HomeComponent {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
     this.seoSrv.setPageSEO('ChainPortal - Multi-Chain NFT and Token Management Platform', 
-      'ChainPortal is an advanced platform for minting and bridging NFTs and tokens across multiple blockchains, offering a seamless experience for creators and collectors.', {
+      'ChainPortal is an advanced platform for minting and bridging NFTs and tokens across multiple blockchains, offering a seamless experience for evryone.', {
       "@context": "https://schema.org",
       "@type": "Organization",
       "name": "ChainPortal - Multi-Chain NFT and Token Management Platform",
@@ -27,7 +27,7 @@ export class HomeComponent {
       "sameAs": [
         "https://x.com/cha1nportal",
       ],
-      "description": "ChainPortal is an advanced platform for minting and bridging NFTs and tokens across multiple blockchains, offering a seamless experience for creators and collectors."
+      "description": "ChainPortal is an advanced platform for minting and bridging NFTs and tokens across multiple blockchains, offering a seamless experience for evryone."
     });
   }
 
