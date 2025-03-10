@@ -72,6 +72,9 @@ a {
 a:hover {
     color: rgb(0, 90, 207);
 }
+.unsupported-file-type {
+    word-wrap: break-word;
+}
 
 /* Responsive design */
 @media (max-width: $breakpoint-md) {

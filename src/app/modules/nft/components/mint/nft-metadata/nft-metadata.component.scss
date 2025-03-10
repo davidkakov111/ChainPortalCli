@@ -60,6 +60,9 @@ mat-expansion-panel {
         rgba(23, 68, 109)
     );
 }
+.creation-timestamp {
+    display: none;
+}
 
 /* Responsive design */
 @media (max-width: $breakpoint-sm) {

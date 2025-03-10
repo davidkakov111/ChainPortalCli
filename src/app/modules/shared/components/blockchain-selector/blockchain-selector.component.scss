@@ -46,6 +46,12 @@ mat-card.card:hover {
   flex-direction: column; 
   justify-content: space-between;
 }
+.est-fee {
+  font-size: smaller;
+}
+.loading-spinner {
+  margin: 0 auto;
+}
 
 /* Responsive design */
 @media (max-width: $breakpoint-sm) {

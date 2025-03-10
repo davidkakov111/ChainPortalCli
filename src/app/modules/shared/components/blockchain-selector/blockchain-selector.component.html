@@ -21,7 +21,7 @@
           <div class="h100 flx-col-space-between">
             <p>{{ chain.description }}</p>
             <div *ngIf="chain.estFee">
-              <span style="font-size: smaller;">Est. Fee:</span>
+              <span class="est-fee">Est. Fee:</span>
               <p>{{ chain.estFee }} {{ chain.coin }}</p>
             </div>
           </div>
@@ -33,5 +33,5 @@
 
 <!-- Content to show if blockchains array is empty -->
 <ng-template #loading>
-  <mat-progress-spinner style="margin: 0 auto;" diameter="100" mode="indeterminate" color="primary"></mat-progress-spinner>
+  <mat-progress-spinner class="loading-spinner" diameter="100" mode="indeterminate" color="primary"></mat-progress-spinner>
 </ng-template>

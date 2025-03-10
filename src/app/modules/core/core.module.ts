@@ -14,6 +14,7 @@ import { PrivacyPolicyComponent } from './components/privacy-policy/privacy-poli
 import { DisclaimerComponent } from './components/disclaimer/disclaimer.component';
 import { TermsOfSmartContractsComponent } from './components/terms-of-smart-contracts/terms-of-smart-contracts.component';
 import { FaqComponent } from './components/faq/faq.component';
+import { NotFoundComponent } from './components/not-found/not-found.component';
 
 @NgModule({
   declarations: [
@@ -27,6 +28,7 @@ import { FaqComponent } from './components/faq/faq.component';
     DisclaimerComponent,
     TermsOfSmartContractsComponent,
     FaqComponent,
+    NotFoundComponent,
   ],
   imports: [
     CommonModule,
