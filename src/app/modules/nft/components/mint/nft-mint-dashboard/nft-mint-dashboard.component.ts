@@ -27,7 +27,8 @@ export class NftMintDashboardComponent {
     private seoSrv: SeoService,
   ) {
     this.seoSrv.setPageSEO('Mint NFTs Easily on Multiple Blockchains | ChainPortal', 
-      "Create and mint NFTs seamlessly across multiple blockchains with ChainPortal's user-friendly NFT minter. Secure, fast, and cost effective.", {
+      "Create and mint NFTs seamlessly across multiple blockchains with ChainPortal's user-friendly NFT minter. Secure, fast, and cost effective.", 
+      'https://chainportal.app/nft/mint', {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Mint NFTs Easily on Multiple Blockchains | ChainPortal",

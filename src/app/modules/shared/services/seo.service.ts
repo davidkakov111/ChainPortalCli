@@ -13,14 +13,16 @@ export class SeoService {
   ) { }
 
   // Update the page header for SEO
-  setPageSEO(title: string, description: string, structuredData: object) {
+  setPageSEO(title: string, description: string, pageUrl: string, structuredData: object, ogType: string = 'website') {
     // Title & description
     this.titleService.setTitle(title);
     this.metaService.updateTag({ name: 'description', content: description });
     
-    // Social card title & description
+    // Open Graph meta tags
     this.metaService.updateTag({ property: 'og:title', content: title });
     this.metaService.updateTag({ property: 'og:description', content: description });
+    this.metaService.updateTag({ property: 'og:type', content: ogType });
+    this.metaService.updateTag({ property: 'og:url', content: pageUrl });
     
     // JSON-LD script tag
     const previousScript = this.document.getElementById('structured-data');

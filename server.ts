@@ -22,6 +22,16 @@ export function app(): express.Express {
     res.sendFile(join(browserDistFolder, 'sitemap.xml'));
   });
 
+  // Expires headers for the images
+  server.use(express.static('dist/browser', {
+    maxAge: '1M',  // 1 Month cache duration
+    setHeaders: (res, path) => {
+      if (path.endsWith('.jpg') || path.endsWith('.png') || path.endsWith('.gif') || path.endsWith('.svg')) {
+        res.setHeader('Cache-Control', 'public, max-age=2592000');  // 1 Month (in seconds)
+      }
+    }
+  }));  
+  
   // Example Express Rest API endpoints
   // server.get('/api/**', (req, res) => { });
   // Serve static files from /browser

@@ -10,7 +10,8 @@ import { SeoService } from '../../../shared/services/seo.service';
 export class LearnComponent implements AfterViewInit {
   constructor(private seoSrv: SeoService) {
     this.seoSrv.setPageSEO('Learn How to Use ChainPortal - NFT & Token Minting Guide', 
-      "Explore ChainPortal's comprehensive guide to minting NFTs and tokens, bridging across blockchains, and making the most of the platform's features.", {
+      "Explore ChainPortal's comprehensive guide to minting NFTs and tokens, bridging across blockchains, and making the most of the platform's features.", 
+      'https://chainportal.app/learn', {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Learn How to Use ChainPortal - NFT & Token Minting Guide",

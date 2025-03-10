@@ -30,7 +30,8 @@ export class FaqComponent {
     }));
 
     this.seoSrv.setPageSEO('ChainPortal FAQ - Answers to Frequently Asked Questions', 
-      'Find answers to frequently asked questions about ChainPortal, including NFT and token minting, blockchain support, and how to use the platform effectively.', {
+      'Find answers to frequently asked questions about ChainPortal, including NFT and token minting, blockchain support, and how to use the platform effectively.', 
+      'https://chainportal.app/faq', {
       "@context": "https://schema.org",
       "@type": "FAQPage",
       "mainEntity": mainEntity

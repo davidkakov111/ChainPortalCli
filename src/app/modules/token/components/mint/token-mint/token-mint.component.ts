@@ -26,7 +26,8 @@ export class TokenMintComponent {
     private seoSrv: SeoService,
   ) {
     this.seoSrv.setPageSEO('Mint Tokens Easily on Multiple Blockchains | ChainPortal', 
-      "Use ChainPortal to mint tokens effortlessly on multiple blockchains. Secure, fast, and cost-effective token creation for Web3 projects and businesses.", {
+      "Use ChainPortal to mint tokens effortlessly on multiple blockchains. Secure, fast, and cost-effective token creation for Web3 projects and businesses.", 
+      'https://chainportal.app/token/mint', {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Mint Tokens Easily on Multiple Blockchains | ChainPortal",

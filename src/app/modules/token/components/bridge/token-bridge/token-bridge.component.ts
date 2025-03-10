@@ -10,7 +10,8 @@ import { SeoService } from '../../../../shared/services/seo.service';
 export class TokenBridgeComponent {
     constructor(private seoSrv: SeoService) {
         this.seoSrv.setPageSEO('Bridge Your Tokens Across Blockchains with ChainPortal', 
-            "Seamlessly bridge your tokens between multiple blockchains using ChainPortal's secure and efficient token bridge for smooth cross-chain transfers.", {
+            "Seamlessly bridge your tokens between multiple blockchains using ChainPortal's secure and efficient token bridge for smooth cross-chain transfers.", 
+            'https://chainportal.app/token/bridge', {
             "@context": "https://schema.org",
             "@type": "WebPage",
             "name": "Bridge Your Tokens Across Blockchains with ChainPortal",

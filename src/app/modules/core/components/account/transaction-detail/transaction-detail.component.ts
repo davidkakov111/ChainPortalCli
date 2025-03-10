@@ -17,7 +17,8 @@ export class TransactionDetailComponent implements OnInit {
     private seoSrv: SeoService,
   ) {
     this.seoSrv.setPageSEO('Transaction Details - View Your ChainPortal NFT/Token Tx', 
-      'Explore the details of your ChainPortal transaction, including asset type, operation type, blockchain, payment transaction, and more.', {
+      'Explore the details of your ChainPortal transaction, including asset type, operation type, blockchain, payment transaction, and more.', 
+      'https://chainportal.app/profile/transaction-history', {
       "@context": "https://schema.org",
       "@type": "WebPage",
       "name": "Transaction Details - View Your ChainPortal NFT/Token Tx",

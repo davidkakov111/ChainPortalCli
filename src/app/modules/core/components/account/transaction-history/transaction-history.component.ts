@@ -29,7 +29,8 @@ export class TransactionHistoryComponent {
     private accountSrv: AccountService,
     private seoSrv: SeoService,
   ) {this.seoSrv.setPageSEO('Transaction History - View Your ChainPortal Activity', 
-    'Track all your NFT and token transactions made on ChainPortal. View detailed records of your past mintings or bridgings.', {
+    'Track all your NFT and token transactions made on ChainPortal. View detailed records of your past mintings or bridgings.', 
+    'https://chainportal.app/profile/transaction-history', {
     "@context": "https://schema.org",
     "@type": "WebPage",
     "name": "Transaction History - View Your ChainPortal Activity",
