@@ -19,6 +19,9 @@ RUN npm run build --prod
 # Stage 2: Serve the Angular app with Nginx
 FROM nginx:alpine
 
+# Copy custom Nginx config
+COPY nginx.conf /etc/nginx/conf.d/default.conf
+
 # Copy the Angular build to the Nginx html folder
 COPY --from=build /app/dist/chain-portal/browser /usr/share/nginx/html
 
