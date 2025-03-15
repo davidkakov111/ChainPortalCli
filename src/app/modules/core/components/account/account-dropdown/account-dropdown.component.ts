@@ -19,7 +19,7 @@ export class AccountDropdownComponent {
 
   // Suported blockahins to select wallet
   bChains: {logo: string, name: blockchainNames, symbol: blockchainSymbols}[] = [
-    { logo: "/images/solana-logo.png", name: "Solana", symbol:"SOL" },
+    { logo: "/images/solana-logo.webp", name: "Solana", symbol:"SOL" },
   ];// TODO - Implement other blockchains later
 
   disconnectWallet() {

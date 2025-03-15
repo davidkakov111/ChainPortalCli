@@ -46,16 +46,16 @@ export class BlockchainSelectorComponent {
 
   // Variables
   allBlockchains: allBlockchain[] = [
-    { logo: "/images/ethereum-logo.png", name: "Ethereum", symbol:"ETH", coin:"ETH", description: "Decentralized, secure, and highly popular smart contract platform." },
-    { logo: "/images/solana-logo.png", name: "Solana", symbol:"SOL", coin:"SOL", description: "High-performance blockchain with fast transaction speeds." },
-    { logo: "/images/bsc-logo.png", name: "Binance Smart Chain", symbol:"BSC", coin:"BNB", description: "Low-cost, fast transactions with strong DeFi support." },
-    { logo: "/images/polygon-logo.png", name: "Polygon", symbol:"MATIC", coin:"MATIC/POL", description: "Scalable Ethereum-compatible network for faster transactions." },
-    { logo: "/images/cardano-logo.png", name: "Cardano", symbol:"ADA", coin:"ADA", description: "Research-driven, proof-of-stake blockchain with sustainable growth." },
-    { logo: "/images/tezos-logo.png", name: "Tezos", symbol:"XTZ", coin:"XTZ", description: "Self-amending blockchain for secure, decentralized applications." },
-    { logo: "/images/avalanche-logo.png", name: "Avalanche", symbol:"AVAX", coin:"AVAX", description: "High-throughput blockchain with low-latency consensus." },
-    { logo: "/images/flow-logo.png", name: "Flow", symbol:"FLOW", coin:"FLOW", description: "Blockchain designed for scalable and user-friendly applications." },
-    { logo: "/images/fantom-logo.png", name: "Fantom", symbol:"FTM", coin:"FTM", description: "Fast and scalable blockchain with instant finality." },
-    { logo: "/images/algorand-logo.png", name: "Algorand", symbol:"ALGO", coin:"ALGO", description: "High-speed, secure blockchain for decentralized applications." }
+    { logo: "/images/ethereum-logo.webp", name: "Ethereum", symbol:"ETH", coin:"ETH", description: "Decentralized, secure, and highly popular smart contract platform." },
+    { logo: "/images/solana-logo.webp", name: "Solana", symbol:"SOL", coin:"SOL", description: "High-performance blockchain with fast transaction speeds." },
+    { logo: "/images/bsc-logo.webp", name: "Binance Smart Chain", symbol:"BSC", coin:"BNB", description: "Low-cost, fast transactions with strong DeFi support." },
+    { logo: "/images/polygon-logo.webp", name: "Polygon", symbol:"MATIC", coin:"MATIC/POL", description: "Scalable Ethereum-compatible network for faster transactions." },
+    { logo: "/images/cardano-logo.webp", name: "Cardano", symbol:"ADA", coin:"ADA", description: "Research-driven, proof-of-stake blockchain with sustainable growth." },
+    { logo: "/images/tezos-logo.webp", name: "Tezos", symbol:"XTZ", coin:"XTZ", description: "Self-amending blockchain for secure, decentralized applications." },
+    { logo: "/images/avalanche-logo.webp", name: "Avalanche", symbol:"AVAX", coin:"AVAX", description: "High-throughput blockchain with low-latency consensus." },
+    { logo: "/images/flow-logo.webp", name: "Flow", symbol:"FLOW", coin:"FLOW", description: "Blockchain designed for scalable and user-friendly applications." },
+    { logo: "/images/fantom-logo.webp", name: "Fantom", symbol:"FTM", coin:"FTM", description: "Fast and scalable blockchain with instant finality." },
+    { logo: "/images/algorand-logo.webp", name: "Algorand", symbol:"ALGO", coin:"ALGO", description: "High-speed, secure blockchain for decentralized applications." }
   ];
   blockchains: blockchain[] = []
   selectedBlockchain: blockchainSymbols | null = null;

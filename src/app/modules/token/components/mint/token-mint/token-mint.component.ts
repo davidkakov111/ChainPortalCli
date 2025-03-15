@@ -73,7 +73,7 @@ export class TokenMintComponent {
       },
       "image": {
         "@type": "ImageObject",
-        "url": "https://chainportal.app/images/minting-logo.png"
+        "url": "https://chainportal.app/images/minting-logo.webp"
       }
     });
   }

@@ -48,7 +48,7 @@ export class TokenDashboardComponent {
               "url": "https://chainportal.app",
               "logo": "https://chainportal.app/favicon.ico"
             },
-            "image": "https://chainportal.app/images/token-logo.png"
+            "image": "https://chainportal.app/images/token-logo.webp"
         });
     }
 }

@@ -57,7 +57,7 @@ export class NftBridgeComponent {
       },
       "image": {
         "@type": "ImageObject",
-        "url": "https://chainportal.app/images/bridging-logo.png"
+        "url": "https://chainportal.app/images/bridging-logo.webp"
       }
     });
   }

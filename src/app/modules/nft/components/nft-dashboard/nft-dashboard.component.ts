@@ -48,7 +48,7 @@ export class NftDashboardComponent {
               "url": "https://chainportal.app",
               "logo": "https://chainportal.app/favicon.ico"
             },
-            "image": "https://chainportal.app/images/nft-logo.png"
+            "image": "https://chainportal.app/images/nft-logo.webp"
         });
     }
 }
