@@ -32,6 +32,4 @@ EXPOSE 80
 CMD ["nginx", "-g", "daemon off;"]
 
 # To remove containers, volumes, etc., run the following command:
-# sudo docker compose down --volumes --rmi all
-# To list volumes, use the following command by changing the word "volume":
-# sudo docker volume ls
+# docker system prune -a --volumes --force
