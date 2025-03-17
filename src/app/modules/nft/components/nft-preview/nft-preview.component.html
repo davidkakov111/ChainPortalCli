@@ -103,7 +103,7 @@
       <!-- External Link with Icon -->
       <div *ngIf="nftMetadata.externalLink">
         <mat-icon color="primary" aria-hidden="true" fontIcon="open_in_new"></mat-icon>
-        <a [href]="nftMetadata.externalLink" target="_blank">{{ nftMetadata.externalLink }}</a>
+        <a [href]="nftMetadata.externalLink" target="_blank" rel="noopener noreferrer">{{ nftMetadata.externalLink }}</a>
       </div>
     
       <!-- Creation Timestamp with Icon -->

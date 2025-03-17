@@ -76,7 +76,7 @@
       <!-- External Link with Icon -->
       <div *ngIf="tokenMetadata.externalLink">
         <mat-icon color="primary" aria-hidden="true" fontIcon="open_in_new"></mat-icon>
-        <a [href]="tokenMetadata.externalLink" target="_blank">{{ tokenMetadata.externalLink }}</a>
+        <a [href]="tokenMetadata.externalLink" target="_blank" rel="noopener noreferrer">{{ tokenMetadata.externalLink }}</a>
       </div>
     </mat-card-content>
   </mat-card>
