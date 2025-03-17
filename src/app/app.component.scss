@@ -119,6 +119,13 @@
 .hover-blue {
     color: var(--hover-blue) !important;
 }
+.footer-email {
+    display: flex;
+    flex-direction: row;
+    align-items: center; 
+    justify-content: center;
+    gap: 5px;
+}
 
 /* Responsive design */
 @media (max-width: $breakpoint-md) {
@@ -156,5 +163,8 @@
 @media (max-width: $breakpoint-xs) {
     .sidenav {
         width: 100%;
+    }
+    .footer-email {
+        flex-direction: column;
     }
 }
