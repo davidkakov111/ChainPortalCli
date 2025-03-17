@@ -69,6 +69,15 @@ $dark-theme: mat.define-theme((
 .flx-row {
   flex-direction: row;
 }
+.align-center {
+  align-items: center;
+}
+.justify-center {
+  justify-content: center;
+}
+.gap-5 {
+  gap: 5px;
+}
 
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
