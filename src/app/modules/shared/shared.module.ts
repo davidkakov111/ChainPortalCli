@@ -12,6 +12,8 @@ import { ThreeDViewerComponent } from './components/three-dviewer/three-dviewer.
 import { FeedbackComponent } from './dialogs/feedback/feedback.component';
 import { FormsModule } from '@angular/forms';
 import { StarRatingModule } from 'angular-star-rating';
+import { EthereumWalletConnectComponent } from './components/wallet-connects/ethereum-wallet-connect/ethereum-wallet-connect.component';
+import { EthereumWalletConnectUiComponent } from './dialogs/ethereum-wallet-connect-ui/ethereum-wallet-connect-ui.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { StarRatingModule } from 'angular-star-rating';
     WebSocketMessageBoardComponent,
     ThreeDViewerComponent,
     FeedbackComponent,
+    EthereumWalletConnectComponent,
+    EthereumWalletConnectUiComponent,
   ],
   imports: [
     CommonModule,
@@ -40,6 +44,8 @@ import { StarRatingModule } from 'angular-star-rating';
     WebSocketMessageBoardComponent,
     ThreeDViewerComponent,
     FeedbackComponent,
+    EthereumWalletConnectComponent,
+    EthereumWalletConnectUiComponent,
   ]
 })
 export class SharedModule { }

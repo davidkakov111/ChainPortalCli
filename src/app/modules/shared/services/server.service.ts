@@ -1,7 +1,6 @@
 import { Injectable } from '@angular/core';
 import { assetType, blockchainSymbols, operationType } from '../components/blockchain-selector/blockchain-selector.component';
 import { transactionHistory } from '../../core/components/account/transaction-history/transaction-history.component';
-import { Router } from '@angular/router';
 import { HttpClient } from '@angular/common/http';
 import { firstValueFrom, Observable } from 'rxjs';
 
@@ -10,6 +9,10 @@ export interface Environment {
   blockchainNetworks: {
     solana: {
       selected: 'devnet' | 'mainnet',
+      pubKey: string,
+    }, 
+    ethereum: {
+      selected: 'sepolia' | 'mainnet',
       pubKey: string,
     }, 
   },
@@ -42,9 +45,9 @@ export type blockchainFees = Partial<Record<blockchainSymbols, number>>;
   providedIn: 'root',
 })
 export class ServerService {
-  constructor(private router: Router, private http: HttpClient) {}
+  constructor(private http: HttpClient) {}
 
-  serverEndpoint: string = "https://server.chainportal.app"; // "http://localhost:3000";
+  serverEndpoint: string = "https://server.chainportal.app"; // "http://localhost:3000"; 
   private environment!: Environment;
 
   // Load & return the environment details from server

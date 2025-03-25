@@ -1,0 +1,58 @@
+.wallet-status {
+    display: flex;
+    align-items: center;
+    color: green; 
+    font-size: 1rem; 
+    font-weight: bold; 
+    margin-top: 20px;
+}
+.txt-center {
+    text-align: center;
+}
+.font-small {
+    font-size: small;
+}
+.check-icon {
+    margin-right: 8px;
+}
+.flx-col-center {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+}
+button {
+    margin: 15px;
+    font-size: larger;
+    background: linear-gradient(
+        to right, 
+        rgb(0, 119, 255),
+        rgb(75, 20, 179)
+    );
+    color: white;
+    animation: pulse-blue 1s infinite;
+    &:hover {
+        background: linear-gradient(
+            to right, 
+            rgb(38, 139, 255),
+            rgb(108, 47, 219)
+        );
+    }
+}
+mat-progress-spinner {
+    margin-right: 8px;
+    vertical-align: middle;
+}
+@keyframes pulse-blue {
+    0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0.6);
+    }
+    50% {
+        transform: scale(1.08);
+        box-shadow: 0 0 0 10px rgba(33, 150, 243, 0);
+    }
+    100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(33, 150, 243, 0);
+    }
+}

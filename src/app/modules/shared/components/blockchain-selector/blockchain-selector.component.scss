@@ -38,6 +38,14 @@ mat-card.card.selected {
 mat-card.card:hover {
   box-shadow: 0 6px 10px rgba(0, 0, 0, 0.25);
 }
+mat-card-header {
+  padding-top: 5px;
+}
+mat-card-title {
+  display: flex;
+  align-items: center;
+  height: 100%;
+}
 .h100 {
   height: 100%;
 }

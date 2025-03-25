@@ -19,7 +19,7 @@
     <!-- Blockchain selector component -->
     <app-blockchain-selector 
       [title]="'Select Blockchain to Mint NFT'"
-      [suportedBlockchains]="['SOL']"
+      [suportedBlockchains]="['SOL', 'ETH']"
       [selectedByDefault]="nftSrv.getStepData('step2').symbol"
       [assetType]="'NFT'"
       [operationType]="'mint'"
@@ -46,6 +46,12 @@
         <div *ngIf="nftSrv.getStepData('step2').symbol === 'SOL'">
           <app-solana-wallet-connect [estFee]="nftSrv.getStepData('step2').estFee" [operationType]="'mint'"
             (paymentTxSignature)="handlePayment($event)" class="my-20"></app-solana-wallet-connect>
+        </div>
+
+        <!-- Ethereum W.C. -->
+        <div *ngIf="nftSrv.getStepData('step2').symbol === 'ETH'">
+          <app-ethereum-wallet-connect [estFee]="nftSrv.getStepData('step2').estFee" [operationType]="'mint'"
+            (paymentTxSignature)="handlePayment($event)" class="my-20"></app-ethereum-wallet-connect>
         </div>
       </div>
       <!-- Display the NFT -->
