@@ -4,6 +4,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { SolanaWalletConnectUIComponent } from '../../../../shared/dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
 import { blockchainNames, blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
 import { Buffer } from 'buffer';
+import { EthereumWalletConnectUiComponent } from '../../../../shared/dialogs/ethereum-wallet-connect-ui/ethereum-wallet-connect-ui.component';
 
 @Component({
   selector: 'app-account-dropdown',
@@ -19,6 +20,7 @@ export class AccountDropdownComponent {
 
   // Suported blockahins to select wallet
   bChains: {logo: string, name: blockchainNames, symbol: blockchainSymbols}[] = [
+    { logo: "/images/ethereum-logo.webp", name: "Ethereum", symbol:"ETH"},
     { logo: "/images/solana-logo.webp", name: "Solana", symbol:"SOL" },
   ];// TODO - Implement other blockchains later
 
@@ -38,6 +40,8 @@ export class AccountDropdownComponent {
 
     if (bChain === 'SOL') {
       this.dialog.open(SolanaWalletConnectUIComponent);
+    } else if (bChain === 'ETH') {
+      this.dialog.open(EthereumWalletConnectUiComponent);  
     }// TODO - Implement other blockchains later
   }
 }

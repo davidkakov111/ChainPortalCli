@@ -128,9 +128,20 @@ export class EthereumWalletService {
 
   // Disconnect the connected wallet
   async disconnectWallet(): Promise<void> {
-    await disconnect(this.wagmiConfig);
-    this.selectedWallet = null;
-    this.accountSrv.removeAccount();
+    if (this.selectedWallet) {
+      const currentConnector = this.wagmiConfig.connectors[this.selectedWallet.index];
+
+      try {
+        // Disconnect the selected connector
+        await disconnect(this.wagmiConfig, { connector: currentConnector });
+
+        // After disconnecting, reset the selected wallet and account state
+        this.selectedWallet = null;
+        this.accountSrv.removeAccount();
+      } catch (error) {
+        console.error('Error during disconnect:', error);
+      }
+    }
   }
 
   // Add event listeners to detect wallet changes (disconnect or account switch)

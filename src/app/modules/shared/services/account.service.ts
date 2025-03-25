@@ -2,6 +2,7 @@ import { Injectable, Injector } from '@angular/core';
 import { blockchainSymbols } from '../components/blockchain-selector/blockchain-selector.component';
 import { SolanaWalletService } from './solana-wallet.service';
 import { Router } from '@angular/router';
+import { EthereumWalletService } from './ethereum-wallet.service';
 
 interface account {
   pubKey: string,
@@ -26,11 +27,14 @@ export class AccountService {
     if (this.account?.blockchainSymbol === "SOL") {
       const solanaWalletSrv = this.injector.get(SolanaWalletService);
       solanaWalletSrv.disconnectWallet(); // FYI - This also call the removeAccount() function.
-
-      // If the user is on the profile page, redirect them to the home page because their wallet has been disconnected.
-      if (this.router.url.includes('profile')) {
-        this.router.navigate(['/']);
-      }
+    } else if (this.account?.blockchainSymbol === "ETH") {
+      const ethereumWalletSrv = this.injector.get(EthereumWalletService);
+      ethereumWalletSrv.disconnectWallet(); // FYI - This also call the removeAccount() function.
     }// TODO - Implement other blockchains later
+    
+    // If the user is on the profile page, redirect them to the home page because their wallet has been disconnected.
+    if (this.router.url.includes('profile')) {
+      this.router.navigate(['/']);
+    }
   };
 }
