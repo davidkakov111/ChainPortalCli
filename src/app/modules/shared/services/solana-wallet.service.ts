@@ -63,6 +63,8 @@ export class SolanaWalletService {
         await wallet.connect();
         this.selectedWallet = wallet;
         this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: this.selectedWallet.publicKey?.toString() || ''});
+
+        this.addWalletEventListeners();
       } catch (error) {
         console.error('Failed to connect wallet:', error);
         this.selectedWallet = null;
@@ -79,7 +81,12 @@ export class SolanaWalletService {
 
   // Disconnect the connected wallet
   disconnectWallet(): void {
-    this.selectedWallet?.disconnect();
+    if (this.selectedWallet) {
+      this.selectedWallet.off('disconnect');
+      this.selectedWallet.off('connect');
+      this.selectedWallet.disconnect();
+    }
+  
     this.selectedWallet = null;
     this.accountSrv.removeAccount();
   }
@@ -142,6 +149,17 @@ export class SolanaWalletService {
       }
       return null;
     }
+  }
+
+  // Add event listeners to detect wallet changes (disconnect or account switch)
+  addWalletEventListeners(): void {
+    this.selectedWallet?.on('disconnect', () => this.disconnectWallet());
+  
+    this.selectedWallet?.on('connect', () => {
+      if (this.selectedWallet?.publicKey) {
+        this.accountSrv.initializeAccount({ blockchainSymbol: 'SOL', pubKey: this.selectedWallet.publicKey.toString() });
+      }
+    });
   }
 
   // Open confirmation dialog with a message
