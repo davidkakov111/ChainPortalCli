@@ -25,7 +25,6 @@ export interface transaction {
   blockchain: blockchainSymbols,
   paymentPubKey: string,
   paymentAmount: number,
-  expenseAmount: number,
   date: Date,
   MintTxHistories?: {
     id: number,
