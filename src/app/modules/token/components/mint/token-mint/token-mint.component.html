@@ -19,7 +19,7 @@
     <!-- Blockchain selector component -->
     <app-blockchain-selector 
       [title]="'Select Blockchain to Mint Tokens'"
-      [suportedBlockchains]="['SOL']"
+      [suportedBlockchains]="['SOL', 'ETH']"
       [selectedByDefault]="tokenSrv.getStepData('step2').symbol"
       [assetType]="'Token'"
       [operationType]="'mint'"
@@ -46,6 +46,12 @@
         <div *ngIf="tokenSrv.getStepData('step2').symbol === 'SOL'">
           <app-solana-wallet-connect [estFee]="tokenSrv.getStepData('step2').estFee" [operationType]="'mint'"
             (paymentTxSignature)="handlePayment($event)" class="my-20"></app-solana-wallet-connect>
+        </div>
+
+        <!-- Ethereum W.C. -->
+        <div *ngIf="tokenSrv.getStepData('step2').symbol === 'ETH'">
+          <app-ethereum-wallet-connect [estFee]="tokenSrv.getStepData('step2').estFee" [operationType]="'mint'"
+            (paymentTxSignature)="handlePayment($event)" class="my-20"></app-ethereum-wallet-connect>
         </div>
       </div>
       <!-- Display the token -->
