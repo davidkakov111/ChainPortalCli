@@ -63,12 +63,7 @@ export class TokenMetadataComponent {
   // File management
   onFileChange(event: any) {
     const file = event.target.files[0];
-    const allowedTypes = [
-      'image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp',
-      'video/mp4', 'video/quicktime', 'video/webm',
-      'audio/mpeg', 'audio/wav', 'audio/flac', 'audio/aac', 'audio/vnd.dlna.adts',
-      'model/gltf-binary', 'application/obj'
-    ];
+    const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/svg+xml', 'image/webp'];
     // Allowed extensions for types that may not have MIME types
     const extensionToMimeType: { [key: string]: string } = {
       'glb': 'model/gltf-binary',
@@ -90,14 +85,15 @@ export class TokenMetadataComponent {
         // Reset file input and show an error
         this.clearSelectedFile();
         this.openConfirmDialog(`
-          <p>Invalid file type! Please select a file of type:</p>
+          <p>Invalid image file! Please select a file of type:</p>
           <ul>
-            <li>Images: JPEG, PNG, GIF, SVG, WEBP</li>
-            <li>Videos: MP4, QuickTime, WEBM</li>
-            <li>Audio: MP3, WAV, FLAC, AAC</li>
-            <li>3D Models: GLB, OBJ</li>
+            <li>JPEG</li>
+            <li>PNG</li>
+            <li>GIF</li>
+            <li>SVG</li>
+            <li>WEBP</li>
           </ul>
-          <p>Make sure the file matches one of the above formats.</p>
+          <p>Make sure the image file matches one of the above formats.</p>
         `);
       }
     }

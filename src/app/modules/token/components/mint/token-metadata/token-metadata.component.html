@@ -28,7 +28,7 @@
           <mat-icon>{{ this.tokenForm.get('media')?.value ? 'refresh' : 'upload' }}</mat-icon>
           {{this.tokenForm.get('media')?.value ? 'Change File' : 'Choose File'}}
         </button>
-        <input #fileInput type="file" (change)="onFileChange($event)" hidden accept=".jpeg,.jpg,.png,.gif,.svg,.webp,.mp4,.mov,.webm,.mp3,.wav,.flac,.aac,.glb,.obj">
+        <input #fileInput type="file" (change)="onFileChange($event)" hidden accept=".jpeg,.jpg,.png,.gif,.svg,.webp">
         <mat-card *ngIf="selectedFileName" class="selected-file-card">
           <mat-card-content class="flx-row-center">
             {{ selectedFileName }}
