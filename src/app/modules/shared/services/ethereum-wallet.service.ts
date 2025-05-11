@@ -5,54 +5,37 @@ import { ServerService } from './server.service';
 import { AccountService } from './account.service';
 import { createConfig, http, Config } from 'wagmi';
 import { mainnet, sepolia } from 'wagmi/chains';
-import { walletConnect, metaMask, coinbaseWallet, injected, safe } from 'wagmi/connectors';
+import { walletConnect, metaMask, coinbaseWallet, injected } from 'wagmi/connectors';
 import { disconnect } from 'wagmi/actions';
 import { ethers } from 'ethers';
+import { getAccount, getWalletClient, connect, switchChain, watchAccount } from '@wagmi/core'
 
 export interface ethereumWallet {
-  index: walletIndex;
+  index: ethWalletIndex;
   name: string;
   url: string;
   icon: string;
 }
-type walletIndex = 0 | 1 | 2 | 3 | 4;
+type ethWalletIndex = 0 | 1 | 2 | 3;
 
 @Injectable({
   providedIn: 'root'
 })
 export class EthereumWalletService {
-  // Selected/Connected wallet
   selectedWallet: ethereumWallet | null = null;
-
-  // Available suported wallets
   availableWallets: ethereumWallet[] = [
     {name: 'WalletConnect', index: 0, url: 'https://walletconnect.network/', icon: '/images/eth-wallet-icons/wallet-connect-icon.webp'},
     {name: 'Browser Wallet', index: 1, url: 'https://metamask.io/', icon: '/images/eth-wallet-icons/globe-web3-icon.webp'},
     {name: 'MetaMask', index: 2, url: 'https://metamask.io/', icon: '/images/eth-wallet-icons/metamask-wallet-icon.webp'},
     {name: 'Coinbase Wallet', index: 3, url: 'https://wallet.coinbase.com/', icon: '/images/eth-wallet-icons/coinbase-wallet-icon.webp'},
-    {name: 'Safe (Gnosis)', index: 4, url: 'https://safe.global/wallet', icon: '/images/eth-wallet-icons/gnosis-safe-icon.webp'},
   ];
-
-  // Wallet index to wallet detection function mapper
-  walletMapper = {
-    0: '',// WalletConnect doesn't need to be checked
-    1: '',// Injected wallets only should check window.ethereum
-    2: 'isMetaMask',
-    3: 'isCoinbaseWallet',
-    4: 'isSafe'
-  }
-
-  // Wagmi configuration
   wagmiConfig!: Config;
-
-  // Supported Ethereum networks with their hex chain IDs
-  supportedEthereumNetworks = {
-    mainnet: '0x1',
-    sepolia: '0xaa36a7' 
-  }
-
-  // Mainnet or  Testnet (Sepolia) network is used based on cli env
   isMainnet: boolean = true;
+  walletAvailabilityCache: Record<ethWalletIndex, boolean> = {
+    0: false, 1: false, 2: false, 3: false
+  };
+  unsubscribeAccountWatcher!: () => void; 
+
   constructor(
     private dialog: MatDialog,
     private serverSrv: ServerService,
@@ -87,21 +70,22 @@ export class EthereumWalletService {
               "--wcm-z-index": "1001", // Set a high z-index value to ensure the modal appears on the top of the angular material dialog
             },
           },
-        }),
-        injected(),
-        metaMask(), 
-        coinbaseWallet(),
-        safe(),
+        }), //! Dont works as expected
+        injected(), // Tested: coinbase br.ext.(✅), metamask br.ext.(the disconnect from wallet give dead loop...)
+        metaMask(), // Tested: br.ext.(✅)
+        coinbaseWallet(), // Tested: br.ext.(✅)
       ]
     });
+ 
+    this.initializeWalletAvailability();
   }
 
   // Connect the user's selected wallet
-  async connectWallet(walletIndex: walletIndex): Promise<void> {
+  async connectWallet(walletIndex: ethWalletIndex): Promise<void> {
     const desiredWallet = this.availableWallets.filter(wallet => wallet.index === walletIndex)[0];
   
     // Ensure if the wallet is available to connect
-    if (!this.walletAvailable(walletIndex)) {
+    if (!await this.walletAvailable(walletIndex)) {
       // Handle case where no wallet is found
       this.openConfirmDialog(`
         <p>Couldn't detect ${desiredWallet.name} on your device.</p> 
@@ -113,8 +97,9 @@ export class EthereumWalletService {
 
     try {
       // Connect to the user's wallet
-      const walletInfo = await this.wagmiConfig.connectors[walletIndex].connect();
-      
+      const connector = this.wagmiConfig.connectors[walletIndex];
+      const walletInfo = await connect(this.wagmiConfig, { connector });
+
       this.selectedWallet = desiredWallet;
       this.accountSrv.initializeAccount({blockchainSymbol: 'ETH', pubKey: walletInfo.accounts[0] || ''});
 
@@ -122,13 +107,14 @@ export class EthereumWalletService {
       this.addWalletEventListeners();
     } catch (error) {
       console.error('Failed to connect wallet:', error);
-      this.disconnectWallet();
+      await this.disconnectWallet();
     }
   }
 
   // Disconnect the connected wallet
   async disconnectWallet(): Promise<void> {
     if (this.selectedWallet) {
+      this.unsubscribeAccountWatcher();
       const currentConnector = this.wagmiConfig.connectors[this.selectedWallet.index];
 
       try {
@@ -144,26 +130,44 @@ export class EthereumWalletService {
     }
   }
 
-  // Add event listeners to detect wallet changes (disconnect or account switch)
+  // Add event listener to detect wallet changes (disconnect or account switch)
   async addWalletEventListeners(): Promise<void> {
-    // Detect account change (wallet disconnected or switched accounts)
-    window.ethereum.on('accountsChanged', async (accounts: string[]) => {
-      if (accounts.length === 0) {
-        // No accounts available (wallet disconnected)
-        await this.disconnectWallet();
-      } else {
-        this.accountSrv.initializeAccount({blockchainSymbol: 'ETH', pubKey: accounts[0]});
+    const disconnectWallet = async () => await this.disconnectWallet();
+    const accountSrv = this.accountSrv;
+    const wagmiConf = this.wagmiConfig;
+    const selectedWalletIndex = this.selectedWallet?.index;
+    
+    // Watch for account changes
+    this.unsubscribeAccountWatcher = watchAccount(wagmiConf, {
+      onChange(account) {
+        if (!selectedWalletIndex) {
+          return void disconnectWallet();
+        };
+        const connector = wagmiConf.connectors[selectedWalletIndex];
+        if (!connector?.getAccounts) {
+          return void disconnectWallet();
+        };
+
+        connector.getAccounts().then((accounts) => {
+          if (account.isConnected && accounts.length && account.address) {
+            // Just switch account
+            accountSrv.initializeAccount({ blockchainSymbol: 'ETH', pubKey: account.address });
+          } else {
+            void disconnectWallet();
+          }
+        }).catch((e) => console.error('Wallet event listener error, while retrieving accounts: ', e));
       }
     });
-  }
+  };
 
   // Request payment from the connected wallet
   async requestPayment(
     recipient: string, // Recipient's ETH address (ChainPortal's address)
-    ethAmount: number     // Amount in ETH
+    ethAmount: number  // Amount in ETH
   ): Promise<string | null> {
     // Ensure the wallet is connected on the correct network
-    if (!this.selectedWallet) {
+    const account = getAccount(this.wagmiConfig);
+    if (!this.selectedWallet || !account.isConnected) {
       this.openConfirmDialog("Connect your wallet first.");
       return null;
     }
@@ -174,16 +178,13 @@ export class EthereumWalletService {
     };
 
     try {
-      // Create an ethers.js provider using window.ethereum
-      const provider = new ethers.BrowserProvider(window.ethereum);
-      const signer = await provider.getSigner();
-
-      // Request payment transaction with converted ETH to Wei and return the transaction hash
-      const tx = await signer.sendTransaction({
-        to: ethers.getAddress(recipient),
+      const walletClient = await getWalletClient(this.wagmiConfig);
+      const txHash = await walletClient.sendTransaction({
+        to: ethers.getAddress(recipient) as `0x${string}`,
         value: ethers.parseEther(String(ethAmount))
       });
-      return tx.hash;
+
+      return txHash;
     } catch (error: any) {
       if (error.code === -32003 || error.message.includes("insufficient funds")) {
         this.openConfirmDialog(`
@@ -200,15 +201,20 @@ export class EthereumWalletService {
   // Ensure the user is connected to the correct network
   async ensureCorrectNetwork(): Promise<boolean> {
     try {
-      const requiredChainId = this.supportedEthereumNetworks[this.isMainnet ? 'mainnet' : 'sepolia'];
-      const currentChainId = await window.ethereum.request({ method: 'eth_chainId' });
+      const account = getAccount(this.wagmiConfig);
+      const requiredChainId = this.isMainnet ? mainnet.id : sepolia.id;
 
-      if (currentChainId !== requiredChainId) {
+      if (account.chainId !== requiredChainId) {
         // Request the user to switch network
-        await window.ethereum.request({
-          method: 'wallet_switchEthereumChain',
-          params: [{ chainId: requiredChainId }],
-        });
+        await switchChain(this.wagmiConfig, {chainId: requiredChainId, connector: account.connector});
+        // Wait a moment for the switch to complete
+        await new Promise(resolve => setTimeout(resolve, 500));
+      
+        // Verify the switch was successful
+        const updatedAccount = getAccount(this.wagmiConfig);
+        if (updatedAccount.chainId !== requiredChainId) {
+          throw new Error('Network switch failed');
+        }
       }
       return true;
     } catch (error: any) {
@@ -222,11 +228,20 @@ export class EthereumWalletService {
   }
   
   // Check if the user's selected wallet is available
-  walletAvailable(walletIndex: walletIndex): boolean {
-    if (walletIndex === 0) return true; // For WalletConnect, don't need to check if it's available
-    if (walletIndex === 1) return typeof window.ethereum !== 'undefined'; // For injected wallet only need to check window.ethereum    
-    if (typeof window.ethereum !== 'undefined' && window.ethereum[this.walletMapper[walletIndex]]) return true;
-    return false;
+  async walletAvailable(walletIndex: ethWalletIndex): Promise<boolean> {
+    // Special case for WalletConnect (always available as it shows QR code & similars)
+    if (walletIndex === 0) return true;
+    
+    const connector = this.wagmiConfig.connectors[walletIndex];
+    const provider = await connector.getProvider();
+    return !!provider;
+  }
+
+  // Check if the wallet is available for all supported wallets
+  async initializeWalletAvailability() {
+    for (const wallet of this.availableWallets) {
+      this.walletAvailabilityCache[wallet.index] = await this.walletAvailable(wallet.index);
+    }
   }
   
   // Open confirmation dialog with a message
