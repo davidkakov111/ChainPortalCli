@@ -70,8 +70,8 @@ export class EthereumWalletService {
               "--wcm-z-index": "1001", // Set a high z-index value to ensure the modal appears on the top of the angular material dialog
             },
           },
-        }), //! Dont works as expected
-        injected(), // Tested: coinbase br.ext.(✅), metamask br.ext.(the disconnect from wallet give dead loop...)
+        }), //! ❌ Dont works as expected
+        injected(), // Tested: coinbase br.ext.(✅), metamask br.ext.(✅)
         metaMask(), // Tested: br.ext.(✅)
         coinbaseWallet(), // Tested: br.ext.(✅)
       ]
@@ -117,13 +117,18 @@ export class EthereumWalletService {
       this.unsubscribeAccountWatcher();
       const currentConnector = this.wagmiConfig.connectors[this.selectedWallet.index];
 
-      try {
-        // Disconnect the selected connector
-        await disconnect(this.wagmiConfig, { connector: currentConnector });
+      try {    
+        if (this.selectedWallet.index === 1) {
+          // In case of injected connector, reload the page to awoid potential reconecting "deadloop" in case of metamask (out of memory error)
+          window.location.reload();
+        } else {
+          // Disconnect the selected connector
+          await disconnect(this.wagmiConfig, { connector: currentConnector });
 
-        // After disconnecting, reset the selected wallet and account state
-        this.selectedWallet = null;
-        this.accountSrv.removeAccount();
+          // Reset the selected wallet and account state
+          this.selectedWallet = null;
+          this.accountSrv.removeAccount();
+        }
       } catch (error) {
         console.error('Error during disconnect:', error);
       }
@@ -140,7 +145,7 @@ export class EthereumWalletService {
     // Watch for account changes
     this.unsubscribeAccountWatcher = watchAccount(wagmiConf, {
       onChange(account) {
-        if (!selectedWalletIndex) {
+        if (selectedWalletIndex === undefined) {
           return void disconnectWallet();
         };
         const connector = wagmiConf.connectors[selectedWalletIndex];
@@ -148,14 +153,17 @@ export class EthereumWalletService {
           return void disconnectWallet();
         };
 
-        connector.getAccounts().then((accounts) => {
-          if (account.isConnected && accounts.length && account.address) {
-            // Just switch account
-            accountSrv.initializeAccount({ blockchainSymbol: 'ETH', pubKey: account.address });
-          } else {
-            void disconnectWallet();
-          }
-        }).catch((e) => console.error('Wallet event listener error, while retrieving accounts: ', e));
+        // In case of inject do not use getAccounts, as it can cause issues with MetaMask (at least)
+        if (selectedWalletIndex !== 1) {
+          connector.getAccounts().then((accounts) => {
+            if (account.isConnected && accounts.length && account.address) {
+              // Just switch account
+              accountSrv.initializeAccount({ blockchainSymbol: 'ETH', pubKey: account.address });
+            } else {
+              void disconnectWallet();
+            }
+          }).catch((e) => console.error('Wallet event listener error, while retrieving accounts: ', e));   
+        } 
       }
     });
   };
@@ -171,7 +179,7 @@ export class EthereumWalletService {
       this.openConfirmDialog("Connect your wallet first.");
       return null;
     }
-    const correctNetwork = await this.ensureCorrectNetwork();
+    const correctNetwork = await this.ensureCorrectNetworkAndAccount();
     if (!correctNetwork) {
       this.openConfirmDialog(`Switch to the ${this.isMainnet ? 'Mainnet' : 'Testnet (Sepolia)'} Ethereum network first.`);
       return null;
@@ -199,10 +207,15 @@ export class EthereumWalletService {
   }
 
   // Ensure the user is connected to the correct network
-  async ensureCorrectNetwork(): Promise<boolean> {
+  async ensureCorrectNetworkAndAccount(): Promise<boolean> {
     try {
       const account = getAccount(this.wagmiConfig);
       const requiredChainId = this.isMainnet ? mainnet.id : sepolia.id;
+
+      // Switch account if needed (this can happen with injector provider with MetaMask)
+      if (account.address && account.address !== this.accountSrv.getAccount()?.pubKey) {
+        this.accountSrv.initializeAccount({ blockchainSymbol: 'ETH', pubKey: account.address });
+      }
 
       if (account.chainId !== requiredChainId) {
         // Request the user to switch network
