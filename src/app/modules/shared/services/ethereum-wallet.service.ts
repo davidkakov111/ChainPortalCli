@@ -56,7 +56,6 @@ export class EthereumWalletService {
         [sepolia.id]: http("https://eth-sepolia.public.blastapi.io"), // Sepolia RPC
       },
       connectors: [
-        // TODO - Test all the integrated wallets / conectors
         walletConnect({
           projectId: environment.reownProjectId,
           metadata: {
@@ -70,10 +69,10 @@ export class EthereumWalletService {
               "--wcm-z-index": "1001", // Set a high z-index value to ensure the modal appears on the top of the angular material dialog
             },
           },
-        }), //! ❌ Dont works as expected
-        injected(), // Tested: coinbase br.ext.(✅), metamask br.ext.(✅)
-        metaMask(), // Tested: br.ext.(✅)
-        coinbaseWallet(), // Tested: br.ext.(✅)
+        }), // Tested: metamask mobile (✅ sepolia)
+        injected(), // Tested: coinbase br.ext.(✅ sepolia), metamask br.ext.(✅ sepolia)
+        metaMask(), // Tested: br.ext.(✅ sepolia), mobile app (✅ sepolia)
+        coinbaseWallet(), // Tested: br.ext.(✅ sepolia)
       ]
     });
  
