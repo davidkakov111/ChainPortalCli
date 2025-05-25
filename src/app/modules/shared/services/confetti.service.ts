@@ -15,14 +15,14 @@ export class ConfettiService {
       }
 
       confetti({
-        particleCount: 25,
+        particleCount: 10,
         angle: 60,
         spread: 100,
         origin: { x: 0 },
         zIndex: 2000
       });
       confetti({
-        particleCount: 25,
+        particleCount: 10,
         angle: 120,
         spread: 100,
         origin: { x: 1 },

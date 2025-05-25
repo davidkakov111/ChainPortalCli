@@ -31,10 +31,10 @@ export class SolanaWalletService {
     // TODO - Test all the integrated wallets later
     // Lazy Loading the solana package to avoid the build process from attempting to parse the Solana-related code when building.
     const wallets: BaseWalletAdapter[] = await Promise.all([
-      import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network })), // Tested
-      import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network })), // Tested
-      import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })), // Not tested
-      import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })), // Not tested
+      import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network })), // Tested: br.ext.(✅ devnet),
+      import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network })), // Tested: br.ext.(✅ devnet),
+      import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })), // Tested: br.ext.(❌ devnet is unavailable),
+      import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })), // Tested: br.ext.(❌ devnet is unavailable),
       Promise.resolve(new WalletConnectWalletAdapter({network, options: {projectId: environment.reownProjectId}})) // Dont works properly
     ]);
 
@@ -72,8 +72,7 @@ export class SolanaWalletService {
         this.addWalletEventListeners();
       } catch (error) {
         console.error('Failed to connect wallet:', error);
-        this.selectedWallet = null;
-        this.accountSrv.removeAccount();
+        this.disconnectWallet();
       }
     } else {
       this.openConfirmDialog(`
