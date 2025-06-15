@@ -6,6 +6,9 @@ import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect
 import { ServerService } from './server.service';
 import { AccountService } from './account.service';
 
+// https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAGES.md
+// TODO -remove wallet availabkle check and try to connect this way to mobile wallets
+
 @Injectable({
   providedIn: 'root'
 })
@@ -63,7 +66,7 @@ export class SolanaWalletService {
 
   // Connect the user's selected wallet
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
-    if (wallet.readyState === WalletReadyState.Installed || wallet.name === 'WalletConnect') {
+    if (wallet.readyState === WalletReadyState.Installed || wallet.name === 'WalletConnect' || true) {
       try {
         await wallet.connect();
         this.selectedWallet = wallet;
@@ -71,6 +74,8 @@ export class SolanaWalletService {
 
         this.addWalletEventListeners();
       } catch (error) {
+
+        alert(JSON.stringify(error))
         console.error('Failed to connect wallet:', error);
         this.disconnectWallet();
       }
