@@ -68,6 +68,8 @@ export class SolanaWalletService {
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
     if (wallet.readyState === WalletReadyState.Installed || wallet.name === 'WalletConnect' || true) {
       try {
+        window.location.href = 'https://solflare.com/ul/v1/connect?redirect_url=https://chainportal.app';
+
         await wallet.connect();
         this.selectedWallet = wallet;
         this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: this.selectedWallet.publicKey?.toString() || ''});
