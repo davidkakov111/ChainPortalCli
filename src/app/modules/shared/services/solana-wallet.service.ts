@@ -2,12 +2,8 @@ import { WalletAdapterNetwork, WalletReadyState, BaseWalletAdapter } from '@sola
 import { Injectable } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
-import { WalletConnectWalletAdapter } from '@solana/wallet-adapter-walletconnect';
 import { ServerService } from './server.service';
 import { AccountService } from './account.service';
-
-// https://github.com/anza-xyz/wallet-adapter/blob/master/PACKAGES.md
-// TODO -remove wallet availabkle check and try to connect this way to mobile wallets
 
 @Injectable({
   providedIn: 'root'
@@ -31,14 +27,13 @@ export class SolanaWalletService {
     const environment = await this.serverSrv.getEnvironment();
     const network = WalletAdapterNetwork[environment.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet'];
 
-    // TODO - Test all the integrated wallets later
+    // TODO - Test all the integrated wallets
     // Lazy Loading the solana package to avoid the build process from attempting to parse the Solana-related code when building.
     const wallets: BaseWalletAdapter[] = await Promise.all([
       import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network })), // Tested: br.ext.(✅ devnet),
       import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network })), // Tested: br.ext.(✅ devnet),
-      import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })), // Tested: br.ext.(❌ devnet is unavailable),
-      import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })), // Tested: br.ext.(❌ devnet is unavailable),
-      Promise.resolve(new WalletConnectWalletAdapter({network, options: {projectId: environment.reownProjectId}})) // Dont works properly
+      import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })), // Tested: br.ext.(✅/❌ devnet is unavailable),
+      import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })), // Tested: br.ext.(✅/❌ devnet is unavailable),
     ]);
 
     // Change the default icon for Solflare wallet, bc it was outdated
@@ -49,11 +44,6 @@ export class SolanaWalletService {
 
     // Sort wallets by readyState: Installed wallets come first
     this.availableWallets = wallets.sort((a, b) => {
-      // Always prioritize WalletConnect
-      if (a.name === 'WalletConnect') return -1;
-      if (b.name === 'WalletConnect') return 1;
-    
-      // Sort by readyState: Installed wallets come first
       if (a.readyState === WalletReadyState.Installed && b.readyState !== WalletReadyState.Installed) {
         return -1; // a should come before b
       } else if (a.readyState !== WalletReadyState.Installed && b.readyState === WalletReadyState.Installed) {
@@ -66,25 +56,14 @@ export class SolanaWalletService {
 
   // Connect the user's selected wallet
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
-    if (wallet.readyState === WalletReadyState.Installed || wallet.name === 'WalletConnect' || true) {
+    if (wallet.readyState === WalletReadyState.Installed) { // This is true for browser wallets or mobile wallets with in-app browsers
       try {
-        // This way i can open the mobile wallet with deep linking (butth eonection dont works, with simple wallet.connect is better for solflare), if evrything else fails, try this: window.location.href = 'https://solflare.com/ul/v1/connect?redirect_url=https://chainportal.app';
-          // https://docs.solflare.com/solflare/technical/deeplinks
-            // instead try this, hovewer the conection without check works for solflare: https://docs.solflare.com/solflare/technical/integrate-solflare/solflare-wallet-sdk
-
-        // Phantom deep link:  window.location.href = `https://phantom.app/ul/v1/connect?app_url=${'https://chainportal.app'}&dapp_encryption_public_key=${'76Ht34ayKQHzJq8aPKXaKkBDcvW3QeECuagn9VDmDugP'}&redirect_link=${'https://chainportal.app'}`
-          // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
-
-        window.location.href = `https://phantom.app/ul/browse?url=https://chainportal.app`
-
         await wallet.connect();
         this.selectedWallet = wallet;
         this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: this.selectedWallet.publicKey?.toString() || ''});
 
         this.addWalletEventListeners();
       } catch (error) {
-
-        alert(JSON.stringify(error))
         console.error('Failed to connect wallet:', error);
         this.disconnectWallet();
       }
@@ -196,6 +175,5 @@ export class SolanaWalletService {
 // @solana/wallet-adapter-solflare
 // @solana/wallet-adapter-coin98
 // @solana/wallet-adapter-clover
-// @solana/wallet-adapter-walletconnect
 
 // You can try modifying the code where __filename is referenced using fileURLToPath(import.meta.url) instead.
