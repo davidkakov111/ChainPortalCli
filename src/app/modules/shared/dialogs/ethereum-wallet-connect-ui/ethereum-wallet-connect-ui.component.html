@@ -10,7 +10,7 @@
       <img [src]="wallet.icon" alt="{{ wallet.name }} icon" title="{{ wallet.name }} icon" loading="lazy" width="30" height="30" class="wallet-icon" />
       <span class="wallet-name">{{ wallet.name }}</span>
       <span *ngIf="this.walletService.walletAvailabilityCache[wallet.index] && wallet.index !== 0" class="wallet-status">INSTALLED</span>
-      <span *ngIf="wallet.index === 0" class="wallet-status-purple">{{ isMobileDevice() ? 'RECOMENDED' : 'QR CODE'}}</span>
+      <span *ngIf="wallet.index === 0" class="wallet-status-purple">{{ sharedSrv.isMobileDevice() ? 'RECOMENDED' : 'QR CODE'}}</span>
     </div>
   </div>
   <div *ngIf="selectedWIcon" class="loading">

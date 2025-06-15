@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { SolanaWalletService } from '../../services/solana-wallet.service';
 import { BaseWalletAdapter } from '@solana/wallet-adapter-base';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-solana-wallet-connect-ui',
@@ -12,7 +13,8 @@ import { BaseWalletAdapter } from '@solana/wallet-adapter-base';
 export class SolanaWalletConnectUIComponent {
   constructor(
     public walletService: SolanaWalletService,
-    public dialogRef: MatDialogRef<SolanaWalletConnectUIComponent>
+    public dialogRef: MatDialogRef<SolanaWalletConnectUIComponent>,
+    public sharedSrv: SharedService,
   ) {}
 
   selectedWIcon!: string;
@@ -21,10 +23,5 @@ export class SolanaWalletConnectUIComponent {
     this.selectedWIcon = wallet.icon;
     await this.walletService.connectWallet(wallet);
     this.dialogRef.close();
-  }
-
-  isMobileDevice(): boolean {
-    const userAgent = navigator.userAgent || navigator.vendor || (window as any)['opera'];
-    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|huawei/i.test(userAgent.toLowerCase());
   }
 }

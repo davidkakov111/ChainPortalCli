@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { MatDialogRef } from '@angular/material/dialog';
 import { ethereumWallet, EthereumWalletService } from '../../services/ethereum-wallet.service';
+import { SharedService } from '../../services/shared.service';
 
 @Component({
   selector: 'app-ethereum-wallet-connect-ui',
@@ -11,7 +12,8 @@ import { ethereumWallet, EthereumWalletService } from '../../services/ethereum-w
 export class EthereumWalletConnectUiComponent {
   constructor(
     public walletService: EthereumWalletService,
-    public dialogRef: MatDialogRef<EthereumWalletConnectUiComponent>
+    public dialogRef: MatDialogRef<EthereumWalletConnectUiComponent>,
+    public sharedSrv: SharedService,
   ) {}
 
   selectedWIcon!: string;
@@ -20,10 +22,5 @@ export class EthereumWalletConnectUiComponent {
     this.selectedWIcon = wallet.icon;
     await this.walletService.connectWallet(wallet.index);
     this.dialogRef.close();
-  }
-
-  isMobileDevice(): boolean {
-    const userAgent = navigator.userAgent || navigator.vendor || (window as any)['opera'];
-    return /android|webos|iphone|ipad|ipod|blackberry|iemobile|opera mini|huawei/i.test(userAgent.toLowerCase());
   }
 }
