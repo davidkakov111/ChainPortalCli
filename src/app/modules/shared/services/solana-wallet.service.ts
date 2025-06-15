@@ -71,7 +71,11 @@ export class SolanaWalletService {
         // This way i can open the mobile wallet with deep linking (butth eonection dont works, with simple wallet.connect is better for solflare), if evrything else fails, try this: window.location.href = 'https://solflare.com/ul/v1/connect?redirect_url=https://chainportal.app';
           // https://docs.solflare.com/solflare/technical/deeplinks
             // instead try this, hovewer the conection without check works for solflare: https://docs.solflare.com/solflare/technical/integrate-solflare/solflare-wallet-sdk
-        window.location.href = `https://phantom.app/ul/v1/connect?app_url=${'https://chainportal.app'}&dapp_encryption_public_key=${'76Ht34ayKQHzJq8aPKXaKkBDcvW3QeECuagn9VDmDugP'}&redirect_link=${'https://chainportal.app'}`
+
+        // Phantom deep link:  window.location.href = `https://phantom.app/ul/v1/connect?app_url=${'https://chainportal.app'}&dapp_encryption_public_key=${'76Ht34ayKQHzJq8aPKXaKkBDcvW3QeECuagn9VDmDugP'}&redirect_link=${'https://chainportal.app'}`
+          // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
+
+        window.location.href = `https://phantom.app/ul/browse?url=https://chainportal.app`
 
         await wallet.connect();
         this.selectedWallet = wallet;
