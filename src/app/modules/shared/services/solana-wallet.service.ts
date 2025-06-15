@@ -68,6 +68,46 @@ export class SolanaWalletService {
         this.disconnectWallet();
       }
     } else {
+
+
+
+
+
+
+
+
+
+
+      
+      if (wallet.name === 'Solflare') { 
+        const env = await this.serverSrv.getEnvironment();
+        const appUrl = encodeURIComponent("https://chainportal.app");
+        const dappEncryptionPublicKey = env.blockchainNetworks.solana.pubKey;
+        const redirectLink = encodeURIComponent("https://chainportal.app/solflare-connect");// Todo -make sure the redirect url works fine
+        const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
+
+        const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${dappEncryptionPublicKey}&redirect_link=${redirectLink}&cluster=${cluster}`;
+
+        window.location.href = deeplink;
+
+      }
+
+
+      // TODO - use deep linking incase of not detected wallets (probably mobile wallets)
+        // This way i can open the mobile wallet with deep linking (butth eonection dont works, with simple wallet.connect is better for solflare), if evrything else fails, try this: window.location.href = 'https://solflare.com/ul/v1/connect?redirect_url=https://chainportal.app';
+          // https://docs.solflare.com/solflare/technical/deeplinks
+            // instead try this, hovewer the conection without check works for solflare: https://docs.solflare.com/solflare/technical/integrate-solflare/solflare-wallet-sdk
+
+        // Phantom deep link:  window.location.href = `https://phantom.app/ul/v1/connect?app_url=${'https://chainportal.app'}&dapp_encryption_public_key=${'76Ht34ayKQHzJq8aPKXaKkBDcvW3QeECuagn9VDmDugP'}&redirect_link=${'https://chainportal.app'}`
+          // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
+
+
+
+
+
+
+
+
       this.openConfirmDialog(`
         <p>Couldn't detect ${wallet.name} on your device.</p> 
         <p>Please install it and try again.</p> 
