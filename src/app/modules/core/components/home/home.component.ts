@@ -1,6 +1,8 @@
 import { isPlatformBrowser } from '@angular/common';
-import { Component, Inject, PLATFORM_ID } from '@angular/core';
+import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { SeoService } from '../../../shared/services/seo.service';
+import { ActivatedRoute } from '@angular/router';
+import { SolflareService } from '../../../shared/services/sol-wallet-helpers.ts/solflare.service';
 
 @Component({
   selector: 'app-home',
@@ -8,12 +10,14 @@ import { SeoService } from '../../../shared/services/seo.service';
   styleUrl: './home.component.scss',
   standalone: false
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
   isBrowser!: boolean;
 
   constructor(
     @Inject(PLATFORM_ID) private platformId: Object,
     private seoSrv: SeoService,
+    private route: ActivatedRoute,
+    private solflareSrv: SolflareService,
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -38,5 +42,14 @@ export class HomeComponent {
     if (section) {
       section.scrollIntoView({ behavior: 'smooth' });
     }
+  }
+
+  ngOnInit(): void {
+    if (!this.isBrowser) return;
+
+    // Handle potential deep link wallet connect redirect, to connect 
+    this.route.queryParams.subscribe(async (params) => {
+      this.solflareSrv.handleConnectRedirect(params);
+    });
   }
 }

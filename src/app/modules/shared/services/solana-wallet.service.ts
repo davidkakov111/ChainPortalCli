@@ -4,6 +4,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { ServerService } from './server.service';
 import { AccountService } from './account.service';
+import { SolflareService } from './sol-wallet-helpers.ts/solflare.service';
+import { SharedService } from './shared.service';
 
 @Injectable({
   providedIn: 'root'
@@ -18,6 +20,8 @@ export class SolanaWalletService {
     private dialog: MatDialog,
     private serverSrv: ServerService,
     private accountSrv: AccountService,
+    private solflareSrv: SolflareService,
+    private sharedSrv: SharedService,
   ) {
     this.loadAvailableWallets();
   }
@@ -67,47 +71,17 @@ export class SolanaWalletService {
         console.error('Failed to connect wallet:', error);
         this.disconnectWallet();
       }
-    } else {
+    } else if (this.sharedSrv.isMobileDevice()) { // For mobile devices use deep linking
 
-
-
-
-
-
-
-
-
-
-      
-      if (wallet.name === 'Solflare') { 
-        const env = await this.serverSrv.getEnvironment();
-        const appUrl = encodeURIComponent("https://chainportal.app");
-        const dappEncryptionPublicKey = env.blockchainNetworks.solana.pubKey;
-        const redirectLink = encodeURIComponent("https://chainportal.app/solflare-connect");// Todo -make sure the redirect url works fine
-        const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
-
-        const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${dappEncryptionPublicKey}&redirect_link=${redirectLink}&cluster=${cluster}`;
-
-        window.location.href = deeplink;
-
-      }
-
-
-      // TODO - use deep linking incase of not detected wallets (probably mobile wallets)
-        // This way i can open the mobile wallet with deep linking (butth eonection dont works, with simple wallet.connect is better for solflare), if evrything else fails, try this: window.location.href = 'https://solflare.com/ul/v1/connect?redirect_url=https://chainportal.app';
-          // https://docs.solflare.com/solflare/technical/deeplinks
-            // instead try this, hovewer the conection without check works for solflare: https://docs.solflare.com/solflare/technical/integrate-solflare/solflare-wallet-sdk
-
+      if (wallet.name === 'Solflare') {
+        await this.solflareSrv.connect();
+      } else if (false) {
+        // TODO - use custom deep linking for all the supported wallets
         // Phantom deep link:  window.location.href = `https://phantom.app/ul/v1/connect?app_url=${'https://chainportal.app'}&dapp_encryption_public_key=${'76Ht34ayKQHzJq8aPKXaKkBDcvW3QeECuagn9VDmDugP'}&redirect_link=${'https://chainportal.app'}`
           // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
+      }
 
-
-
-
-
-
-
-
+    } else {
       this.openConfirmDialog(`
         <p>Couldn't detect ${wallet.name} on your device.</p> 
         <p>Please install it and try again.</p> 
@@ -126,6 +100,7 @@ export class SolanaWalletService {
   
     this.selectedWallet = null;
     this.accountSrv.removeAccount();
+    this.solflareSrv.disconnect();
   }
 
   // Request payment from the connected wallet
@@ -140,6 +115,8 @@ export class SolanaWalletService {
       this.openConfirmDialog("Connect your wallet first.");
       return null;
     }
+
+    // TODO - For deep linking handle it differently
   
     const senderPublicKey = this.selectedWallet.publicKey;
     if (!senderPublicKey) {
