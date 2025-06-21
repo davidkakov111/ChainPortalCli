@@ -86,10 +86,10 @@ export class SolflareService {
     }
 
     // Set & Get secret key to encrypt solflare wallet connection messages
-    setEncSecretKey(secretKey: Uint8Array<ArrayBufferLike>) {
+    setEncSecretKey(secretKey: Uint8Array) {
         localStorage.setItem(this.encryptionSecretKeyName, bs58.encode(secretKey));
     }
-    getEncSecretKey(): Uint8Array<ArrayBufferLike> | null {
+    getEncSecretKey(): Uint8Array | null {
         const encodedKey = localStorage.getItem(this.encryptionSecretKeyName);
         if (!encodedKey) return null;
         return bs58.decode(encodedKey);
