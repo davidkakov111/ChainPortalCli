@@ -93,6 +93,8 @@ export class SolanaWalletService {
   // Disconnect the connected wallet
   disconnectWallet(): void {
     if (this.selectedWallet) {
+      this.selectedWallet.name === 'Solflare' && this.solflareSrv.disconnect();
+      
       this.selectedWallet.off('disconnect');
       this.selectedWallet.off('connect');
       this.selectedWallet.disconnect();
@@ -100,7 +102,6 @@ export class SolanaWalletService {
   
     this.selectedWallet = null;
     this.accountSrv.removeAccount();
-    this.solflareSrv.disconnect();
   }
 
   // Request payment from the connected wallet
