@@ -117,7 +117,12 @@ export class SolanaWalletService {
       return null;
     }
 
-    // TODO - For deep linking handle it differently
+    // For mobile deep linking handle it differently
+    if (this.sharedSrv.isMobileDevice()) {
+      // TODO - need to implement handler for payment request for Solflare 
+      await this.mobileReqPayment(recipient, amount);
+      return null;
+    }
   
     const senderPublicKey = this.selectedWallet.publicKey;
     if (!senderPublicKey) {
@@ -166,6 +171,14 @@ export class SolanaWalletService {
     }
   }
 
+  // Request payment from the connected wallet for mobile devices
+  async mobileReqPayment(recipient: string, solAmount: number) {
+    if (this.selectedWallet?.name === 'Solflare') {
+      await this.solflareSrv.requestPayment(recipient, solAmount);
+    }
+    return null;
+  }
+  
   // Add event listeners to detect wallet changes (disconnect or account switch)
   addWalletEventListeners(): void {
     this.selectedWallet?.on('disconnect', () => this.disconnectWallet());
