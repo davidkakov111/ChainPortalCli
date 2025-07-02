@@ -3,6 +3,7 @@ import { Component, Inject, OnInit, PLATFORM_ID } from '@angular/core';
 import { SeoService } from '../../../shared/services/seo.service';
 import { ActivatedRoute } from '@angular/router';
 import { SolflareService } from '../../../shared/services/sol-wallet-helpers.ts/solflare.service';
+import { PhantomService } from '../../../shared/services/sol-wallet-helpers.ts/phantom.service';
 
 @Component({
   selector: 'app-home',
@@ -18,6 +19,7 @@ export class HomeComponent implements OnInit {
     private seoSrv: SeoService,
     private route: ActivatedRoute,
     private solflareSrv: SolflareService,
+    private phantomSrv: PhantomService,
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -50,6 +52,7 @@ export class HomeComponent implements OnInit {
     // Handle potential deep link wallet connect redirect, to connect 
     this.route.queryParams.subscribe(async (params) => {
       this.solflareSrv.handleConnectRedirect(params);
+      this.phantomSrv.handleConnectRedirect(params);
     });
   }
 }

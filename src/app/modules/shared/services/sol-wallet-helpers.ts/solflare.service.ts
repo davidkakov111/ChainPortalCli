@@ -6,6 +6,7 @@ import { Params, Router } from '@angular/router';
 import { SolanaWalletService } from '../solana-wallet.service';
 import { AccountService } from '../account.service';
 import { Connection, PublicKey, SystemProgram, Transaction, clusterApiUrl } from '@solana/web3.js';
+import { PhantomService } from './phantom.service';
 
 // https://docs.solflare.com/solflare/technical/deeplinks
 
@@ -26,6 +27,7 @@ export class SolflareService {
         private router: Router,
         private solanaWalletSrv: SolanaWalletService,
         private accountSrv: AccountService,
+        private phantomSrv: PhantomService,
     ) {}
 
     // Send connect request to solflare wallet using deeplink
@@ -48,7 +50,7 @@ export class SolflareService {
         const nonce = params['nonce'];
         const encryptedData = params['data'];
         if (!solflareKey || !nonce || !encryptedData) {
-            if (params['errorCode'] && params['errorMessage']) {
+            if (params['errorCode'] && params['errorMessage'] && !params[this.phantomSrv.encPubkeyName]) {
                 console.error(`Error with Solflare wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
             };
             return;

@@ -6,6 +6,7 @@ import { ServerService } from './server.service';
 import { AccountService } from './account.service';
 import { SolflareService } from './sol-wallet-helpers.ts/solflare.service';
 import { SharedService } from './shared.service';
+import { PhantomService } from './sol-wallet-helpers.ts/phantom.service';
 
 @Injectable({
   providedIn: 'root'
@@ -22,6 +23,7 @@ export class SolanaWalletService {
     private accountSrv: AccountService,
     private solflareSrv: SolflareService,
     private sharedSrv: SharedService,
+    private phantomSrv: PhantomService,
   ) {
     this.loadAvailableWallets();
   }
@@ -75,10 +77,10 @@ export class SolanaWalletService {
 
       if (wallet.name === 'Solflare') {
         await this.solflareSrv.connect();
-      } else if (false) {
+      } else if (wallet.name === 'Phantom') {
+        await this.phantomSrv.connect();
+      } else {
         // TODO - use custom deep linking for all the supported wallets
-        // Phantom deep link:  window.location.href = `https://phantom.app/ul/v1/connect?app_url=${'https://chainportal.app'}&dapp_encryption_public_key=${'76Ht34ayKQHzJq8aPKXaKkBDcvW3QeECuagn9VDmDugP'}&redirect_link=${'https://chainportal.app'}`
-          // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
       }
 
     } else {
