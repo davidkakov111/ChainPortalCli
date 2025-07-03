@@ -30,10 +30,6 @@ export class SolflareService {
         private phantomSrv: PhantomService,
     ) {}
 
-    sayHi() {
-        alert('Hi')
-    }
-
     // Send connect request to solflare wallet using deeplink
     async connect() {
         alert('Solflare deeplink connect hit ')//TODO
