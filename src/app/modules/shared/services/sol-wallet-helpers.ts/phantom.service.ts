@@ -3,9 +3,7 @@ import bs58 from 'bs58';
 import { Injectable } from '@angular/core';
 import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
-import { SolanaWalletService } from '../solana-wallet.service';
 import { AccountService } from '../account.service';
-import { SolflareService } from './solflare.service';
 import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 
 // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
@@ -22,9 +20,7 @@ export class PhantomService {
     constructor(
         private serverSrv: ServerService,
         private router: Router,
-        private solanaWalletSrv: SolanaWalletService,
         private accountSrv: AccountService,
-        private solflareSrv: SolflareService,
     ) {}
 
     // Send connect request to phantom wallet using deeplink
@@ -43,16 +39,16 @@ export class PhantomService {
     }
 
     // Handle connect request redirect from phantom wallet
-    async handleConnectRedirect(params: Params) {
+    async handleConnectRedirect(params: Params): Promise<boolean> {
         // Ensure this is a phantom redirect
         const phantomKey = params[this.encPubkeyName];
         const nonce = params['nonce'];
         const encryptedData = params['data'];
         if (!phantomKey || !nonce || !encryptedData) {
-            if (params['errorCode'] && params['errorMessage'] && !params[this.solflareSrv.encPubkeyName]) {
+            if (params['errorCode'] && params['errorMessage'] && !params['solflare_encryption_public_key']) {
                 console.error(`Error with Phantom wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
             };
-            return;
+            return false;
         };
 
         try {
@@ -68,9 +64,7 @@ export class PhantomService {
             this.setSessionToken(json.session);
             this.setEncPubkey(phantomKey);
 
-            // Set selected wallet in solana wallet service and user pubkey in account service
-            const phantomWalletAdapter = this.solanaWalletSrv.availableWallets.find((w) => w.name === 'Phantom');
-            this.solanaWalletSrv.selectedWallet = phantomWalletAdapter ?? null;
+            // Set user pubkey in account service
             this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: String(json.public_key || '')});
 
 
@@ -93,8 +87,12 @@ export class PhantomService {
 
             // Clean up URL
             this.router.navigate([], { queryParams: {} });
+
+            // The selected wallet will be set in the SolanaWalletService by the code that called this function to avoid circular dependency. 
+            return true;
         } catch (err) {
             console.error('Phantom wallet connect failed after deeplink redirect: ', err);
+            return false;
         }
     }
 

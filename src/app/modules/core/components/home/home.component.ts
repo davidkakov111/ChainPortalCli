@@ -4,6 +4,7 @@ import { SeoService } from '../../../shared/services/seo.service';
 import { ActivatedRoute } from '@angular/router';
 import { SolflareService } from '../../../shared/services/sol-wallet-helpers.ts/solflare.service';
 import { PhantomService } from '../../../shared/services/sol-wallet-helpers.ts/phantom.service';
+import { SolanaWalletService } from '../../../shared/services/solana-wallet.service';
 
 @Component({
   selector: 'app-home',
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
     private route: ActivatedRoute,
     private solflareSrv: SolflareService,
     private phantomSrv: PhantomService,
+    private solanaWalletSrv: SolanaWalletService
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -51,8 +53,14 @@ export class HomeComponent implements OnInit {
 
     // Handle potential deep link wallet connect redirect, to connect 
     this.route.queryParams.subscribe(async (params) => {
-      this.solflareSrv.handleConnectRedirect(params);
-      this.phantomSrv.handleConnectRedirect(params);
+      const solflare = await this.solflareSrv.handleConnectRedirect(params);
+      const phantom = await this.phantomSrv.handleConnectRedirect(params);
+
+      const conectedTo = phantom ? 'Phantom' : (solflare ? 'Solflare' : null);
+      if (conectedTo) {
+        const walletAdapter = this.solanaWalletSrv.availableWallets.find((w) => w.name === conectedTo);
+        this.solanaWalletSrv.selectedWallet = walletAdapter ?? null;  
+      };
     });
   }
 }

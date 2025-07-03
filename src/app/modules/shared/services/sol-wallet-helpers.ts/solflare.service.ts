@@ -3,10 +3,8 @@ import bs58 from 'bs58';
 import { Injectable } from '@angular/core';
 import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
-import { SolanaWalletService } from '../solana-wallet.service';
 import { AccountService } from '../account.service';
 import { Connection, PublicKey, SystemProgram, Transaction, clusterApiUrl } from '@solana/web3.js';
-import { PhantomService } from './phantom.service';
 
 // https://docs.solflare.com/solflare/technical/deeplinks
 
@@ -25,9 +23,7 @@ export class SolflareService {
     constructor(
         private serverSrv: ServerService,
         private router: Router,
-        private solanaWalletSrv: SolanaWalletService,
         private accountSrv: AccountService,
-        private phantomSrv: PhantomService,
     ) {}
 
     // Send connect request to solflare wallet using deeplink
@@ -51,10 +47,10 @@ export class SolflareService {
         const nonce = params['nonce'];
         const encryptedData = params['data'];
         if (!solflareKey || !nonce || !encryptedData) {
-            if (params['errorCode'] && params['errorMessage'] && !params[this.phantomSrv.encPubkeyName]) {
+            if (params['errorCode'] && params['errorMessage'] && !params['phantom_encryption_public_key']) {
                 console.error(`Error with Solflare wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
             };
-            return;
+            return false;
         };
 
         try {
@@ -70,9 +66,7 @@ export class SolflareService {
             this.setSessionToken(json.session);
             this.setEncPubkey(solflareKey);
 
-            // Set selected wallet in solana wallet service and user pubkey in account service
-            const solflareWalletAdapter = this.solanaWalletSrv.availableWallets.find((w) => w.name === 'Solflare');
-            this.solanaWalletSrv.selectedWallet = solflareWalletAdapter ?? null;
+            // Set the users pubkey in account service
             this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: String(json.public_key || '')});
 
 
@@ -92,8 +86,12 @@ export class SolflareService {
 
             // Clean up URL
             this.router.navigate([], { queryParams: {} });
+            
+            // The selected wallet will be set in the SolanaWalletService by the code that called this function to avoid circular dependency. 
+            return true;
         } catch (err) {
             console.error('Solflare wallet connect failed after deeplink redirect: ', err);
+            return false;
         }
     }
 
