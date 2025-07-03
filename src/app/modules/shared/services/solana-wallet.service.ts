@@ -79,6 +79,7 @@ export class SolanaWalletService {
       alert(1.2)//TODO
       if (wallet.name === 'Solflare') {
         alert(1.3)//TODO
+        this.solflareSrv.sayHi();
         await this.solflareSrv.connect();
       } else if (wallet.name === 'Phantom') {
         await this.phantomSrv.connect();
