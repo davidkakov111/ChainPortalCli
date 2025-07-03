@@ -6,6 +6,7 @@ import { Params, Router } from '@angular/router';
 import { SolanaWalletService } from '../solana-wallet.service';
 import { AccountService } from '../account.service';
 import { SolflareService } from './solflare.service';
+import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
 
 // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
 
@@ -97,101 +98,71 @@ export class PhantomService {
         }
     }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    // Request solflare payment
+    // Request phantom payment
     async requestPayment(recipient: string, amountSol: number) {
-        // // Get needed data
-        // const secretKey = this.getEncSecretKey();
-        // if (!secretKey) {
-        //     console.error('No encryption secret key found for Solflare payment');
-        //     return;
-        // }
-        // const account = this.accountSrv.getAccount();
-        // if (!account || !account.pubKey) {
-        //     console.error('No connected account found for Solflare payment');
-        //     return;
-        // }
-        // const session = this.getSessionToken();
-        // if (!session) {
-        //     console.error('No session token found for Solflare payment');
-        //     return;
-        // }
-        // const solflarePubKey = this.getEncPubkey();
-        // if (!solflarePubKey) {
-        //     console.error('No encription pubkey found for Solflare payment');
-        //     return;
-        // }
+        // Get needed data
+        const secretKey = this.getEncSecretKey();
+        if (!secretKey) {
+            console.error('No encryption secret key found for Phantom payment');
+            return;
+        }
+        const account = this.accountSrv.getAccount();
+        if (!account || !account.pubKey) {
+            console.error('No connected account found for Phantom payment');
+            return;
+        }
+        const session = this.getSessionToken();
+        if (!session) {
+            console.error('No session token found for Phantom payment');
+            return;
+        }
+        const phantomPubKey = this.getEncPubkey();
+        if (!phantomPubKey) {
+            console.error('No encription pubkey found for Phantom payment');
+            return;
+        }
 
-        // // Create accurate connection
-        // const env = await this.serverSrv.getEnvironment(); 
-        // const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
-        // const connection = new Connection(clusterApiUrl(cluster));
+        // Create accurate connection
+        const env = await this.serverSrv.getEnvironment(); 
+        const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
+        const connection = new Connection(clusterApiUrl(cluster));
     
-        // // Prepare transaction
-        // const keyPair = nacl.box.keyPair.fromSecretKey(secretKey);
-        // const senderPubKey = new PublicKey(account.pubKey);
-        // const lamports = Math.round(amountSol * 1e9);
-        // const transaction = new Transaction().add(
-        //     SystemProgram.transfer({
-        //         fromPubkey: senderPubKey,
-        //         toPubkey: new PublicKey(recipient),
-        //         lamports,
-        //     })
-        // );
-        // transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
-        // transaction.feePayer = senderPubKey;
-        // const serializedTx = transaction.serialize({ requireAllSignatures: false });
-        // const txBase58 = bs58.encode(serializedTx);
-    
-        // // Encrypt payload using shared secret
-        // const nonce = nacl.randomBytes(24);
-        // const payloadBytes = new TextEncoder().encode(JSON.stringify({
-        //     transaction: txBase58,
-        //     session
-        // }));
-        // const encrypted = nacl.box(
-        //     payloadBytes,
-        //     nonce,
-        //     bs58.decode(solflarePubKey),
-        //     keyPair.secretKey
-        // );
+        // Prepare transaction
+        const keyPair = nacl.box.keyPair.fromSecretKey(secretKey);
+        const senderPubKey = new PublicKey(account.pubKey);
+        const lamports = Math.round(amountSol * 1e9);
+        const transaction = new Transaction().add(
+            SystemProgram.transfer({
+                fromPubkey: senderPubKey,
+                toPubkey: new PublicKey(recipient),
+                lamports,
+            })
+        );
+        transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+        transaction.feePayer = senderPubKey;
+        const serializedTx = transaction.serialize({ requireAllSignatures: false });
+        const txBase58 = bs58.encode(serializedTx);
+
+        // Encrypt payload using shared secret
+        const nonce = nacl.randomBytes(24);
+        const payloadBytes = new TextEncoder().encode(JSON.stringify({
+            transaction: txBase58,
+            session
+        }));
+        const encrypted = nacl.box(
+            payloadBytes,
+            nonce,
+            bs58.decode(phantomPubKey),
+            keyPair.secretKey
+        );
         
-        // // Create deeplink URL
-        // const deeplink = `https://solflare.com/ul/v1/signAndSendTransaction?dapp_encryption_public_key=${bs58.encode(
-        //     keyPair.publicKey
-        // )}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent('https://chainportal.app')}&payload=${bs58.encode(encrypted)}`;
+        // Create deeplink URL
+        const deeplink = `https://phantom.app/ul/v1/signAndSendTransaction?dapp_encryption_public_key=${bs58.encode(
+            keyPair.publicKey
+        )}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent('https://chainportal.app')}&payload=${bs58.encode(encrypted)}`;
 
-        // window.location.href = deeplink;
+        window.location.href = deeplink;
     }
-
-
-
-
-
-
-
-
-
-
-
-    
 
     // Phantom disconnect
     disconnect() {
