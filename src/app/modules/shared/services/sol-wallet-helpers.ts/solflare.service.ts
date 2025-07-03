@@ -32,6 +32,7 @@ export class SolflareService {
 
     // Send connect request to solflare wallet using deeplink
     async connect() {
+        alert('Solflare deeplink connect hit ')
         const env = await this.serverSrv.getEnvironment(); 
 
         const keyPair = nacl.box.keyPair();
@@ -40,7 +41,10 @@ export class SolflareService {
         const appUrl = encodeURIComponent("https://chainportal.app");
         const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
         const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&redirect_link=${appUrl}&cluster=${cluster}`;
+        
+        alert('Solflare deeplink connect via deeplink now')
         window.location.href = deeplink;
+        alert('after?')
     }
 
     // Handle connect request redirect from solflare wallter
