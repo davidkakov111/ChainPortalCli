@@ -114,7 +114,7 @@ export class PhantomService {
 
 
 
-    
+
     // Request solflare payment
     async requestPayment(recipient: string, amountSol: number) {
         // // Get needed data
@@ -181,42 +181,54 @@ export class PhantomService {
         // window.location.href = deeplink;
     }
 
-    // Solflare disconnect
+
+
+
+
+
+
+
+
+
+
+    
+
+    // Phantom disconnect
     disconnect() {
-        // const secretKey = this.getEncSecretKey();
-        // if (!secretKey) {
-        //     console.error('No encryption secret key found for Solflare disconnect');
-        //     return;
-        // }
-        // const session = this.getSessionToken();
-        // if (!session) {
-        //     console.error('No session token found for Solflare disconnect');
-        //     return;
-        // }
-        // const recipientPublicKey = this.getEncPubkey();
-        // if (!recipientPublicKey) {
-        //     console.error('No recipient public key found for Solflare disconnect');
-        //     return;
-        // }
+        const secretKey = this.getEncSecretKey();
+        if (!secretKey) {
+            console.error('No encryption secret key found for Phantom disconnect');
+            return;
+        }
+        const session = this.getSessionToken();
+        if (!session) {
+            console.error('No session token found for Phantom disconnect');
+            return;
+        }
+        const recipientPublicKey = this.getEncPubkey();
+        if (!recipientPublicKey) {
+            console.error('No recipient public key found for Phantom disconnect');
+            return;
+        }
 
-        // // Clear locacl storage
-        // localStorage.removeItem(this.encryptionSecretKeyName);
-        // localStorage.removeItem(this.sessionTokenName);
-        // localStorage.removeItem(this.encPubkeyName);
+        // Clear local storage
+        localStorage.removeItem(this.secretKeyName);
+        localStorage.removeItem(this.sessionTokenName);
+        localStorage.removeItem(this.encPubkeyName);
 
-        // const keyPair = nacl.box.keyPair.fromSecretKey(secretKey);
-        // const nonce = nacl.randomBytes(24);
+        const keyPair = nacl.box.keyPair.fromSecretKey(secretKey);
+        const nonce = nacl.randomBytes(24);
 
-        // // Encrypt payload using shared secret
-        // const sharedSecret = nacl.box.before(bs58.decode(recipientPublicKey), keyPair.secretKey);
-        // const encrypted = nacl.box.after(
-        //     new TextEncoder().encode(JSON.stringify({session})),
-        //     nonce,
-        //     sharedSecret
-        // );
-        
-        // const deeplink = `https://solflare.com/ul/v1/disconnect?dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent("https://chainportal.app")}&payload=${bs58.encode(encrypted)}`;
-        // window.location.href = deeplink;
+        // Encrypt payload using shared secret
+        const sharedSecret = nacl.box.before(bs58.decode(recipientPublicKey), keyPair.secretKey);
+        const encrypted = nacl.box.after(
+            new TextEncoder().encode(JSON.stringify({session})),
+            nonce,
+            sharedSecret
+        );
+
+        const deeplink = `https://phantom.app/ul/v1/disconnect?dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent("https://chainportal.app")}&payload=${bs58.encode(encrypted)}`;
+        window.location.href = deeplink;
     }
 
     // Set & Get secret key to encrypt phantom wallet connection messages
