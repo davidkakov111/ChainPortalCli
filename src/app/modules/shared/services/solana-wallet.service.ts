@@ -62,9 +62,7 @@ export class SolanaWalletService {
 
   // Connect the user's selected wallet
   async connectWallet(wallet: BaseWalletAdapter): Promise<void> {
-    alert(1)//TODO
     if (wallet.readyState === WalletReadyState.Installed) { // This is true for browser wallets or mobile wallets with in-app browsers
-      alert(1.1)//TODO
       try {
         await wallet.connect();
         this.selectedWallet = wallet;
@@ -76,17 +74,13 @@ export class SolanaWalletService {
         this.disconnectWallet();
       }
     } else if (this.sharedSrv.isMobileDevice()) { // For mobile devices use deep linking
-      alert(1.2)//TODO
       if (wallet.name === 'Solflare') {
-        alert(1.3)//TODO
-        this.serverSrv.sayHi();
         await this.solflareSrv.connect();
       } else if (wallet.name === 'Phantom') {
         await this.phantomSrv.connect();
       } else {
         // TODO - use custom deep linking for all the supported wallets
       }
-      alert(1.4)//TODO
     } else {
       this.openConfirmDialog(`
         <p>Couldn't detect ${wallet.name} on your device.</p> 
