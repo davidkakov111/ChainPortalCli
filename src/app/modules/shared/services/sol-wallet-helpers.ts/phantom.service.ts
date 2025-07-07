@@ -8,6 +8,9 @@ import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from
 
 // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
 
+// TODO - Create transaction redirect handler...
+    // But before ensure this works and will redirect without page refresh, to awoid losing neccessary data for ws connection and processing etc., othervise need to code more
+
 @Injectable({
   providedIn: 'root'
 })

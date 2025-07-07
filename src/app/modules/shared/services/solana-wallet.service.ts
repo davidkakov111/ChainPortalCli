@@ -94,6 +94,7 @@ export class SolanaWalletService {
   disconnectWallet(): void {
     if (this.selectedWallet) {
       this.selectedWallet.name === 'Solflare' && this.solflareSrv.disconnect();
+      this.selectedWallet.name === 'Phantom' && this.phantomSrv.disconnect();
       
       this.selectedWallet.off('disconnect');
       this.selectedWallet.off('connect');
