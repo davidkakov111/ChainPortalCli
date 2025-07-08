@@ -51,8 +51,9 @@ export class HomeComponent implements OnInit {
   ngOnInit(): void {
     if (!this.isBrowser) return;
 
-    // Handle potential deep link wallet connect/payment redirect 
+    // Handle potential deep link wallet redirect 
     this.route.queryParams.subscribe(async (params) => {
+      // To handle connect
       const phantom = await this.phantomSrv.handleConnectRedirect(params);
       const solflare = await this.solflareSrv.handleConnectRedirect(params);
 
@@ -61,9 +62,14 @@ export class HomeComponent implements OnInit {
         const walletAdapter = this.solanaWalletSrv.availableWallets.find((w) => w.name === conectedTo);
         this.solanaWalletSrv.selectedWallet = walletAdapter ?? null;  
       };
-
-      this.phantomSrv.handlePaymentRedirect(params);
-      this.solflareSrv.handlePaymentRedirect(params);
+      
+      // To handle payments
+      const selectedWalletName = this.solanaWalletSrv.selectedWallet?.name;
+      if (selectedWalletName === 'Phantom') {
+        this.phantomSrv.handlePaymentRedirect(params);
+      } else if (selectedWalletName === 'Solflare') {
+        this.solflareSrv.handlePaymentRedirect(params);
+      }
     });
   }
 }

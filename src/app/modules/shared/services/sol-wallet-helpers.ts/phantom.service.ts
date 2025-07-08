@@ -5,7 +5,6 @@ import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
-import { SolanaWalletService } from '../solana-wallet.service';
 
 // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
 
@@ -25,7 +24,6 @@ export class PhantomService {
         private serverSrv: ServerService,
         private router: Router,
         private accountSrv: AccountService,
-        private solanaWalletSrv: SolanaWalletService,
     ) {}
 
     // Send connect request to phantom wallet using deeplink
@@ -169,8 +167,6 @@ export class PhantomService {
 
     // Handle payment request redirect from phantom wallet
     handlePaymentRedirect(params: Params) {
-        if (this.solanaWalletSrv.selectedWallet?.name !== 'Phantom') return;//? TODO - This maybe dont works bc redirect
-        
         // Ensure this is a deeplink payment redirect
         const nonce = params['nonce'];
         const encryptedData = params['data'];

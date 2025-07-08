@@ -5,7 +5,6 @@ import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { Connection, PublicKey, SystemProgram, Transaction, clusterApiUrl } from '@solana/web3.js';
-import { SolanaWalletService } from '../solana-wallet.service';
 
 // https://docs.solflare.com/solflare/technical/deeplinks
 
@@ -25,7 +24,6 @@ export class SolflareService {
         private serverSrv: ServerService,
         private router: Router,
         private accountSrv: AccountService,
-        private solanaWalletSrv: SolanaWalletService,
     ) {}
 
     // Send connect request to solflare wallet using deeplink
@@ -165,8 +163,6 @@ export class SolflareService {
 
     // Handle payment request redirect from solflare wallet
     handlePaymentRedirect(params: Params) {
-        if (this.solanaWalletSrv.selectedWallet?.name !== 'Solflare') return;//? TODO - This maybe dont works bc redirect 
-        
         // Ensure this is a deeplink payment redirect
         const nonce = params['nonce'];
         const encryptedData = params['data'];
