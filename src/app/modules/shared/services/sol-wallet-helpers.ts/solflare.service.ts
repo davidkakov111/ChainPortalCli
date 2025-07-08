@@ -5,6 +5,7 @@ import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { Connection, PublicKey, SystemProgram, Transaction, clusterApiUrl } from '@solana/web3.js';
+import { SolanaWalletService } from '../solana-wallet.service';
 
 // https://docs.solflare.com/solflare/technical/deeplinks
 
@@ -24,6 +25,7 @@ export class SolflareService {
         private serverSrv: ServerService,
         private router: Router,
         private accountSrv: AccountService,
+        private solanaWalletSrv: SolanaWalletService,
     ) {}
 
     // Send connect request to solflare wallet using deeplink
@@ -160,6 +162,53 @@ export class SolflareService {
 
         window.location.href = deeplink;
     }
+
+    // Handle payment request redirect from solflare wallet
+    handlePaymentRedirect(params: Params) {
+        if (this.solanaWalletSrv.selectedWallet?.name !== 'Solflare') return;//? TODO - This maybe dont works bc redirect 
+        
+        // Ensure this is a deeplink payment redirect
+        const nonce = params['nonce'];
+        const encryptedData = params['data'];
+        const solflareEncPubkey = params[this.encPubkeyName];
+        const phantomEncPubkey = params['phantom_encryption_public_key'];
+        if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
+            if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
+                console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
+            };
+            return;
+        };
+
+        try {
+            // Get needed data
+            const privateKey = this.getEncSecretKey();
+            if (!privateKey) throw new Error('Missing encryption key for Solflare payment');
+            const solflarePubKey = this.getEncPubkey();
+            if (!solflarePubKey) throw new Error('No encription pubkey found for Solflare payment');
+
+            // Decode the received data
+            const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflarePubKey), privateKey);
+            if (!decrypted) throw new Error('Failed to decrypt');
+            const json = JSON.parse(Buffer.from(decrypted).toString());
+
+            // Get payment transaction signature
+            const txSignature = json.signature;
+            if (!txSignature) throw new Error('No transaction signature found in Solflare payment response');
+
+            // Clean up URL
+            this.router.navigate([], { queryParams: {} });
+
+
+            // TODO - What to do with this signature?
+            console.log('✅ Solflare payment successful:', txSignature);
+            alert(`✅ Solflare payment successful: ${txSignature}`);
+
+            
+        } catch (err) {
+            console.error('Solflare wallet payment failed after deeplink redirect: ', err);
+            return;
+        }
+    };
 
     // Solflare disconnect
     disconnect() {

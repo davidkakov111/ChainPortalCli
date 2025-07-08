@@ -5,6 +5,7 @@ import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from '@solana/web3.js';
+import { SolanaWalletService } from '../solana-wallet.service';
 
 // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
 
@@ -24,6 +25,7 @@ export class PhantomService {
         private serverSrv: ServerService,
         private router: Router,
         private accountSrv: AccountService,
+        private solanaWalletSrv: SolanaWalletService,
     ) {}
 
     // Send connect request to phantom wallet using deeplink
@@ -164,6 +166,53 @@ export class PhantomService {
 
         window.location.href = deeplink;
     }
+
+    // Handle payment request redirect from phantom wallet
+    handlePaymentRedirect(params: Params) {
+        if (this.solanaWalletSrv.selectedWallet?.name !== 'Phantom') return;//? TODO - This maybe dont works bc redirect
+        
+        // Ensure this is a deeplink payment redirect
+        const nonce = params['nonce'];
+        const encryptedData = params['data'];
+        const solflareEncPubkey = params['solflare_encryption_public_key'];
+        const phantomEncPubkey = params[this.encPubkeyName];
+        if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
+            if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
+                console.error(`Error with phantom payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
+            };
+            return;
+        };
+
+        try {
+            // Get needed data
+            const privateKey = this.getEncSecretKey();
+            if (!privateKey) throw new Error('Missing encryption key for Phantom payment');
+            const phantomPubKey = this.getEncPubkey();
+            if (!phantomPubKey) throw new Error('No encription pubkey found for Phantom payment');
+            
+            // Decode the received data
+            const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(phantomPubKey), privateKey);
+            if (!decrypted) throw new Error('Failed to decrypt');
+            const json = JSON.parse(Buffer.from(decrypted).toString());
+
+            // Get payment transaction signature
+            const txSignature = json.signature;
+            if (!txSignature) throw new Error('No transaction signature found in Phantom payment response');
+
+            // Clean up URL
+            this.router.navigate([], { queryParams: {} });
+
+
+            // TODO - What to do with this signature?
+            console.log('✅ Phantom payment successful:', txSignature);
+            alert(`✅ Phantom payment successful: ${txSignature}`);
+
+            
+        } catch (err) {
+            console.error('Phantom wallet payment failed after deeplink redirect: ', err);
+            return;
+        }
+    };
 
     // Phantom disconnect
     disconnect() {
