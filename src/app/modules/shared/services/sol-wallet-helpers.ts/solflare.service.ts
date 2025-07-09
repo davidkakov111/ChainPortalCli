@@ -33,15 +33,6 @@ export class SolflareService {
         const keyPair = nacl.box.keyPair();
         this.setEncSecretKey(keyPair.secretKey);
 
-
-
-        
-        alert(keyPair.secretKey.length === 64)//TODO - Remove this
-
-
-
-
-
         const appUrl = encodeURIComponent("https://chainportal.app");
         const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
         const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&redirect_link=${appUrl}&cluster=${cluster}`;
@@ -68,17 +59,6 @@ export class SolflareService {
             if (!privateKey) throw new Error('Missing encryption key from solflare redirect');
 
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflareKey), privateKey);
-
-
-
-
-            alert(privateKey)//TODO - Remove this
-            alert(privateKey.length === 64)//TODO - Remove this
-            
-
-
-
-
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(Buffer.from(decrypted).toString());
 
@@ -266,12 +246,15 @@ export class SolflareService {
     }
 
     // Set & Get secret key to encrypt solflare wallet connection messages
-    setEncSecretKey(secretKey: Uint8Array) {localStorage.setItem(this.encryptionSecretKeyName, bs58.encode(secretKey))};
+    setEncSecretKey(secretKey: Uint8Array) {
+        const b64 = Buffer.from(secretKey).toString('base64');
+        localStorage.setItem(this.encryptionSecretKeyName, b64);
+    };
     getEncSecretKey(): Uint8Array | null {
-        const encodedKey = localStorage.getItem(this.encryptionSecretKeyName);
-        if (!encodedKey) return null;
-        return bs58.decode(encodedKey);
-    }
+        const b64 = localStorage.getItem(this.encryptionSecretKeyName);
+        if (!b64) return null;
+        return new Uint8Array(Buffer.from(b64, 'base64'));
+    };
 
     // Set & Get session token
     setSessionToken(sessionToken: string) {localStorage.setItem(this.sessionTokenName, sessionToken)};
