@@ -60,7 +60,7 @@ export class SolflareService {
 
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflareKey), privateKey);
             if (!decrypted) throw new Error('Failed to decrypt');
-            const json = JSON.parse(Buffer.from(decrypted).toString());
+            const json = JSON.parse(new TextDecoder().decode(decrypted));
 
             // Set the session token & encription pubkey for further use
             this.setSessionToken(json.session);
@@ -186,7 +186,7 @@ export class SolflareService {
             // Decode the received data
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflarePubKey), privateKey);
             if (!decrypted) throw new Error('Failed to decrypt');
-            const json = JSON.parse(Buffer.from(decrypted).toString());
+            const json = JSON.parse(new TextDecoder().decode(decrypted));
 
             // Get payment transaction signature
             const txSignature = json.signature;
@@ -247,13 +247,13 @@ export class SolflareService {
 
     // Set & Get secret key to encrypt solflare wallet connection messages
     setEncSecretKey(secretKey: Uint8Array) {
-        const b64 = Buffer.from(secretKey).toString('base64');
+        const b64 = btoa(String.fromCharCode(...secretKey));
         localStorage.setItem(this.encryptionSecretKeyName, b64);
     };
     getEncSecretKey(): Uint8Array | null {
         const b64 = localStorage.getItem(this.encryptionSecretKeyName);
         if (!b64) return null;
-        return new Uint8Array(Buffer.from(b64, 'base64'));
+        return new Uint8Array([...atob(b64)].map(c => c.charCodeAt(0)));
     };
 
     // Set & Get session token
