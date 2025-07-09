@@ -33,6 +33,35 @@ export class SolflareService {
         const keyPair = nacl.box.keyPair();
         this.setEncSecretKey(keyPair.secretKey);
 
+
+
+
+
+
+
+
+
+
+
+
+
+        
+
+        alert(keyPair.secretKey)
+        alert(this.getEncSecretKey)
+
+
+
+
+
+
+
+
+
+
+
+
+
         const appUrl = encodeURIComponent("https://chainportal.app");
         const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
         const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&redirect_link=${appUrl}&cluster=${cluster}`;
@@ -57,6 +86,7 @@ export class SolflareService {
             // Get the private key what we saved when we sent the solflare conect request to the wallet, and decode the received data
             const privateKey = this.getEncSecretKey();
             if (!privateKey) throw new Error('Missing encryption key from solflare redirect');
+
 
 
 
