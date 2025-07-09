@@ -42,7 +42,6 @@ export class SolflareService {
 
     // Handle connect request redirect from solflare wallter
     async handleConnectRedirect(params: Params) {
-        alert('handleConnectRedirect hit');//TODO - Remove this
         // Ensure this is a solflare redirect
         const solflareKey = params[this.encPubkeyName];
         const nonce = params['nonce'];
@@ -50,9 +49,6 @@ export class SolflareService {
         if (!solflareKey || !nonce || !encryptedData) {
             if (params['errorCode'] && params['errorMessage'] && !params['phantom_encryption_public_key']) {
                 console.error(`Error with Solflare wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
-                alert(`Error with Solflare wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);//TODO - Remove this
-            } else {
-                alert('Return');//TODO - Remove this
             };
             return false;
         };
@@ -63,6 +59,20 @@ export class SolflareService {
             if (!privateKey) throw new Error('Missing encryption key from solflare redirect');
 
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflareKey), privateKey);
+
+
+
+
+            alert(bs58.decode(encryptedData))//TODO - Remove this
+            alert(bs58.decode(nonce))//TODO - Remove this
+            alert(bs58.decode(solflareKey))//TODO - Remove this
+            alert(privateKey)//TODO - Remove this
+            alert(decrypted)//TODO - Remove this
+            
+
+
+
+
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(Buffer.from(decrypted).toString());
 
