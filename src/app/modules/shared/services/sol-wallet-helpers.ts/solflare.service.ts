@@ -68,6 +68,11 @@ export class SolflareService {
             alert(bs58.decode(solflareKey))//TODO - Remove this
             alert(privateKey)//TODO - Remove this
             alert(decrypted)//TODO - Remove this
+
+            alert(bs58.decode(nonce).length === 24)//TODO - Remove this
+            alert(bs58.decode(encryptedData).length > 16)//TODO - Remove this
+            alert(bs58.decode(solflareKey).length === 32)//TODO - Remove this
+            alert(privateKey.length === 64)//TODO - Remove this
             
 
 
