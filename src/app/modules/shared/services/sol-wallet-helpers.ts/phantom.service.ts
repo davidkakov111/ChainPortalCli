@@ -43,6 +43,9 @@ export class PhantomService {
 
     // Handle connect request redirect from phantom wallet
     async handleConnectRedirect(params: Params): Promise<boolean> {
+
+        alert('handleConnectRedirect hit');//TODO - Remove this
+
         // Ensure this is a phantom redirect
         const phantomKey = params[this.encPubkeyName];
         const nonce = params['nonce'];
@@ -50,6 +53,9 @@ export class PhantomService {
         if (!phantomKey || !nonce || !encryptedData) {
             if (params['errorCode'] && params['errorMessage'] && !params['solflare_encryption_public_key']) {
                 console.error(`Error with Phantom wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
+                alert(`Error with Phantom wallet via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);//TODO - Remove this
+            } else {
+                alert('Return');//TODO - Remove this
             };
             return false;
         };
@@ -95,6 +101,9 @@ export class PhantomService {
             return true;
         } catch (err) {
             console.error('Phantom wallet connect failed after deeplink redirect: ', err);
+
+            alert(`Phantom wallet connect failed after deeplink redirect: ${err}`);//TODO - Remove this
+
             return false;
         }
     }
