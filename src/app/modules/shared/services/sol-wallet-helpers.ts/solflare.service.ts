@@ -33,6 +33,15 @@ export class SolflareService {
         const keyPair = nacl.box.keyPair();
         this.setEncSecretKey(keyPair.secretKey);
 
+
+
+        
+        alert(keyPair.secretKey.length === 64)//TODO - Remove this
+
+
+
+
+
         const appUrl = encodeURIComponent("https://chainportal.app");
         const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
         const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&redirect_link=${appUrl}&cluster=${cluster}`;
@@ -63,15 +72,7 @@ export class SolflareService {
 
 
 
-            alert(bs58.decode(encryptedData))//TODO - Remove this
-            alert(bs58.decode(nonce))//TODO - Remove this
-            alert(bs58.decode(solflareKey))//TODO - Remove this
             alert(privateKey)//TODO - Remove this
-            alert(decrypted)//TODO - Remove this
-
-            alert(bs58.decode(nonce).length === 24)//TODO - Remove this
-            alert(bs58.decode(encryptedData).length > 16)//TODO - Remove this
-            alert(bs58.decode(solflareKey).length === 32)//TODO - Remove this
             alert(privateKey.length === 64)//TODO - Remove this
             
 
