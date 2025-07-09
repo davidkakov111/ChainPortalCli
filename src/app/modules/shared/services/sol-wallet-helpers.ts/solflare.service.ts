@@ -48,7 +48,7 @@ export class SolflareService {
         
 
         alert(keyPair.secretKey)
-        alert(this.getEncSecretKey)
+        alert(this.getEncSecretKey())
 
 
 
