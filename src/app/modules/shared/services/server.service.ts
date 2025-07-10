@@ -46,7 +46,7 @@ export type blockchainFees = Partial<Record<blockchainSymbols, number>>;
 export class ServerService {
   constructor(private http: HttpClient) {}
 
-  serverEndpoint: string = "http://localhost:3000"//"https://server.chainportal.app"; // "http://localhost:3000"; 
+  serverEndpoint: string = "https://server.chainportal.app"; // "http://localhost:3000"; 
   private environment!: Environment;
 
   // Load & return the environment details from server
