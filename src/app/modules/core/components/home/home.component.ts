@@ -64,21 +64,11 @@ export class HomeComponent implements OnInit {
 
 
 
-
-
-
-
-
-        alert(this.solanaWalletSrv.selectedWallet)
+        alert(`You are connected to ${conectedTo} wallet!`);
+        alert(JSON.stringify(this.solanaWalletSrv.availableWallets));
         alert(walletAdapter)
 
 
-
-
-
-
-
-        
 
       };
       
