@@ -32,38 +32,6 @@ export class SolflareService {
 
         const keyPair = nacl.box.keyPair();
         this.setEncSecretKey(keyPair.secretKey);
-
-
-
-
-
-
-
-
-
-
-
-
-
-        
-        alert(`Dapp pubkey: ${bs58.encode(keyPair.publicKey)}`);
-        alert(`Dapp secret: ${keyPair.secretKey.slice(0, 4)}`); // small part for debug
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
         const appUrl = encodeURIComponent("https://chainportal.app");
         const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
         const deeplink = `https://solflare.com/ul/v1/connect?app_url=${appUrl}&dapp_encryption_public_key=${bs58.encode(keyPair.publicKey)}&redirect_link=${appUrl}&cluster=${cluster}`;
@@ -89,53 +57,8 @@ export class SolflareService {
             const privateKey = this.getEncSecretKey();
             if (!privateKey) throw new Error('Missing encryption key from solflare redirect');
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-            alert(`🔐 privateKey length: ${privateKey.length}`);                // Must be 32
-            alert(`Restored secret: ${privateKey?.slice(0, 4)}`);
-            alert(`🔑 solflareKey length: ${bs58.decode(solflareKey).length}`); // Must be 32
-            alert(`🔑 Solflare pubkey (base58): ${bs58.decode(solflareKey)}`);
-            alert(`🔑 Solflare pubkey (base58): ${solflareKey}`);
-            alert(`🧊 Nonce (base58): ${bs58.decode(nonce)}`);
-            alert(`🧊 Nonce (base58): ${nonce}`);
-            alert(`🧊 nonce length: ${bs58.decode(nonce).length}`);             // Must be 24
-            alert(`📦 Encrypted (base58): ${bs58.decode(encryptedData)}`);
-            alert(`📦 Encrypted (base58): ${encryptedData}`);
-            alert(`📦 encryptedData length: ${bs58.decode(encryptedData).length}`); // > 16
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
             const sharedSecretDapp = nacl.box.before(bs58.decode(solflareKey), privateKey);
             const decrypted = nacl.box.open.after(bs58.decode(encryptedData), bs58.decode(nonce), sharedSecretDapp);             
-            // const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflareKey), privateKey);
-
-
-
-
-
-
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(new TextDecoder().decode(decrypted));
 
@@ -146,21 +69,6 @@ export class SolflareService {
             // Set the users pubkey in account service
             this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: String(json.public_key || '')});
 
-
-
-
-
-
-            // TODO: Remove these logs if the conection works fine:
-            console.log('✅ Connected to Solflare:', json.public_key, json.session);
-            alert(`✅ Connected to Solflare: ${json.public_key}, ${json.session}`);
-
-
-
-
-
-
-
             // Clean up URL
             this.router.navigate([], { queryParams: {} });
             
@@ -168,7 +76,6 @@ export class SolflareService {
             return true;
         } catch (err) {
             console.error('Solflare wallet connect failed after deeplink redirect: ', err);
-            alert(`Solflare wallet connect failed after deeplink redirect: ${err}`);//TODO - Remove this
             return false;
         }
     }
