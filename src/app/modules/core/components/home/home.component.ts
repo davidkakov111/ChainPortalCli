@@ -61,6 +61,25 @@ export class HomeComponent implements OnInit {
       if (conectedTo) {
         const walletAdapter = this.solanaWalletSrv.availableWallets.find((w) => w.name === conectedTo);
         this.solanaWalletSrv.selectedWallet = walletAdapter ?? null;  
+
+
+
+
+
+
+
+
+        alert(this.solanaWalletSrv.selectedWallet)
+        alert(walletAdapter)
+
+
+
+
+
+
+
+        
+
       };
       
       // To handle payments
