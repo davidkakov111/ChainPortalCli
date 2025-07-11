@@ -60,7 +60,6 @@ export class HomeComponent implements OnInit {
       // To handle connect
       const phantom = await this.phantomSrv.handleConnectRedirect(params);
       const solflare = await this.solflareSrv.handleConnectRedirect(params);
-
       if (phantom || solflare) {
         const env = await this.serverSrv.getEnvironment();
         const network = WalletAdapterNetwork[env.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet'];
@@ -73,12 +72,8 @@ export class HomeComponent implements OnInit {
       };
       
       // To handle payments
-      const selectedWalletName = this.solanaWalletSrv.selectedWallet?.name;
-      if (selectedWalletName === 'Phantom') {
-        this.phantomSrv.handlePaymentRedirect(params);
-      } else if (selectedWalletName === 'Solflare' || true) {// TODO- remove true
-        this.solflareSrv.handlePaymentRedirect(params);
-      }
+      this.phantomSrv.handlePaymentRedirect(params);
+      this.solflareSrv.handlePaymentRedirect(params);
     });
   }
 }

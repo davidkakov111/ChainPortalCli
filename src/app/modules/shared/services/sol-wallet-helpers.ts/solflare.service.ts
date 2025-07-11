@@ -6,10 +6,7 @@ import { Params, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { Connection, PublicKey, SystemProgram, Transaction, clusterApiUrl } from '@solana/web3.js';
 
-// https://docs.solflare.com/solflare/technical/deeplinks
-
-// TODO - Create transaction redirect handler...
-    // But before ensure this works and will redirect without page refresh, to awoid losing neccessary data for ws connection and processing etc., othervise need to code more
+// INFO: https://docs.solflare.com/solflare/technical/deeplinks
 
 @Injectable({
   providedIn: 'root'
@@ -172,20 +169,6 @@ export class SolflareService {
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(new TextDecoder().decode(decrypted));
 
-
-
-
-
-
-            // TODO - remove
-            alert(JSON.stringify(json))
-
-
-
-
-
-
-
             // Get payment transaction signature
             const txSignature = json.signature;
             if (!txSignature) throw new Error('No transaction signature found in Solflare payment response');
@@ -200,18 +183,7 @@ export class SolflareService {
 
             
         } catch (err) {
-            console.error('Solflare wallet payment failed after deeplink redirect: ', err);
-
-
-
-
-        // TODO - remove
-            alert(`Solflare wallet payment failed after deeplink redirect: ${err}`);
-            
-            
-            
-            
-            
+            console.error('Solflare wallet payment failed after deeplink redirect: ', err);            
             return;
         }
     };
