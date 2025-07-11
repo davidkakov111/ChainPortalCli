@@ -174,7 +174,7 @@ export class SolflareService {
         alert(phantomEncPubkey)
 
 
-        if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
+        if (!nonce || !encryptedData || phantomEncPubkey) { // || solflareEncPubkey) {// TODO - Make it back
             if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
                 console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
             };
@@ -192,6 +192,20 @@ export class SolflareService {
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(solflarePubKey), privateKey);
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(new TextDecoder().decode(decrypted));
+
+
+
+
+
+
+            // TODO - remove
+            alert(JSON.stringify(json))
+
+
+
+
+
+
 
             // Get payment transaction signature
             const txSignature = json.signature;
