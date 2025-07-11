@@ -153,6 +153,14 @@ export class SolflareService {
         const encryptedData = params['data'];
         const solflareEncPubkey = params[this.encPubkeyName];
         const phantomEncPubkey = params['phantom_encryption_public_key'];
+
+
+        alert(nonce)
+        alert(encryptedData)
+        alert(solflareEncPubkey)
+        alert(phantomEncPubkey)
+
+
         if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
             if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
                 console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
@@ -187,6 +195,16 @@ export class SolflareService {
             
         } catch (err) {
             console.error('Solflare wallet payment failed after deeplink redirect: ', err);
+
+
+
+
+            alert(`Solflare wallet payment failed after deeplink redirect: ${err}`);
+            
+            
+            
+            
+            
             return;
         }
     };
