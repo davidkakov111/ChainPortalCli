@@ -142,19 +142,6 @@ export class SolflareService {
         const deeplink = `https://solflare.com/ul/v1/signAndSendTransaction?dapp_encryption_public_key=${bs58.encode(
             keyPair.publicKey
         )}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent('https://chainportal.app')}&payload=${bs58.encode(encrypted)}`;
-
-
-
-
-
-        // TODO - remove
-        alert(deeplink)
-
-
-
-
-
-
         window.location.href = deeplink;
     }
 
@@ -166,15 +153,7 @@ export class SolflareService {
         const solflareEncPubkey = params[this.encPubkeyName];
         const phantomEncPubkey = params['phantom_encryption_public_key'];
 
-
-        // TODO - remove
-        alert(nonce)
-        alert(encryptedData)
-        alert(solflareEncPubkey)
-        alert(phantomEncPubkey)
-
-
-        if (!nonce || !encryptedData || phantomEncPubkey) { // || solflareEncPubkey) {// TODO - Make it back
+        if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
             if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
                 console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
             };

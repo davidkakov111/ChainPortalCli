@@ -57,19 +57,6 @@ export class HomeComponent implements OnInit {
     // Handle potential deep link wallet redirect 
     this.route.queryParams.subscribe(async (params) => {
 
-
-
-
-
-
-        // TODO - remove
-      alert(JSON.stringify(params))
-
-
-
-
-
-
       // To handle connect
       const phantom = await this.phantomSrv.handleConnectRedirect(params);
       const solflare = await this.solflareSrv.handleConnectRedirect(params);
