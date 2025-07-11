@@ -73,6 +73,7 @@ export class HomeComponent implements OnInit {
       
       // To handle payments
       const selectedWalletName = this.solanaWalletSrv.selectedWallet?.name;
+      alert(selectedWalletName);
       if (selectedWalletName === 'Phantom') {
         this.phantomSrv.handlePaymentRedirect(params);
       } else if (selectedWalletName === 'Solflare') {
