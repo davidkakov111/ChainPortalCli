@@ -143,6 +143,18 @@ export class SolflareService {
             keyPair.publicKey
         )}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent('https://chainportal.app')}&payload=${bs58.encode(encrypted)}`;
 
+
+
+
+
+        // TODO - remove
+        alert(deeplink)
+
+
+
+
+
+
         window.location.href = deeplink;
     }
 
