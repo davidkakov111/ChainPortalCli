@@ -13,21 +13,29 @@ interface account {
   providedIn: 'root'
 })
 export class AccountService {
+  private readonly lsAccountKey = "catchedConnectedAccount";
+  
   constructor(private injector: Injector, private router: Router) { }
 
-  private account: account | undefined = undefined;
-
   // Account helpers
-  initializeAccount(account: account) {this.account = account};
-  getAccount(): account | undefined {return this.account};
-  removeAccount(): void {this.account = undefined};
+  initializeAccount(account: account) {
+    localStorage.setItem(this.lsAccountKey, JSON.stringify(account));
+  };
+  getAccount(): account | undefined {
+    if (typeof window === 'undefined') return undefined;
+    const catchedConnectedAccount = localStorage.getItem(this.lsAccountKey);
+    return catchedConnectedAccount ? JSON.parse(catchedConnectedAccount) as account : undefined;
+  };
+  removeAccount(): void {localStorage.removeItem(this.lsAccountKey)};
 
   // Disconnect the users wallet
   disconnectWallet(): void {
-    if (this.account?.blockchainSymbol === "SOL") {
+    const account = this.getAccount();
+
+    if (account?.blockchainSymbol === "SOL") {
       const solanaWalletSrv = this.injector.get(SolanaWalletService);
       solanaWalletSrv.disconnectWallet(); // FYI - This also call the removeAccount() function.
-    } else if (this.account?.blockchainSymbol === "ETH") {
+    } else if (account?.blockchainSymbol === "ETH") {
       const ethereumWalletSrv = this.injector.get(EthereumWalletService);
       ethereumWalletSrv.disconnectWallet(); // FYI - This also call the removeAccount() function.
     }// TODO - Implement other blockchains later

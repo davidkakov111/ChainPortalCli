@@ -8,9 +8,6 @@ import { clusterApiUrl, Connection, PublicKey, SystemProgram, Transaction } from
 
 // https://docs.phantom.com/phantom-deeplinks/deeplinks-ios-and-android 
 
-// TODO - Create transaction redirect handler...
-    // But before ensure this works and will redirect without page refresh, to awoid losing neccessary data for ws connection and processing etc., othervise need to code more
-
 @Injectable({
   providedIn: 'root'
 })
@@ -59,9 +56,10 @@ export class PhantomService {
             const privateKey = this.getEncSecretKey();
             if (!privateKey) throw new Error('Missing encryption key from phantom redirect');
 
-            const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(phantomKey), privateKey);
+            const sharedSecretDapp = nacl.box.before(bs58.decode(phantomKey), privateKey);
+            const decrypted = nacl.box.open.after(bs58.decode(encryptedData), bs58.decode(nonce), sharedSecretDapp);             
             if (!decrypted) throw new Error('Failed to decrypt');
-            const json = JSON.parse(Buffer.from(decrypted).toString());
+            const json = JSON.parse(new TextDecoder().decode(decrypted));
 
             // Set the session token & encription pubkey for further use
             this.setSessionToken(json.session);

@@ -8,12 +8,16 @@ import { SolflareService } from './sol-wallet-helpers.ts/solflare.service';
 import { SharedService } from './shared.service';
 import { PhantomService } from './sol-wallet-helpers.ts/phantom.service';
 
+type WalletNames = 'Solflare' | 'Phantom' | 'Coin98' | 'Clover';
+
 @Injectable({
   providedIn: 'root'
 })
 export class SolanaWalletService {
   // Selected/Connected wallet
   selectedWallet: BaseWalletAdapter | null = null;
+  private readonly lsWalletKey = 'connectedSolanaWalletName';
+
   // Available suported wallets
   availableWallets: BaseWalletAdapter[] = [];
 
@@ -26,6 +30,9 @@ export class SolanaWalletService {
     private phantomSrv: PhantomService,
   ) {
     this.loadAvailableWallets();
+
+    const connectedWalletName = localStorage.getItem(this.lsWalletKey);
+    if (connectedWalletName) this.setSelectedWallet(connectedWalletName as WalletNames);
   }
 
   // Load suported wallets
@@ -65,15 +72,17 @@ export class SolanaWalletService {
     if (wallet.readyState === WalletReadyState.Installed) { // This is true for browser wallets or mobile wallets with in-app browsers
       try {
         await wallet.connect();
-        this.selectedWallet = wallet;
-        this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: this.selectedWallet.publicKey?.toString() || ''});
+        this.setSelectedWallet(wallet.name as WalletNames);
+        this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: wallet.publicKey?.toString() || ''});
 
         this.addWalletEventListeners();
       } catch (error) {
         console.error('Failed to connect wallet:', error);
         this.disconnectWallet();
       }
-    } else if (this.sharedSrv.isMobileDevice()) { // For mobile devices use deep linking
+    } else if (this.sharedSrv.isMobileDevice()) {
+      // For mobile devices use deep linking
+      // They have connect redirect handlers on the homepage
       if (wallet.name === 'Solflare') {
         await this.solflareSrv.connect();
       } else if (wallet.name === 'Phantom') {
@@ -90,6 +99,42 @@ export class SolanaWalletService {
     }
   }
 
+  // Set the selected wallet in localStorage and update the selectedWallet property
+  async setSelectedWallet(walletName: WalletNames): Promise<void> {
+    localStorage.setItem(this.lsWalletKey, walletName);
+
+    // If the wallet is not found in the available wallets, dynamically import it
+    let wallet = this.availableWallets.find(wallet => wallet.name === walletName);
+    if (!wallet) {   
+      const env = await this.serverSrv.getEnvironment();
+      const network = WalletAdapterNetwork[env.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet'];
+
+      switch (walletName) {
+        case 'Solflare':
+          wallet = await import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network }));
+          break;
+        case 'Phantom':
+          wallet = await import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network }));
+          break;
+        case 'Coin98':
+          wallet = await import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network }));
+          break;
+        case 'Clover':
+          wallet = await import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network }));
+          break;    
+      };
+    };
+
+    // For solana browser wallets, auto-reconnect if they are not connected (for deeplink wallets dont, bc it will caouse page refresh and not needed for them anyway)
+    if (wallet && !wallet.connected && !this.sharedSrv.isMobileDevice()) {  
+      await wallet.connect().catch(err => {
+        console.error('Solana browser wallet auto-reconnect failed:', err);
+        this.disconnectWallet();
+      });
+    }
+    this.selectedWallet = wallet ?? null;
+  };
+
   // Disconnect the connected wallet
   disconnectWallet(): void {
     if (this.selectedWallet) {
@@ -102,6 +147,7 @@ export class SolanaWalletService {
     }
   
     this.selectedWallet = null;
+    localStorage.removeItem(this.lsWalletKey);
     this.accountSrv.removeAccount();
   }
 
@@ -120,7 +166,6 @@ export class SolanaWalletService {
 
     // For mobile deep linking handle it differently
     if (this.sharedSrv.isMobileDevice()) {
-      // TODO - need to implement handler for payment request for Solflare 
       await this.mobileReqPayment(recipient, amount);
       return null;
     }
@@ -176,7 +221,9 @@ export class SolanaWalletService {
   async mobileReqPayment(recipient: string, solAmount: number) {
     if (this.selectedWallet?.name === 'Solflare') {
       await this.solflareSrv.requestPayment(recipient, solAmount);
-    }
+    } else if (this.selectedWallet?.name === 'Phantom') {
+      await this.phantomSrv.requestPayment(recipient, solAmount);
+    } // TODO - Implement other wallets as well later    
     return null;
   }
   

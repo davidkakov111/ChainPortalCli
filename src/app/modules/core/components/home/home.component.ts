@@ -5,8 +5,6 @@ import { ActivatedRoute } from '@angular/router';
 import { SolflareService } from '../../../shared/services/sol-wallet-helpers.ts/solflare.service';
 import { PhantomService } from '../../../shared/services/sol-wallet-helpers.ts/phantom.service';
 import { SolanaWalletService } from '../../../shared/services/solana-wallet.service';
-import { ServerService } from '../../../shared/services/server.service';
-import { WalletAdapterNetwork } from '@solana/wallet-adapter-base';
 
 @Component({
   selector: 'app-home',
@@ -24,7 +22,6 @@ export class HomeComponent implements OnInit {
     private solflareSrv: SolflareService,
     private phantomSrv: PhantomService,
     private solanaWalletSrv: SolanaWalletService,
-    private serverSrv: ServerService,
   ) {
     // Determine if running in the browser environment
     this.isBrowser = isPlatformBrowser(this.platformId);
@@ -61,14 +58,8 @@ export class HomeComponent implements OnInit {
       const phantom = await this.phantomSrv.handleConnectRedirect(params);
       const solflare = await this.solflareSrv.handleConnectRedirect(params);
       if (phantom || solflare) {
-        const env = await this.serverSrv.getEnvironment();
-        const network = WalletAdapterNetwork[env.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet'];
-
-        if (phantom) {
-          this.solanaWalletSrv.selectedWallet = await import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network }));
-        } else if (solflare) {
-          this.solanaWalletSrv.selectedWallet = await import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network })); 
-        };
+        this.solanaWalletSrv.setSelectedWallet(phantom ? 'Phantom' : 'Solflare');
+        return;
       };
       
       // To handle payments
