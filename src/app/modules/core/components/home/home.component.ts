@@ -72,8 +72,12 @@ export class HomeComponent implements OnInit {
       };
       
       // To handle payments
-      this.phantomSrv.handlePaymentRedirect(params);
-      this.solflareSrv.handlePaymentRedirect(params);
+      const selectedWalletName = this.solanaWalletSrv.selectedWallet?.name;
+      if (selectedWalletName === 'Phantom') {
+        this.phantomSrv.handlePaymentRedirect(params);
+      } else if (selectedWalletName === 'Solflare') {
+        this.solflareSrv.handlePaymentRedirect(params);
+      }
     });
   }
 }
