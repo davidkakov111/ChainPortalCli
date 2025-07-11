@@ -155,6 +155,7 @@ export class SolflareService {
         const phantomEncPubkey = params['phantom_encryption_public_key'];
 
 
+        // TODO - remove
         alert(nonce)
         alert(encryptedData)
         alert(solflareEncPubkey)
@@ -199,6 +200,7 @@ export class SolflareService {
 
 
 
+        // TODO - remove
             alert(`Solflare wallet payment failed after deeplink redirect: ${err}`);
             
             
