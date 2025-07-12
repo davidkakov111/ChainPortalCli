@@ -1,5 +1,5 @@
 import { WalletAdapterNetwork, WalletReadyState, BaseWalletAdapter } from '@solana/wallet-adapter-base';
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { ServerService } from './server.service';
@@ -7,6 +7,7 @@ import { AccountService } from './account.service';
 import { SolflareService } from './sol-wallet-helpers.ts/solflare.service';
 import { SharedService } from './shared.service';
 import { PhantomService } from './sol-wallet-helpers.ts/phantom.service';
+import { isPlatformBrowser } from '@angular/common';
 
 type WalletNames = 'Solflare' | 'Phantom' | 'Coin98' | 'Clover';
 
@@ -14,6 +15,8 @@ type WalletNames = 'Solflare' | 'Phantom' | 'Coin98' | 'Clover';
   providedIn: 'root'
 })
 export class SolanaWalletService {
+  private readonly platform = inject(PLATFORM_ID);
+
   // Selected/Connected wallet
   selectedWallet: BaseWalletAdapter | null = null;
   private readonly lsWalletKey = 'connectedSolanaWalletName';
@@ -31,8 +34,10 @@ export class SolanaWalletService {
   ) {
     this.loadAvailableWallets();
 
-    const connectedWalletName = localStorage.getItem(this.lsWalletKey);
-    if (connectedWalletName) this.setSelectedWallet(connectedWalletName as WalletNames);
+    if (isPlatformBrowser(this.platform)) {
+      const connectedWalletName = localStorage.getItem(this.lsWalletKey);
+      if (connectedWalletName) this.setSelectedWallet(connectedWalletName as WalletNames);
+    }
   }
 
   // Load suported wallets
@@ -148,7 +153,6 @@ export class SolanaWalletService {
   
     this.selectedWallet = null;
     localStorage.removeItem(this.lsWalletKey);
-    this.accountSrv.removeAccount();
   }
 
   // Request payment from the connected wallet

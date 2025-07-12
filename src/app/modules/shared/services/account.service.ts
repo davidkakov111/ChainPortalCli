@@ -31,13 +31,14 @@ export class AccountService {
   // Disconnect the users wallet
   disconnectWallet(): void {
     const account = this.getAccount();
-
+    this.removeAccount();
+    
     if (account?.blockchainSymbol === "SOL") {
       const solanaWalletSrv = this.injector.get(SolanaWalletService);
-      solanaWalletSrv.disconnectWallet(); // FYI - This also call the removeAccount() function.
+      solanaWalletSrv.disconnectWallet();
     } else if (account?.blockchainSymbol === "ETH") {
       const ethereumWalletSrv = this.injector.get(EthereumWalletService);
-      ethereumWalletSrv.disconnectWallet(); // FYI - This also call the removeAccount() function.
+      ethereumWalletSrv.disconnectWallet();
     }// TODO - Implement other blockchains later
     
     // If the user is on the profile page, redirect them to the home page because their wallet has been disconnected.

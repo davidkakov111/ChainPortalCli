@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../dialogs/confirm-dialog/confirm-dialog.component';
 import { ServerService } from './server.service';
@@ -9,6 +9,7 @@ import { walletConnect, metaMask, coinbaseWallet, injected } from 'wagmi/connect
 import { disconnect } from 'wagmi/actions';
 import { ethers } from 'ethers';
 import { getAccount, getWalletClient, connect, switchChain, watchAccount } from '@wagmi/core'
+import { isPlatformBrowser } from '@angular/common';
 
 export interface ethereumWallet {
   index: ethWalletIndex;
@@ -22,7 +23,10 @@ type ethWalletIndex = 0 | 1 | 2 | 3;
   providedIn: 'root'
 })
 export class EthereumWalletService {
+  private readonly platform = inject(PLATFORM_ID);
+
   selectedWallet: ethereumWallet | null = null;
+  private readonly lsWalletKey = 'connectedEthereumWalletName';
   availableWallets: ethereumWallet[] = [
     {name: 'WalletConnect', index: 0, url: 'https://walletconnect.network/', icon: '/images/eth-wallet-icons/wallet-connect-icon.webp'},
     {name: 'Browser Wallet', index: 1, url: 'https://metamask.io/', icon: '/images/eth-wallet-icons/globe-web3-icon.webp'},
@@ -41,11 +45,11 @@ export class EthereumWalletService {
     private serverSrv: ServerService,
     private accountSrv: AccountService,
   ) {
-    this.initializeWagmi();
+    this.initialize();
   }
 
-  // Initialize Wagmi configuration for wallet connection
-  async initializeWagmi(): Promise<void> {
+  // Initialize Wagmi configuration, wallet awailability and auto re connect to catched wallet connection
+  async initialize(): Promise<void> {
     const environment = await this.serverSrv.getEnvironment();
     this.isMainnet = environment.blockchainNetworks.ethereum.selected === "mainnet";
 
@@ -76,8 +80,29 @@ export class EthereumWalletService {
       ]
     });
  
-    this.initializeWalletAvailability();
+    await Promise.all([
+      this.initializeWalletAvailability(), 
+      this.autoConnectCatchedWallet()
+    ]);
   }
+
+  // Reconnect the previously connected catched wallet
+  async autoConnectCatchedWallet() {
+    if (!isPlatformBrowser(this.platform)) return;
+
+    const connectedWalletName = localStorage.getItem(this.lsWalletKey);
+    const wallet = this.availableWallets.find(w => w.name === connectedWalletName);
+    if (wallet) {
+      // Auto reconnect to the previously connected wallet
+      const connector = this.wagmiConfig.connectors[wallet.index];
+      await connect(this.wagmiConfig, { connector });
+
+      this.selectedWallet = wallet;
+
+      // Add event listeners to detect wallet changes (disconnect or account switch)
+      this.addWalletEventListeners();
+    };
+  };
 
   // Connect the user's selected wallet
   async connectWallet(walletIndex: ethWalletIndex): Promise<void> {
@@ -99,6 +124,7 @@ export class EthereumWalletService {
       const connector = this.wagmiConfig.connectors[walletIndex];
       const walletInfo = await connect(this.wagmiConfig, { connector });
 
+      localStorage.setItem(this.lsWalletKey, desiredWallet.name);
       this.selectedWallet = desiredWallet;
       this.accountSrv.initializeAccount({blockchainSymbol: 'ETH', pubKey: walletInfo.accounts[0] || ''});
 
@@ -113,6 +139,7 @@ export class EthereumWalletService {
   // Disconnect the connected wallet
   async disconnectWallet(): Promise<void> {
     if (this.selectedWallet) {
+      localStorage.removeItem(this.lsWalletKey);
       this.unsubscribeAccountWatcher();
       const currentConnector = this.wagmiConfig.connectors[this.selectedWallet.index];
 
@@ -123,10 +150,7 @@ export class EthereumWalletService {
         } else {
           // Disconnect the selected connector
           await disconnect(this.wagmiConfig, { connector: currentConnector });
-
-          // Reset the selected wallet and account state
           this.selectedWallet = null;
-          this.accountSrv.removeAccount();
         }
       } catch (error) {
         console.error('Error during disconnect:', error);
