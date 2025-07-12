@@ -48,6 +48,14 @@ form {
 .mb-20 {
     margin-bottom: 20px;
 }
+.margin-auto {
+    margin-left: auto;
+}  
+.clear-data { 
+    display: flex; 
+    width: 70%; 
+    position: absolute;
+}
 mat-expansion-panel {
     background: linear-gradient(
         to right, 

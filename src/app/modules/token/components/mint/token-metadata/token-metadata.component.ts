@@ -103,6 +103,22 @@ export class TokenMetadataComponent {
     this.tokenForm.patchValue({ media: null });
   }
 
+  // Clear form here and in token service as well
+  clearForm() {
+    this.tokenForm.reset({
+      name: '',
+      symbol: '',
+      media: '',
+      supply: 1,
+      decimals: 0,
+      description: '',
+      externalLink: '',
+    });
+    this.selectedFileName = null;
+    
+    this.tokenSrv.clearMintProcess();
+  };
+
   // Open confirmation dialog with a message
   openConfirmDialog(message: string): void {
     this.dialog.open(ConfirmDialogComponent, {
