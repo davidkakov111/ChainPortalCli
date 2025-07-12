@@ -83,8 +83,8 @@ export class NftMintDashboardComponent {
   payed: boolean = false;
 
   // If a blockchain is selected in app-blockchain-selector
-  onBlockchainSelected(blockchain: blockchain) {
-    this.nftSrv.setSelectedBlockchain(blockchain);
+  async onBlockchainSelected(blockchain: blockchain) {
+    await this.nftSrv.setSelectedBlockchain(blockchain);
   }
 
   // Detect step change
@@ -119,6 +119,7 @@ export class NftMintDashboardComponent {
     });
     
     this.payed = true;
+    this.nftSrv.clearMintProcess();
   }
 
   // Open confirmation dialog with a message

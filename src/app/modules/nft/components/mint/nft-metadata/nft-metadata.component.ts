@@ -47,7 +47,7 @@ export class NftMetadataComponent {
   constructor(
     private fb: FormBuilder,
     private dialog: MatDialog,
-    private nftSrv: NftService
+    public nftSrv: NftService
   ) {
     // Get the already saved NFT metadata from the service, if any
     const existingMetadata = this.nftSrv.getStepData('step1') as NftMetadata;
@@ -189,6 +189,31 @@ export class NftMetadataComponent {
       this.nftForm.get('tags')?.setValue(this.tags);
     }
   }
+
+  // Clear form here and in nft service as well
+  clearForm() {
+    this.nftForm.reset({
+      title: '',
+      description: '',
+      media: null,
+      symbol: '',
+      attributes: [],
+      creator: '',
+      isLimitedEdition: false,
+      totalEditions: { value: '', disabled: true },
+      editionNumber: { value: '', disabled: true },
+      royalty: 0,
+      tags: [],
+      license: '',
+      externalLink: '',
+      creationTimestampToggle: false,
+      creationTimestamp: new Date().toISOString()
+    });
+    this.selectedFileName = null;
+    this.tags = [];
+    
+    this.nftSrv.clearMintProcess();
+  };
 
   // Open confirmation dialog with a message
   openConfirmDialog(message: string): void {
