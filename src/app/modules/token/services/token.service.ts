@@ -1,11 +1,12 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
-import { blockchain } from '../../shared/components/blockchain-selector/blockchain-selector.component';
+import { blockchain, blockchainSymbols } from '../../shared/components/blockchain-selector/blockchain-selector.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { mintStep } from '../../nft/services/nft.service';
 import { TokenMetadata } from '../components/mint/token-metadata/token-metadata.component';
 import { isPlatformBrowser } from '@angular/common';
 import { SharedService } from '../../shared/services/shared.service';
+import { WebSocketMessageBoardComponent } from '../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
 
 const emptyMintProcess = {
   step1: {completed: false, data: {} as TokenMetadata, metadataByteSize: NaN},
@@ -113,6 +114,25 @@ export class TokenService {
     mintProcess.step1.data.media = base64File as unknown as File;
     localStorage.setItem(this.lsMintProcessKey, JSON.stringify(mintProcess));
   };
+
+  // Handle token mint operation for a payment transaction signature
+  async handleMintPayment(paymentTxSignature: string) {
+    const tokenMetadata: TokenMetadata = this.getStepData('step1');
+    const bChainSymbol: blockchainSymbols = this.getStepData('step2').symbol;
+    const metadataWithMediaProperties = {...tokenMetadata, mediaContentType: tokenMetadata.media?.type, mediaName: tokenMetadata.media?.name, };
+
+    // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
+    this.dialog.open(WebSocketMessageBoardComponent, {
+      disableClose: true, // Prevent closing the dialog when clicking outside
+      data: {
+        event: 'mint-token', 
+        status_event: 'mint-token-status', 
+        error_event: 'mint-token-error', 
+        data: {bChainSymbol, paymentTxSignature, TokenMetadata: metadataWithMediaProperties},
+        success_message: 'Your tokens has been minted successfully!'
+      },
+    });
+  }
 
   getMetadataByteSize(): number {
     return this.mintProcess.step1.metadataByteSize;

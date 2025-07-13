@@ -3,7 +3,7 @@ import { SolanaWalletService } from '../../../services/solana-wallet.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SolanaWalletConnectUIComponent } from '../../../dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
 import { ServerService } from '../../../services/server.service';
-import { operationType } from '../../blockchain-selector/blockchain-selector.component';
+import { assetType, operationType } from '../../blockchain-selector/blockchain-selector.component';
 
 @Component({
   selector: 'app-solana-wallet-connect',
@@ -15,6 +15,7 @@ export class SolanaWalletConnectComponent {
   @Output() paymentTxSignature: EventEmitter<string> = new EventEmitter<string>();
   @Input() estFee!: number;
   @Input() operationType!: operationType;
+  @Input() assetType!: assetType;
   
   constructor(
     private dialog: MatDialog,
@@ -34,7 +35,8 @@ export class SolanaWalletConnectComponent {
     try {
       const environment = await this.serverSrv.getEnvironment();
       const signature = await this.walletSrv.requestPayment(
-        environment.blockchainNetworks.solana.pubKey, this.estFee
+        environment.blockchainNetworks.solana.pubKey, 
+        this.estFee, this.operationType, this.assetType
       );
       if (!signature) {
         this.disablePay = false;

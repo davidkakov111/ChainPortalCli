@@ -1,10 +1,11 @@
 import { inject, Injectable, PLATFORM_ID } from '@angular/core';
 import { NftMetadata } from '../components/mint/nft-metadata/nft-metadata.component';
-import { blockchain } from '../../shared/components/blockchain-selector/blockchain-selector.component';
+import { blockchain, blockchainSymbols } from '../../shared/components/blockchain-selector/blockchain-selector.component';
 import { MatDialog } from '@angular/material/dialog';
 import { ConfirmDialogComponent } from '../../shared/dialogs/confirm-dialog/confirm-dialog.component';
 import { SharedService } from '../../shared/services/shared.service';
 import { isPlatformBrowser } from '@angular/common';
+import { WebSocketMessageBoardComponent } from '../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
 
 export type mintStep = 'step1' | 'step2';
 const emptyMintProcess = {
@@ -100,6 +101,27 @@ export class NftService {
     this.mintProcess = emptyMintProcess;
     localStorage.removeItem(this.lsMintProcessKey);
   };
+
+  // Handle NFT minting for a payment transaction signature
+  async handleMintPayment(paymentTxSignature: string) {
+    const NftMetadata: NftMetadata = this.getStepData('step1');
+    const bChainSymbol: blockchainSymbols = this.getStepData('step2').symbol;
+    const metadataWithMediaProperties = {...NftMetadata, mediaName: NftMetadata.media?.name, mediaContentType: NftMetadata.media?.type};
+
+    // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
+    this.dialog.open(WebSocketMessageBoardComponent, {
+      disableClose: true, // Prevent closing the dialog when clicking outside
+      data: {
+        event: 'mint-nft', 
+        status_event: 'mint-nft-status', 
+        error_event: 'mint-nft-error', 
+        data: {bChainSymbol, paymentTxSignature, NftMetadata: metadataWithMediaProperties},
+        success_message: 'Your NFT has been minted successfully!'
+      },
+    });
+    
+    this.clearMintProcess();
+  }
 
   // Set the current mint process to localStorage
   private async setMintProccessToLocalStorage() {

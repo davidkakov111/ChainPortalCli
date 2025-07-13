@@ -1,11 +1,8 @@
 import { Component, ViewChild } from '@angular/core';
-import { blockchain, BlockchainSelectorComponent, blockchainSymbols } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
+import { blockchain, BlockchainSelectorComponent } from '../../../../shared/components/blockchain-selector/blockchain-selector.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Buffer } from 'buffer';
-import { MatDialog } from '@angular/material/dialog';
-import { WebSocketMessageBoardComponent } from '../../../../shared/dialogs/web-socket-message-board/web-socket-message-board.component';
 import { TokenService } from '../../../services/token.service';
-import { TokenMetadata } from '../token-metadata/token-metadata.component';
 import { TokenPreviewComponent } from '../../token-preview/token-preview.component';
 import { SeoService } from '../../../../shared/services/seo.service';
 
@@ -22,7 +19,6 @@ export class TokenMintComponent {
 
   constructor (
     public tokenSrv: TokenService,
-    private dialog: MatDialog,
     private seoSrv: SeoService,
   ) {
     this.seoSrv.setPageSEO('Mint Tokens Easily on Multiple Blockchains | ChainPortal', 
@@ -101,22 +97,7 @@ export class TokenMintComponent {
 
   // Handle payment transaction signature event
   async handlePayment(paymentTxSignature: string) {
-    const tokenMetadata: TokenMetadata = this.tokenSrv.getStepData('step1');
-    const bChainSymbol: blockchainSymbols = this.tokenSrv.getStepData('step2').symbol;
-    const metadataWithMediaProperties = {...tokenMetadata, mediaContentType: tokenMetadata.media?.type, mediaName: tokenMetadata.media?.name, };
-
-    // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
-    this.dialog.open(WebSocketMessageBoardComponent, {
-      disableClose: true, // Prevent closing the dialog when clicking outside
-      data: {
-        event: 'mint-token', 
-        status_event: 'mint-token-status', 
-        error_event: 'mint-token-error', 
-        data: {bChainSymbol, paymentTxSignature, TokenMetadata: metadataWithMediaProperties},
-        success_message: 'Your tokens has been minted successfully!'
-      },
-    });
-    
+    await this.tokenSrv.handleMintPayment(paymentTxSignature);
     this.payed = true;
   }
 }

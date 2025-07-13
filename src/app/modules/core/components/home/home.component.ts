@@ -5,6 +5,7 @@ import { ActivatedRoute } from '@angular/router';
 import { SolflareService } from '../../../shared/services/sol-wallet-helpers.ts/solflare.service';
 import { PhantomService } from '../../../shared/services/sol-wallet-helpers.ts/phantom.service';
 import { SolanaWalletService } from '../../../shared/services/solana-wallet.service';
+import { assetType, operationType } from '../../../shared/components/blockchain-selector/blockchain-selector.component';
 
 @Component({
   selector: 'app-home',
@@ -48,7 +49,7 @@ export class HomeComponent implements OnInit {
     }
   }
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
     if (!this.isBrowser) return;
 
     // Handle potential deep link wallet redirect 
@@ -63,11 +64,14 @@ export class HomeComponent implements OnInit {
       };
       
       // To handle payments
+      const paymentForStr = localStorage.getItem(this.solanaWalletSrv.lsReqPaymentKey);
+      const paymentFor = paymentForStr ? JSON.parse(paymentForStr) as {operation: operationType, assetType: assetType} : undefined;
+
       const selectedWalletName = this.solanaWalletSrv.selectedWallet?.name;
       if (selectedWalletName === 'Phantom') {
-        this.phantomSrv.handlePaymentRedirect(params);
+        await this.phantomSrv.handlePaymentRedirect(params, paymentFor);
       } else if (selectedWalletName === 'Solflare') {
-        this.solflareSrv.handlePaymentRedirect(params);
+        await this.solflareSrv.handlePaymentRedirect(params, paymentFor);
       }
     });
   }

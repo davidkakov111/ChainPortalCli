@@ -44,7 +44,7 @@
       <div *ngIf="selectedStepIndex === 2 && !payed" class="my-20">
         <!-- Solana W.C. -->
         <div *ngIf="tokenSrv.getStepData('step2').symbol === 'SOL'">
-          <app-solana-wallet-connect [estFee]="tokenSrv.getStepData('step2').estFee" [operationType]="'mint'"
+          <app-solana-wallet-connect [estFee]="tokenSrv.getStepData('step2').estFee" [operationType]="'mint'" [assetType]="'Token'"
             (paymentTxSignature)="handlePayment($event)" class="my-20"></app-solana-wallet-connect>
         </div>
 

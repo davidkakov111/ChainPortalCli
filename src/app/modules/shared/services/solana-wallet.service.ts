@@ -8,6 +8,7 @@ import { SolflareService } from './sol-wallet-helpers.ts/solflare.service';
 import { SharedService } from './shared.service';
 import { PhantomService } from './sol-wallet-helpers.ts/phantom.service';
 import { isPlatformBrowser } from '@angular/common';
+import { assetType, operationType } from '../components/blockchain-selector/blockchain-selector.component';
 
 type WalletNames = 'Solflare' | 'Phantom' | 'Coin98' | 'Clover';
 
@@ -20,6 +21,7 @@ export class SolanaWalletService {
   // Selected/Connected wallet
   selectedWallet: BaseWalletAdapter | null = null;
   private readonly lsWalletKey = 'connectedSolanaWalletName';
+  readonly lsReqPaymentKey = 'solDeeplinkRequestPaymentFor';
 
   // Available suported wallets
   availableWallets: BaseWalletAdapter[] = [];
@@ -158,7 +160,9 @@ export class SolanaWalletService {
   // Request payment from the connected wallet
   async requestPayment(
     recipient: string, // Recipient's Solana address
-    amount: number // Amount in SOL
+    amount: number, // Amount in SOL
+    operation: operationType,
+    assetType: assetType,
   ): Promise<string | null> {
     // Lazy Loading the solana package to avoid the build process from attempting to parse the Solana-related code when building.
     const { Connection, PublicKey, Transaction, SystemProgram, clusterApiUrl, LAMPORTS_PER_SOL } = await import('@solana/web3.js');
@@ -170,7 +174,7 @@ export class SolanaWalletService {
 
     // For mobile deep linking handle it differently
     if (this.sharedSrv.isMobileDevice()) {
-      await this.mobileReqPayment(recipient, amount);
+      await this.mobileReqPayment(recipient, amount, operation, assetType);
       return null;
     }
   
@@ -222,7 +226,10 @@ export class SolanaWalletService {
   }
 
   // Request payment from the connected wallet for mobile devices
-  async mobileReqPayment(recipient: string, solAmount: number) {
+  async mobileReqPayment(recipient: string, solAmount: number, operation: operationType, assetType: assetType) {
+    // Set operation and asset types in localStorage for deeplink redirect handling
+    localStorage.setItem(this.lsReqPaymentKey, JSON.stringify({operation, assetType}));
+
     if (this.selectedWallet?.name === 'Solflare') {
       await this.solflareSrv.requestPayment(recipient, solAmount);
     } else if (this.selectedWallet?.name === 'Phantom') {

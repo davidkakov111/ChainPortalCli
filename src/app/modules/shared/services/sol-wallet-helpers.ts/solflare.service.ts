@@ -5,6 +5,11 @@ import { ServerService } from '../server.service';
 import { Params, Router } from '@angular/router';
 import { AccountService } from '../account.service';
 import { Connection, PublicKey, SystemProgram, Transaction, clusterApiUrl } from '@solana/web3.js';
+import { assetType, operationType } from '../../components/blockchain-selector/blockchain-selector.component';
+import { NftService } from '../../../nft/services/nft.service';
+import { TokenService } from '../../../token/services/token.service';
+import { ConfirmDialogComponent } from '../../dialogs/confirm-dialog/confirm-dialog.component';
+import { MatDialog } from '@angular/material/dialog';
 
 // INFO: https://docs.solflare.com/solflare/technical/deeplinks
 
@@ -21,6 +26,9 @@ export class SolflareService {
         private serverSrv: ServerService,
         private router: Router,
         private accountSrv: AccountService,
+        private dialog: MatDialog,
+        private nftSrv: NftService,
+        private tokenSrv: TokenService,
     ) {}
 
     // Send connect request to solflare wallet using deeplink
@@ -143,21 +151,88 @@ export class SolflareService {
     }
 
     // Handle payment request redirect from solflare wallet
-    handlePaymentRedirect(params: Params) {
-        // Ensure this is a deeplink payment redirect
-        const nonce = params['nonce'];
-        const encryptedData = params['data'];
-        const solflareEncPubkey = params[this.encPubkeyName];
-        const phantomEncPubkey = params['phantom_encryption_public_key'];
+    async handlePaymentRedirect(params: Params, paymentFor?: {operation: operationType, assetType: assetType}) {
+        let txSignature = this.txSignatureFromPaymentRedirect(params);
+        if (!txSignature) return;
 
-        if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
-            if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
-                console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
-            };
+        // Ensure the operation and assetype exists, to handle the operation
+        if (!paymentFor) {
+            console.error('Unknown operation and asset types for Solflare deeplink payment redirection. Operation could not be completed.');   
+            
+
+
+
+
+
+
+
+
+
+
+            // TODO - In this case i need to send back the payment after validation from server
+
+
+
+
+
+
+
+
+
+
+            
+            // this.openConfirmDialog(`
+            //     <p>Unknown operation and asset types for your mobile Solflare payment.</p>
+            //     <p>The operation could not be completed because the provided metadata could not be identified.</p>
+            // `);
             return;
         };
 
+        // Start the operation with ws
+        if (paymentFor.assetType === 'NFT') {
+            if (paymentFor.operation === 'mint') {
+                await this.nftSrv.handleMintPayment(txSignature);
+            } else {
+                // TODO - Implement bridge operation later
+                // Currently this cant be true (unless the user try to hack, so there is no need to redirect the payment)
+                console.error('NFT bridge is not supported yet, so your operation coudn not be made.');
+                this.openConfirmDialog(`
+                    <p>NFT bridging is not supported yet.</p>
+                    <p>Therefore, your operation could not be completed.</p>
+                `);
+            }
+        } else {
+            if (paymentFor.operation === 'mint') {
+                await this.tokenSrv.handleMintPayment(txSignature);
+            } else {
+                // TODO - Implement bridge operation later
+                // Currently this cant be true (unless the user try to hack, so there is no need to redirect the payment)
+                console.error('Token bridge is not supported yet, so your operation coud not be made.');
+                this.openConfirmDialog(`
+                    <p>Token bridging is not supported yet.</p>
+                    <p>Therefore, your operation could not be completed.</p>
+                `);
+            }
+        }
+    };
+
+    // From solflare deeplink payment redirect decode the payment transaction signature 
+    txSignatureFromPaymentRedirect(params: Params): string | undefined {
         try {
+            // Ensure this is a deeplink payment redirect
+            const nonce = params['nonce'];
+            const encryptedData = params['data'];
+            const solflareEncPubkey = params[this.encPubkeyName];
+            const phantomEncPubkey = params['phantom_encryption_public_key'];
+            if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
+                if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
+                    console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
+                };
+                return;
+            };
+            // Clean up URL
+            this.router.navigate([], { queryParams: {} });
+
             // Get needed data
             const privateKey = this.getEncSecretKey();
             if (!privateKey) throw new Error('Missing encryption key for Solflare payment');
@@ -170,20 +245,15 @@ export class SolflareService {
             const json = JSON.parse(new TextDecoder().decode(decrypted));
 
             // Get payment transaction signature
-            const txSignature = json.signature;
+            const txSignature = json.signature as string;
             if (!txSignature) throw new Error('No transaction signature found in Solflare payment response');
-
-            // Clean up URL
-            this.router.navigate([], { queryParams: {} });
-
-
-            // TODO - What to do with this signature?
-            console.log('✅ Solflare payment successful:', txSignature);
-            alert(`✅ Solflare payment successful: ${txSignature}`);
-
-            
+            return txSignature;      
         } catch (err) {
-            console.error('Solflare wallet payment failed after deeplink redirect: ', err);            
+            console.error('Solflare wallet payment failed after deeplink redirect, coudnt get the payment transaction signature: ', err);
+            this.openConfirmDialog(`
+                <p>Solflare mobile payment failed.</p>
+                <p>Couldn't retrieve the payment transaction signature from the payment redirect data.</p>
+            `);
             return;
         }
     };
@@ -245,4 +315,12 @@ export class SolflareService {
     // Set & Get encription pubkey
     setEncPubkey(pubkey: string) {localStorage.setItem(this.encPubkeyName, pubkey)};
     getEncPubkey(): string | null {return localStorage.getItem(this.encPubkeyName)};
+
+    // Open confirmation dialog with a message
+    openConfirmDialog(message: string): void {
+        this.dialog.open(ConfirmDialogComponent, {
+            width: '90%',
+            data: { message }
+        });
+    }
 }
