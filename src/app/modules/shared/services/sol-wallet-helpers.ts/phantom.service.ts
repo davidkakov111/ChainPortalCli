@@ -176,43 +176,28 @@ export class PhantomService {
         let txSignature = this.txSignatureFromPaymentRedirect(params);
         if (!txSignature) return;
 
-        // Ensure the operation and assetype exists, to handle the operation
+        // Ensure the operation and asset type exist to handle the operation.
+        // Otherwise, fall back to the last saved data for an operation.
+        // If no data is saved, just choose one to redirect the payment during serverside validation.
         if (!paymentFor) {
-            console.error('Unknown operation and asset types for Phantom deeplink payment redirection. Operation could not be completed.');   
+            console.error('Unknown operation and asset types for Phantom deeplink payment redirection, so assume it by the last saved data for an operation.');   
             
-
-
-
-
-
-
-
-
-
-
-
-
-
-            // TODO - In this case i need to send back the payment after validation from server
-
-
-
-
-
-
-
-
-
-
-
-
-
-            
-            // this.openConfirmDialog(`
-            //     <p>Unknown operation and asset types for your mobile Phantom payment.</p>
-            //     <p>The operation could not be completed because the provided metadata could not be identified.</p>
-            // `);
-            return;
+            // TODO - Include bridge operations as well, if implemented
+            let mintNftDataSavedAt = 0;
+            const strNftMintProcess = localStorage.getItem(this.nftSrv.lsMintProcessKey);
+            if (strNftMintProcess) {
+                mintNftDataSavedAt = Number(JSON.parse(strNftMintProcess).updatedAt);
+            }
+            let mintTokenDataSavedAt = 0;
+            const strTokenMintProcess = localStorage.getItem(this.tokenSrv.lsMintProcessKey);
+            if (strTokenMintProcess) {
+                mintTokenDataSavedAt = Number(JSON.parse(strTokenMintProcess).updatedAt);
+            }                
+            if (mintTokenDataSavedAt > mintNftDataSavedAt)  {
+                paymentFor = {operation: 'mint', assetType: 'Token'};
+            } else {
+                paymentFor = {operation: 'mint', assetType: 'NFT'};    
+            };
         };
 
         // Start the operation with ws

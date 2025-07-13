@@ -18,7 +18,7 @@ const emptyMintProcess = {
 })
 export class NftService {
   private readonly platform = inject(PLATFORM_ID);
-  private readonly lsMintProcessKey = "catchedNftMintProcess";
+  readonly lsMintProcessKey = "catchedNftMintProcess";
 
   // Data to track the user's mint process
   private mintProcess = emptyMintProcess;
@@ -129,8 +129,9 @@ export class NftService {
     let base64File: string = '';
     if (media) base64File = await this.sharedSrv.fileToBase64(media);
 
-    const mintProcess = structuredClone(this.mintProcess);
-    mintProcess.step1.data.media = base64File as unknown as File;
+    const mintProcess = structuredClone(this.mintProcess) as any;
+    mintProcess.step1.data.media = base64File;
+    mintProcess.updatedAt = Date.now();
     localStorage.setItem(this.lsMintProcessKey, JSON.stringify(mintProcess));
   };
 
