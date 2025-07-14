@@ -111,7 +111,7 @@ export class NftService {
 
     alert(paymentTxSignature);
     alert(bChainSymbol);
-    alert(metadataWithMediaProperties);
+    alert(JSON.stringify(metadataWithMediaProperties));
 
     // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
     this.dialog.open(WebSocketMessageBoardComponent, {
