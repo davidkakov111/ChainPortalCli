@@ -20,7 +20,7 @@ export class SolanaWalletService {
 
   // Selected/Connected wallet
   selectedWallet: BaseWalletAdapter | null = null;
-  private readonly lsWalletKey = 'connectedSolanaWalletName';
+  readonly lsWalletKey = 'connectedSolanaWalletName';
   readonly lsReqPaymentKey = 'solDeeplinkRequestPaymentFor';
 
   // Available suported wallets

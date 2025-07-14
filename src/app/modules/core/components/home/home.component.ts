@@ -55,7 +55,6 @@ export class HomeComponent implements OnInit {
     // Handle potential deep link wallet redirect 
     this.route.queryParams.subscribe(async (params) => {
 
-      alert(1);//TODO - Remove it
       // To handle connect
       const phantom = await this.phantomSrv.handleConnectRedirect(params);
       const solflare = await this.solflareSrv.handleConnectRedirect(params);
@@ -63,15 +62,12 @@ export class HomeComponent implements OnInit {
         this.solanaWalletSrv.setSelectedWallet(phantom ? 'Phantom' : 'Solflare');
         return;
       };
-      alert(2);//TODO - Remove it
       
       // To handle payments
       const paymentForStr = localStorage.getItem(this.solanaWalletSrv.lsReqPaymentKey);
       const paymentFor = paymentForStr ? JSON.parse(paymentForStr) as {operation: operationType, assetType: assetType} : undefined;
 
-      const selectedWalletName = this.solanaWalletSrv.selectedWallet?.name;
-      
-      alert(selectedWalletName);//TODO - Remove it
+      const selectedWalletName = localStorage.getItem(this.solanaWalletSrv.lsWalletKey);
       if (selectedWalletName === 'Phantom') {
         await this.phantomSrv.handlePaymentRedirect(params, paymentFor);
       } else if (selectedWalletName === 'Solflare') {
