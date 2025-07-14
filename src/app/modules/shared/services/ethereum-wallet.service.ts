@@ -74,9 +74,9 @@ export class EthereumWalletService {
             },
           },
         }), // Tested: metamask mobile (✅ sepolia), coinbase mobile (Didnt find option to conect through qr code)
-        injected(), // Tested: coinbase br.ext.(✅ sepolia), metamask br.ext.(✅ sepolia)
-        metaMask(), // Tested: br.ext.(✅ sepolia), mobile app (✅ sepolia)
-        coinbaseWallet(), // Tested: br.ext.(✅ sepolia), mobile app (✅ sepolia)
+        injected(), // Tested: coinbase br.ext.(✅✅ sepolia), metamask br.ext.(✅✅ sepolia)
+        metaMask(), // Tested: br.ext.(✅✅ sepolia), mobile app (✅ sepolia)
+        coinbaseWallet(), // Tested: br.ext.(✅✅ sepolia), mobile app (✅ sepolia)
       ]
     });
  
