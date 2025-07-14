@@ -210,6 +210,7 @@ export class SolflareService {
     // From solflare deeplink payment redirect decode the payment transaction signature 
     txSignatureFromPaymentRedirect(params: Params): string | undefined {
         try {
+            alert(1);//TODO - Remove it
             // Ensure this is a deeplink payment redirect
             const nonce = params['nonce'];
             const encryptedData = params['data'];
@@ -218,7 +219,9 @@ export class SolflareService {
             if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
                 if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
                     console.error(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
+                    alert(`Error with solflare payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);//TODO - Remove it    
                 };
+                alert(2);//TODO - Remove it    
                 return;
             };
             // Clean up URL
@@ -238,6 +241,8 @@ export class SolflareService {
             // Get payment transaction signature
             const txSignature = json.signature as string;
             if (!txSignature) throw new Error('No transaction signature found in Solflare payment response');
+
+            alert(3);//TODO - Remove it
             return txSignature;      
         } catch (err) {
             console.error('Solflare wallet payment failed after deeplink redirect, coudnt get the payment transaction signature: ', err);
