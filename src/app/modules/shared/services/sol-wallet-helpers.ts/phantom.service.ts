@@ -76,24 +76,6 @@ export class PhantomService {
             // Set user pubkey in account service
             this.accountSrv.initializeAccount({blockchainSymbol: 'SOL', pubKey: String(json.public_key || '')});
 
-
-
-
-
-
-
-
-
-            // TODO: Remove these logs if the conection works fine:
-            console.log('✅ Connected to Phantom:', json.public_key, json.session);
-            alert(`✅ Connected to Phantom: ${json.public_key}, ${json.session}`);
-
-
-
-
-
-
-
             // Clean up URL
             this.router.navigate([], { queryParams: {} });
 
@@ -239,6 +221,9 @@ export class PhantomService {
             if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
                 if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
                     console.error(`Error with phantom payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
+                    
+                    alert(`Error with phantom payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);// TODO - Remove it
+                    
                 };
                 return;
             };

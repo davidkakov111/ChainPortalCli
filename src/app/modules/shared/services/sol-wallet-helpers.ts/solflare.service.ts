@@ -251,7 +251,6 @@ export class SolflareService {
     };
 
     // Solflare disconnect
-    // TODO - Test the deeplink disconnect
     disconnect() {
         const secretKey = this.getEncSecretKey();
         if (!secretKey) {
