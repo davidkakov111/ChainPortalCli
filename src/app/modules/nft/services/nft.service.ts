@@ -108,6 +108,11 @@ export class NftService {
     const bChainSymbol: blockchainSymbols = this.getStepData('step2').symbol;
     const metadataWithMediaProperties = {...NftMetadata, mediaName: NftMetadata.media?.name, mediaContentType: NftMetadata.media?.type};
 
+
+    alert(paymentTxSignature);
+    alert(bChainSymbol);
+    alert(metadataWithMediaProperties);
+
     // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
     this.dialog.open(WebSocketMessageBoardComponent, {
       disableClose: true, // Prevent closing the dialog when clicking outside
