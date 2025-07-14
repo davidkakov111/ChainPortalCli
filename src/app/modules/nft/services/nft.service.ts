@@ -28,6 +28,7 @@ export class NftService {
 
     // Get mint process data from localStorage if available
     const strMintProcess = localStorage.getItem(this.lsMintProcessKey);
+    alert(`Constructor: ${strMintProcess}`);// TODO-  REmove it
     if (strMintProcess) {
       const mintProcess = JSON.parse(strMintProcess);
       const media = mintProcess.step1.data.media;
@@ -112,6 +113,9 @@ export class NftService {
     alert(paymentTxSignature);
     alert(bChainSymbol);
     alert(JSON.stringify(metadataWithMediaProperties));
+
+    const strMintProcess = localStorage.getItem(this.lsMintProcessKey);
+    alert(strMintProcess);// TODO-  REmove it
 
     // Open the WebSocketMessageBoardComponent to display the transaction status and error messages real time.
     this.dialog.open(WebSocketMessageBoardComponent, {
