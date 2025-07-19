@@ -117,7 +117,7 @@ export class TokenService {
   };
 
   // Handle token mint operation for a payment transaction signature
-  async handleMintPayment(paymentTxSignature: string) {
+  async handleMintPayment(paymentTxSignature: string, justTransaction: boolean = false) {
     const tokenMetadata: TokenMetadata = this.getStepData('step1');
     const bChainSymbol: blockchainSymbols = this.getStepData('step2').symbol;
     const metadataWithMediaProperties = {...tokenMetadata, mediaContentType: tokenMetadata.media?.type, mediaName: tokenMetadata.media?.name, };
@@ -129,7 +129,12 @@ export class TokenService {
         event: 'mint-token', 
         status_event: 'mint-token-status', 
         error_event: 'mint-token-error', 
-        data: {bChainSymbol, paymentTxSignature, TokenMetadata: metadataWithMediaProperties},
+        data: {
+          bChainSymbol, 
+          paymentTxSignature: justTransaction ? '' : paymentTxSignature, 
+          TokenMetadata: metadataWithMediaProperties,
+          ...(justTransaction ? {signedSolTxBase58: paymentTxSignature} : {})
+        },
         success_message: 'Your tokens has been minted successfully!'
       },
     });

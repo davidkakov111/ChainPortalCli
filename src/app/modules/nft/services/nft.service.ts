@@ -103,7 +103,7 @@ export class NftService {
   };
 
   // Handle NFT minting for a payment transaction signature
-  async handleMintPayment(paymentTxSignature: string) {
+  async handleMintPayment(paymentTxSignature: string, justTransaction: boolean = false) {
     const NftMetadata: NftMetadata = this.getStepData('step1');
     const bChainSymbol: blockchainSymbols = this.getStepData('step2').symbol;
     const metadataWithMediaProperties = {...NftMetadata, mediaName: NftMetadata.media?.name, mediaContentType: NftMetadata.media?.type};
@@ -115,7 +115,12 @@ export class NftService {
         event: 'mint-nft', 
         status_event: 'mint-nft-status', 
         error_event: 'mint-nft-error', 
-        data: {bChainSymbol, paymentTxSignature, NftMetadata: metadataWithMediaProperties},
+        data: {
+          bChainSymbol, 
+          paymentTxSignature: justTransaction ? '' : paymentTxSignature, 
+          NftMetadata: metadataWithMediaProperties,
+          ...(justTransaction ? {signedSolTxBase58: paymentTxSignature} : {})
+        },
         success_message: 'Your NFT has been minted successfully!'
       },
     });

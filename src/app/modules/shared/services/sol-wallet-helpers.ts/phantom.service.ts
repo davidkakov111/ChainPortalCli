@@ -146,7 +146,7 @@ export class PhantomService {
         );
         
         // Create deeplink URL
-        const deeplink = `https://phantom.app/ul/v1/signAndSendTransaction?dapp_encryption_public_key=${bs58.encode(
+        const deeplink = `https://phantom.app/ul/v1/signTransaction?dapp_encryption_public_key=${bs58.encode(
             keyPair.publicKey
         )}&nonce=${bs58.encode(nonce)}&redirect_link=${encodeURIComponent('https://chainportal.app')}&payload=${bs58.encode(encrypted)}`;
 
@@ -155,8 +155,8 @@ export class PhantomService {
 
     // Handle payment request redirect from phantom wallet
     async handlePaymentRedirect(params: Params, paymentFor?: {operation: operationType, assetType: assetType}) {
-        let txSignature = this.txSignatureFromPaymentRedirect(params);
-        if (!txSignature) return;
+        const signedTxBase58 = this.signedTxFromPaymentRedirect(params);
+        if (!signedTxBase58) return;
 
         // Ensure the operation and asset type exist to handle the operation.
         // Otherwise, fall back to the last saved data for an operation.
@@ -185,7 +185,7 @@ export class PhantomService {
         // Start the operation with ws
         if (paymentFor.assetType === 'NFT') {
             if (paymentFor.operation === 'mint') {
-                await this.nftSrv.handleMintPayment(txSignature);
+                await this.nftSrv.handleMintPayment(signedTxBase58, true);
             } else {
                 // TODO - Implement bridge operation later
                 // Currently this cant be true (unless the user try to hack, so there is no need to redirect the payment)
@@ -197,7 +197,7 @@ export class PhantomService {
             }
         } else {
             if (paymentFor.operation === 'mint') {
-                await this.tokenSrv.handleMintPayment(txSignature);
+                await this.tokenSrv.handleMintPayment(signedTxBase58, true);
             } else {
                 // TODO - Implement bridge operation later
                 // Currently this cant be true (unless the user try to hack, so there is no need to redirect the payment)
@@ -210,8 +210,8 @@ export class PhantomService {
         }
     };
 
-    // From phantom deeplink payment redirect decode the payment transaction signature 
-    txSignatureFromPaymentRedirect(params: Params): string | undefined {
+    // From phantom deeplink payment redirect decode the signed payment transaction 
+    signedTxFromPaymentRedirect(params: Params): string | undefined {
         try {
             // Ensure this is a deeplink payment redirect
             const nonce = params['nonce'];
@@ -221,9 +221,6 @@ export class PhantomService {
             if (!nonce || !encryptedData || phantomEncPubkey || solflareEncPubkey) {
                 if (params['errorCode'] && params['errorMessage'] && !solflareEncPubkey && !phantomEncPubkey) {
                     console.error(`Error with phantom payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);
-                    
-                    alert(`Error with phantom payment request redirect via deeplink. Error code: ${params['errorCode']}, error message: ${params['errorMessage']}`);// TODO - Remove it
-                    
                 };
                 return;
             };
@@ -241,15 +238,15 @@ export class PhantomService {
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(Buffer.from(decrypted).toString());
 
-            // Get payment transaction signature
-            const txSignature = json.signature as string;
-            if (!txSignature) throw new Error('No transaction signature found in Phantom payment response');
-            return txSignature;
+            // Get payment transaction
+            const signedTxBase58: string = json.transaction;
+            if (!signedTxBase58) throw new Error('No signed transaction found in Phantom payment response');
+            return signedTxBase58;
         } catch (err) {
-            console.error('Phantom wallet payment failed after deeplink redirect, coudnt get the payment transaction signature: ', err);
+            console.error('Phantom wallet payment failed after deeplink redirect, coudn\'t get the signed payment transaction: ', err);
             this.openConfirmDialog(`
                 <p>Phantom mobile payment failed.</p>
-                <p>Couldn't retrieve the payment transaction signature from the payment redirect data.</p>
+                <p>Couldn't retrieve the signed payment transaction from the payment redirect data.</p>
             `);
             return;
         }
