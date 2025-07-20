@@ -2,11 +2,13 @@ import { HttpClient } from '@angular/common/http';
 import { Component, Inject } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { ServerService } from '../../services/server.service';
+import { StarRatingConfigService } from 'angular-star-rating';
 
 @Component({
   selector: 'app-feedback',
   templateUrl: './feedback.component.html',
   styleUrl: './feedback.component.scss',
+  providers: [StarRatingConfigService],
   standalone: false
 })
 export class FeedbackComponent {
