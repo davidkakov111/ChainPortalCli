@@ -128,6 +128,12 @@ export class PhantomService {
             })
         );
         transaction.recentBlockhash = (await connection.getLatestBlockhash()).blockhash;
+        
+        
+        // TODO- remove it
+        alert(transaction.recentBlockhash)
+
+
         transaction.feePayer = senderPubKey;
         const serializedTx = transaction.serialize({ requireAllSignatures: false });
         const txBase58 = bs58.encode(serializedTx);
