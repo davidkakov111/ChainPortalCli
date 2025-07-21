@@ -235,10 +235,11 @@ export class PhantomService {
             
             // Decode the received data
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(phantomPubKey), privateKey);
-            alert(decrypted)
-
             if (!decrypted) throw new Error('Failed to decrypt');
-            const json = JSON.parse(Buffer.from(decrypted).toString());
+
+            alert(`Decrypted: ${decrypted}`)
+            const json = JSON.parse(new TextDecoder().decode(decrypted));
+            // const json = JSON.parse(Buffer.from(decrypted).toString());
             alert(`After decrypt 2 json: ${json}`)
             
             // Get payment transaction
