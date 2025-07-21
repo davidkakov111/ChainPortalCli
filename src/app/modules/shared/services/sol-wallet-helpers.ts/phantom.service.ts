@@ -243,6 +243,14 @@ export class PhantomService {
             if (!signedTxBase58) throw new Error('No signed transaction found in Phantom payment response');
             return signedTxBase58;
         } catch (err) {
+
+
+
+            // TODO - this fails , debug why!
+            alert(JSON.stringify(err))
+
+            
+
             console.error('Phantom wallet payment failed after deeplink redirect, coudn\'t get the signed payment transaction: ', err);
             this.openConfirmDialog(`
                 <p>Phantom mobile payment failed.</p>
