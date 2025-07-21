@@ -236,25 +236,13 @@ export class PhantomService {
             // Decode the received data
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(phantomPubKey), privateKey);
             if (!decrypted) throw new Error('Failed to decrypt');
-
-            alert(`Decrypted: ${decrypted}`)
             const json = JSON.parse(new TextDecoder().decode(decrypted));
-            // const json = JSON.parse(Buffer.from(decrypted).toString());
-            alert(`After decrypt 2 json: ${json}`)
             
             // Get payment transaction
             const signedTxBase58: string = json.transaction;
             if (!signedTxBase58) throw new Error('No signed transaction found in Phantom payment response');
             return signedTxBase58;
         } catch (err) {
-
-
-
-            // TODO - this fails , debug why!
-            alert(`Error: ${JSON.stringify(err)}`)
-
-
-
             console.error('Phantom wallet payment failed after deeplink redirect, coudn\'t get the signed payment transaction: ', err);
             this.openConfirmDialog(`
                 <p>Phantom mobile payment failed.</p>
