@@ -213,6 +213,7 @@ export class PhantomService {
     // From phantom deeplink payment redirect decode the signed payment transaction 
     signedTxFromPaymentRedirect(params: Params): string | undefined {
         try {
+            alert(`Params: ${JSON.stringify(params)}`)
             // Ensure this is a deeplink payment redirect
             const nonce = params['nonce'];
             const encryptedData = params['data'];
@@ -233,11 +234,14 @@ export class PhantomService {
             const phantomPubKey = this.getEncPubkey();
             if (!phantomPubKey) throw new Error('No encription pubkey found for Phantom payment');
             
+            alert(`Decrypt start`)
             // Decode the received data
             const decrypted = nacl.box.open(bs58.decode(encryptedData), bs58.decode(nonce), bs58.decode(phantomPubKey), privateKey);
+            alert(`After decrypt 1`)
             if (!decrypted) throw new Error('Failed to decrypt');
             const json = JSON.parse(Buffer.from(decrypted).toString());
-
+            alert(`After decrypt 2 json: ${json}`)
+            
             // Get payment transaction
             const signedTxBase58: string = json.transaction;
             if (!signedTxBase58) throw new Error('No signed transaction found in Phantom payment response');
@@ -247,9 +251,9 @@ export class PhantomService {
 
 
             // TODO - this fails , debug why!
-            alert(JSON.stringify(err))
+            alert(`Error: ${JSON.stringify(err)}`)
 
-            
+
 
             console.error('Phantom wallet payment failed after deeplink redirect, coudn\'t get the signed payment transaction: ', err);
             this.openConfirmDialog(`
