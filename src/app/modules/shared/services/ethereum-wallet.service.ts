@@ -73,10 +73,10 @@ export class EthereumWalletService {
               "--wcm-z-index": "1001", // Set a high z-index value to ensure the modal appears on the top of the angular material dialog
             },
           },
-        }), // Tested: metamask mobile (✅ sepolia), coinbase mobile (Didnt find option to conect through qr code)
+        }), // Tested: metamask mobile (✅✅ sepolia), coinbase mobile ( - TODO - Didnt find option to conect through qr code, then do it from mobile browser!)
         injected(), // Tested: coinbase br.ext.(✅✅ sepolia), metamask br.ext.(✅✅ sepolia)
-        metaMask(), // Tested: br.ext.(✅✅ sepolia), mobile app (✅ sepolia)
-        coinbaseWallet(), // Tested: br.ext.(✅✅ sepolia), mobile app (✅ sepolia)
+        metaMask(), // Tested: br.ext.(✅✅ sepolia)
+        coinbaseWallet(), // Tested: br.ext.(✅✅ sepolia) 
       ]
     });
  

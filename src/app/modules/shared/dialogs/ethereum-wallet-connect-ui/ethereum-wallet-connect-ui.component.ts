@@ -10,11 +10,20 @@ import { SharedService } from '../../services/shared.service';
   standalone: false
 })
 export class EthereumWalletConnectUiComponent {
+  availableWallets: ethereumWallet[] = [
+    {name: 'WalletConnect', index: 0, url: 'https://walletconnect.network/', icon: '/images/eth-wallet-icons/wallet-connect-icon.webp'}
+  ];
   constructor(
     public walletService: EthereumWalletService,
     public dialogRef: MatDialogRef<EthereumWalletConnectUiComponent>,
     public sharedSrv: SharedService,
-  ) {}
+  ) {
+    if (!this.sharedSrv.isMobileDevice()) {
+      this.availableWallets = this.walletService.availableWallets;
+    } else {
+      this.connectWallet(this.availableWallets[0]);
+    }
+  }
 
   selectedWIcon!: string;
 
@@ -23,4 +32,4 @@ export class EthereumWalletConnectUiComponent {
     await this.walletService.connectWallet(wallet.index);
     this.dialogRef.close();
   }
-}
+} 

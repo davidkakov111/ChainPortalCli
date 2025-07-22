@@ -6,7 +6,7 @@
     </button>
   </div>
   <div *ngIf="!selectedWIcon" class="dialog-body">
-    <div *ngFor="let wallet of walletService.availableWallets" class="wallet-option" (click)="connectWallet(wallet)">
+    <div *ngFor="let wallet of availableWallets" class="wallet-option" (click)="connectWallet(wallet)">
       <img [src]="wallet.icon" alt="{{ wallet.name }} icon" title="{{ wallet.name }} icon" loading="lazy" width="30" height="30" class="wallet-icon" />
       <span class="wallet-name">{{ wallet.name }}</span>
       <span *ngIf="this.walletService.walletAvailabilityCache[wallet.index] && wallet.index !== 0" class="wallet-status">INSTALLED</span>
