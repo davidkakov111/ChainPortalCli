@@ -4,8 +4,6 @@ import { blockchain, BlockchainSelectorComponent } from '../../../../shared/comp
 import { NftPreviewComponent } from '../../nft-preview/nft-preview.component';
 import { StepperSelectionEvent } from '@angular/cdk/stepper';
 import { Buffer } from 'buffer';
-import { ConfirmDialogComponent } from '../../../../shared/dialogs/confirm-dialog/confirm-dialog.component';
-import { MatDialog } from '@angular/material/dialog';
 import { SeoService } from '../../../../shared/services/seo.service';
 
 @Component({
@@ -21,7 +19,6 @@ export class NftMintDashboardComponent {
 
   constructor (
     public nftSrv: NftService,
-    private dialog: MatDialog,
     private seoSrv: SeoService,
   ) {
     this.seoSrv.setPageSEO('Mint NFTs Easily on Multiple Blockchains | ChainPortal', 
