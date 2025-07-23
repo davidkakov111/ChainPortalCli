@@ -73,9 +73,9 @@ export class EthereumWalletService {
               "--wcm-z-index": "1001", // Set a high z-index value to ensure the modal appears on the top of the angular material dialog
             },
           },
-        }), // Tested: metamask mobile (✅✅ sepolia)
+        }), // Tested: metamask mobile (✅✅ sepolia, mainnet)
         injected(), // Tested: coinbase br.ext.(✅✅ sepolia), metamask br.ext.(✅✅ sepolia)
-        metaMask(), // Tested: br.ext.(✅✅ sepolia)
+        metaMask(), // Tested: br.ext.(✅✅ sepolia, mainnet)
         coinbaseWallet(), // Tested: br.ext.(✅✅ sepolia) 
       ]
     });
