@@ -49,8 +49,8 @@ export class SolanaWalletService {
 
     // Lazy Loading the solana package to avoid the build process from attempting to parse the Solana-related code when building.
     const wallets: BaseWalletAdapter[] = await Promise.all([
-      import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network })), // Tested: br.ext.(✅✅ devnet), mobile app (✅✅ devnet)
-      import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network })), // Tested: br.ext.(✅✅ devnet), mobile app (✅✅ devnet)
+      import('@solana/wallet-adapter-phantom').then(mod => new mod.PhantomWalletAdapter({ network })), // Tested: br.ext.(✅✅ devnet, mainnet), mobile app (✅✅ devnet)
+      import('@solana/wallet-adapter-solflare').then(mod => new mod.SolflareWalletAdapter({ network })), // Tested: br.ext.(✅✅ devnet), mobile app (✅✅ devnet, todo mainnet)
       import('@solana/wallet-adapter-coin98').then(mod => new mod.Coin98WalletAdapter({ network })), // Tested: br.ext.(✅/❌ devnet is unavailable), mobile app (❌/✅ using defualt behaviour, without deeplinking, probably not enough)
       import('@solana/wallet-adapter-clover').then(mod => new mod.CloverWalletAdapter({ network })), // Tested: br.ext.(✅/❌ devnet is unavailable), mobile app (❌/✅ using defualt behaviour, without deeplinking, probably not enough)
     ]);
