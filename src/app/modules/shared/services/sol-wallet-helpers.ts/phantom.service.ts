@@ -111,10 +111,8 @@ export class PhantomService {
             return;
         }
 
-        // Create accurate connection
-        const env = await this.serverSrv.getEnvironment(); 
-        const cluster = env.blockchainNetworks.solana.selected === "mainnet" ? 'mainnet-beta' : 'devnet';
-        const connection = new Connection(clusterApiUrl(cluster));
+        // Use our server proxy endpoint for Solana to create accurate connection
+        const connection = new Connection(this.serverSrv.serverEndpoint + '/solana-proxy', 'confirmed');
     
         // Prepare transaction
         const keyPair = nacl.box.keyPair.fromSecretKey(secretKey);

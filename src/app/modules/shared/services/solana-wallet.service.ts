@@ -185,10 +185,8 @@ export class SolanaWalletService {
       return null;
     }
   
-    const environment = await this.serverSrv.getEnvironment();
-    const connection = new Connection(clusterApiUrl(
-      WalletAdapterNetwork[environment.blockchainNetworks.solana.selected === "mainnet" ? 'Mainnet' : 'Devnet']
-    ), 'confirmed');
+    // Use our server proxy endpoint for Solana to create accurate connection
+    const connection = new Connection(this.serverSrv.serverEndpoint + '/solana-proxy', 'confirmed');
 
     // Check if the user has enough Solana for the transaction
     const balance = await connection.getBalance(senderPublicKey);
