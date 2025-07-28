@@ -138,6 +138,8 @@ export class TokenService {
         success_message: 'Your tokens has been minted successfully!'
       },
     });
+
+    this.clearMintProcess();
   }
 
   getMetadataByteSize(): number {
