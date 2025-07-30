@@ -23,6 +23,10 @@ export class SeoService {
     this.metaService.updateTag({ property: 'og:description', content: description });
     this.metaService.updateTag({ property: 'og:type', content: ogType });
     this.metaService.updateTag({ property: 'og:url', content: pageUrl });
+
+    // Twitter (X) meta tags
+    this.metaService.updateTag({ property: 'twitter:title', content: title });
+    this.metaService.updateTag({ property: 'twitter:description', content: description });
     
     // JSON-LD script tag
     const previousScript = this.document.getElementById('structured-data');
