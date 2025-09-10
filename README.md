@@ -1,4 +1,4 @@
-# ChainPortal
+# ChainPortal Client
 
 > Multi-chain NFT & token management platform (Angular CLI project) — portfolio/demo project
 
@@ -19,7 +19,6 @@ This project was created as a **portfolio and learning exercise** to explore:
 
 - Connect multiple wallets (Metamask, Phantom, etc.)
 - Mint NFTs and tokens on Ethereum & Solana testnets
-- Preview and manage multi-chain assets
 - Responsive and intuitive Angular frontend
 
 ---
