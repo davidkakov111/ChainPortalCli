@@ -10,7 +10,7 @@
                 color="primary">
             </mat-progress-spinner>
         </ng-container>
-        <ng-template #payText>{{capitalizeFirstLetter(operationType)}}</ng-template>
+        <ng-template #payText>{{capitalizeFirstLetter(operationType)}} on {{environment?.blockchainNetworks?.solana?.selected || "-"}}</ng-template>
     </button>
     <span *ngIf="estFee" class="txt-center font-small">*Est. Fee: {{estFee}} SOL</span>
     <div class="wallet-status">

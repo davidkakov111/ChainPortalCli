@@ -1,8 +1,8 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { SolanaWalletService } from '../../../services/solana-wallet.service';
 import { MatDialog } from '@angular/material/dialog';
 import { SolanaWalletConnectUIComponent } from '../../../dialogs/solana-wallet-connect-ui/solana-wallet-connect-ui.component';
-import { ServerService } from '../../../services/server.service';
+import { Environment, ServerService } from '../../../services/server.service';
 import { assetType, operationType } from '../../blockchain-selector/blockchain-selector.component';
 
 @Component({
@@ -11,17 +11,22 @@ import { assetType, operationType } from '../../blockchain-selector/blockchain-s
   styleUrl: './solana-wallet-connect.component.scss',
   standalone: false
 })
-export class SolanaWalletConnectComponent {
+export class SolanaWalletConnectComponent implements OnInit {
   @Output() paymentTxSignature: EventEmitter<string> = new EventEmitter<string>();
   @Input() estFee!: number;
   @Input() operationType!: operationType;
   @Input() assetType!: assetType;
-  
+  environment!: Environment;
+
   constructor(
     private dialog: MatDialog,
     public walletSrv: SolanaWalletService, 
     private serverSrv: ServerService,
   ) {}
+
+  async ngOnInit() {
+    this.environment = await this.serverSrv.getEnvironment();
+  }
 
   disablePay: boolean = false;
 
@@ -33,9 +38,8 @@ export class SolanaWalletConnectComponent {
   async requestPayment(): Promise<void> {
     this.disablePay = true;
     try {
-      const environment = await this.serverSrv.getEnvironment();
       const signature = await this.walletSrv.requestPayment(
-        environment.blockchainNetworks.solana.pubKey, 
+        this.environment.blockchainNetworks.solana.pubKey, 
         this.estFee, this.operationType, this.assetType
       );
       if (!signature) {
