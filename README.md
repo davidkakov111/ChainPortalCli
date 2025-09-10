@@ -1,27 +1,40 @@
 # ChainPortal
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.1.
+> Multi-chain NFT & token management platform (Angular CLI project) — portfolio/demo project
 
-## Development server
+## Overview
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+ChainPortal is a full-stack Web3 project built with Angular and Node.js, showcasing multi-chain NFT and token management.  
+This project was created as a **portfolio and learning exercise** to explore:
 
-## Code scaffolding
+- Ethereum & Solana integration
+- NFT minting workflows
+- Token management
+- Wallet integration
+- Frontend/UX design for Web3 applications
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+---
 
-## Build
+## Features
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+- Connect multiple wallets (Metamask, Phantom, etc.)
+- Mint NFTs and tokens on Ethereum & Solana testnets
+- Preview and manage multi-chain assets
+- Responsive and intuitive Angular frontend
 
-## Running unit tests
+---
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Installation
 
-## Running end-to-end tests
+```bash
+# Clone the repo
+git clone https://github.com/davidkakov111/ChainPortalCli.git
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# Navigate to project
+cd ./ChainPortalCli/
 
-## Further help
+# Install dependencies
+npm install
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+# Serve the Angular app
+ng serve
