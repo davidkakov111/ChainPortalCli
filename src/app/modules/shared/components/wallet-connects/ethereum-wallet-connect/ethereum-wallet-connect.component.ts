@@ -15,7 +15,7 @@ export class EthereumWalletConnectComponent implements OnInit {
   @Output() paymentTxSignature: EventEmitter<string> = new EventEmitter<string>();
   @Input() estFee!: number;
   @Input() operationType!: operationType;
-  environment!: Environment;
+  environment: Environment | undefined;
   
   constructor(
     private dialog: MatDialog,
@@ -38,7 +38,7 @@ export class EthereumWalletConnectComponent implements OnInit {
     this.disablePay = true;
     try {
       const signature = await this.walletSrv.requestPayment(
-        this.environment.blockchainNetworks.ethereum.pubKey, this.estFee
+        this.environment!.blockchainNetworks.ethereum.pubKey, this.estFee
       );
       if (!signature) {
         this.disablePay = false;

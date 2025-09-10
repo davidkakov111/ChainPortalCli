@@ -16,7 +16,7 @@ export class SolanaWalletConnectComponent implements OnInit {
   @Input() estFee!: number;
   @Input() operationType!: operationType;
   @Input() assetType!: assetType;
-  environment!: Environment;
+  environment: Environment | undefined;
 
   constructor(
     private dialog: MatDialog,
@@ -39,7 +39,7 @@ export class SolanaWalletConnectComponent implements OnInit {
     this.disablePay = true;
     try {
       const signature = await this.walletSrv.requestPayment(
-        this.environment.blockchainNetworks.solana.pubKey, 
+        this.environment!.blockchainNetworks.solana.pubKey, 
         this.estFee, this.operationType, this.assetType
       );
       if (!signature) {
