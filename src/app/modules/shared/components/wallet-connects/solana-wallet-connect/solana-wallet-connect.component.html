@@ -2,7 +2,7 @@
     Connect Wallet
 </button>
 <div *ngIf="walletSrv.selectedWallet" class="flx-col-center">
-    <button mat-raised-button [disabled]="disablePay" (click)="requestPayment()">
+    <!-- <button mat-raised-button [disabled]="disablePay" (click)="requestPayment()">
         <ng-container *ngIf="disablePay; else payText">
             <mat-progress-spinner 
                 diameter="20" 
@@ -11,7 +11,8 @@
             </mat-progress-spinner>
         </ng-container>
         <ng-template #payText>{{capitalizeFirstLetter(operationType)}} on {{environment?.blockchainNetworks?.solana?.selected || "-"}}</ng-template>
-    </button>
+    </button> -->
+    <p>Blockchain integrations have been disabled due to lack of maintenance</p>
     <span *ngIf="estFee" class="txt-center font-small">*Est. Fee: {{estFee}} SOL</span>
     <div class="wallet-status">
         <mat-icon color="success" class="check-icon">check_circle</mat-icon>
